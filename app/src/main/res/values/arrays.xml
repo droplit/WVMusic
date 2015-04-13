@@ -1,0 +1,28 @@
+<resources>
+    <string-array name="songs">
+        <item>1 Flight, Tristam and Braken</item>
+        <item>2 Far Away, Tristam and Braken</item>
+        <item>3 Frame of Mind, Tristam and Braken</item>
+        <item>4 My Friend, Tristam</item>
+        <item>5 Hero, Pegboard Nerds</item>
+        <item>6 New Style, Pegboard Nerds</item>
+        <item>7 Dads In Space, Stephen Walking</item>
+        <item>8 Children Of The Night, Razihel</item>
+        <item>9 Flight, Tristam and Braken</item>
+        <item>10 Far Away, Tristam and Braken</item>
+        <item>11 Frame of Mind, Tristam and Braken</item>
+        <item>12 My Friend, Tristam</item>
+        <item>13 Hero, Pegboard Nerds</item>
+        <item>14 New Style, Pegboard Nerds</item>
+        <item>15 Dads In Space, Stephen Walking</item>
+        <item>16 Children Of The Night, Razihel</item>
+        <item>17 Flight, Tristam and Braken</item>
+        <item>18 Far Away, Tristam and Braken</item>
+        <item>19 Frame of Mind, Tristam and Braken</item>
+        <item>20 My Friend, Tristam</item>
+        <item>21 Hero, Pegboard Nerds</item>
+        <item>22 New Style, Pegboard Nerds</item>
+        <item>23 Dads In Space, Stephen Walking</item>
+        <item>24 Children Of The Night, Razihel</item>
+    </string-array>
+</resources>
