@@ -26,10 +26,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
         String[] values = mDataset[position].split(",");
-        String countryName = values[0];
-        int flagResId = mContext.getResources().getIdentifier(values[0], "drawable", mContext.getPackageName());
-        viewHolder.mTextView.setText(countryName);
-        viewHolder.mTextView.setCompoundDrawablesWithIntrinsicBounds(flagResId, 0, 0, 0);
+        String songName = values[0];
+        viewHolder.mTextView.setText(songName);
     }
 
     @Override

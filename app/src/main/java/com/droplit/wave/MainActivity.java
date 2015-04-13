@@ -2,6 +2,7 @@ package com.droplit.wave;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -24,6 +25,7 @@ import android.widget.AbsListView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.droplit.wave.adapters.RecyclerViewAdapter;
@@ -34,6 +36,11 @@ import io.fabric.sdk.android.Fabric;
 
 
 public class MainActivity extends ActionBarActivity {
+
+    @Override
+    public Context getApplicationContext() {
+        return super.getApplicationContext();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,7 +116,7 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
             View root = inflater.inflate(R.layout.fragment_song, container, false);
 
-            RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
+            final RecyclerView recyclerView = (RecyclerView) root.findViewById(R.id.recycler_view);
             recyclerView.setHasFixedSize(true);
             recyclerView.setItemAnimator(new DefaultItemAnimator());
             recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -121,6 +128,12 @@ public class MainActivity extends ActionBarActivity {
 
             FloatingActionButton fab = (FloatingActionButton) root.findViewById(R.id.fab);
             fab.attachToRecyclerView(recyclerView);
+            fab.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    // Perform action on click
+                    Toast.makeText(getActivity(), "FAB Pressed", Toast.LENGTH_SHORT).show();
+                }
+            });
 
             return root;
         }
@@ -139,9 +152,7 @@ public class MainActivity extends ActionBarActivity {
                 TextView textView = (TextView) inflater.inflate(R.layout.song_item, container, false);
                 String[] values = song.split(",");
                 String songName = values[0];
-                int flagResId = getResources().getIdentifier(values[0], "drawable", getActivity().getPackageName());
                 textView.setText(songName);
-                textView.setCompoundDrawablesWithIntrinsicBounds(flagResId, 0, 0, 0);
 
                 list.addView(textView);
             }
