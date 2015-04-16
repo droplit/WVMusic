@@ -4,6 +4,7 @@ package com.droplit.wave;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
 import android.view.Menu;
@@ -27,6 +28,8 @@ public class MainActivity extends ActionBarActivity {
 
     private ViewPager viewPager;
     private TabsPagerAdapter mAdapter;
+    private android.app.ActionBar actionBar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,11 +37,13 @@ public class MainActivity extends ActionBarActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
+        actionBar = getActionBar();
+
         // Initilization
         viewPager = (ViewPager) findViewById(R.id.pager);
         mAdapter = new TabsPagerAdapter(getSupportFragmentManager());
         viewPager.setAdapter(mAdapter);
-        
+
         PagerSlidingTabStrip tabs = (PagerSlidingTabStrip) findViewById(R.id.tabs);
         tabs.setViewPager(viewPager);
 
@@ -70,5 +75,11 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+    
+    public void hideActionBar() {
+
+        actionBar.hide();
+
     }
 }

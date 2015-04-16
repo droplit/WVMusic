@@ -12,6 +12,8 @@ apply plugin: 'io.fabric'
 
 repositories {
     maven { url 'https://maven.fabric.io/public' }
+    mavenCentral()
+
 }
 
 
@@ -24,7 +26,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
-        versionName "1.0"
+        versionName "A0.2"
     }
 
     compileOptions {
@@ -52,5 +54,7 @@ dependencies {
     compile('com.crashlytics.sdk.android:crashlytics:2.2.3@aar') {
         transitive = true;
     }
+    compile 'com.github.markushi:android-ui:1.2'
+    compile 'it.neokree:MaterialTabs:0.11'
 
 }
