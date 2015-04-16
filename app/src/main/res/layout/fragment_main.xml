@@ -2,24 +2,33 @@
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/now_playing"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:scrollbars="vertical"/>
-
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent_pressed"
-        fab:fab_colorRipple="@color/ripple"/>
+        android:text="PLACEMENT FOR NOW PLAYING CODE"
+        android:id="@+id/textView"
+        android:layout_gravity="center"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLACEMENT FOR NOW PLAYING CODE"
+        android:id="@+id/textView2"
+        android:layout_gravity="center_horizontal|bottom"
+        android:textSize="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PLACEMENT FOR NOW PLAYING CODE"
+        android:id="@+id/textView3"
+        android:layout_gravity="center_horizontal|top"
+        android:textSize="20dp" />
+
+
 </FrameLayout>
