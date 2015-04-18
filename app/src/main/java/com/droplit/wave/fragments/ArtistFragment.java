@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -58,14 +57,11 @@ public class ArtistFragment extends Fragment {
                     Toast.makeText(getActivity(), "Playing", Toast.LENGTH_SHORT).show();
                     playPause.setBackgroundResource(R.drawable.ic_pause);
                     fabToolbar.hide();
-                    isPlaying = true;
-                    Log.d("Music", "Is Playing");
                 }
                 else if(isPlaying) {
                     Toast.makeText(getActivity(), "Paused", Toast.LENGTH_SHORT).show();
                     playPause.setBackgroundResource(R.drawable.ic_pause);
                     fabToolbar.hide();
-                    isPlaying = false;
                 }
 
             }
