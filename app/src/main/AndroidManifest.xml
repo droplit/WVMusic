@@ -19,6 +19,9 @@
         <meta-data
             android:name="io.fabric.ApiKey"
             android:value="c20c4af5a6509c93e5e38c14e8654e066c35e177" />
+        <meta-data
+            android:name="com.crashlytics.ApiKey"
+            android:value="c20c4af5a6509c93e5e38c14e8654e066c35e177" />
     </application>
 
     <uses-permission android:name="android.permission.INTERNET" />

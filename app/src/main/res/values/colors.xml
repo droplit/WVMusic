@@ -6,4 +6,5 @@
     <color name="accent">#00BCD4</color>
     <color name="accent_pressed">#B2EBF2</color>
     <color name="red">#FFF20000</color>
+    <color name="white">#FFFFFF</color>
 </resources>

@@ -29,7 +29,7 @@ android {
         minSdkVersion 16
         targetSdkVersion 21
         versionCode 1
-        versionName "A0.2"
+        versionName "A0.3"
     }
 
     compileOptions {
@@ -62,4 +62,5 @@ dependencies {
     compile 'com.github.ozodrukh:CircularReveal:1.0.5@aar'
     compile 'com.github.alexkolpa:floating-action-button-toolbar:0.5.0'
 
+    compile 'com.sothree.slidinguppanel:library:3.0.0'
 }

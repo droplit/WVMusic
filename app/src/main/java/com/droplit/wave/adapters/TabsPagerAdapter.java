@@ -5,11 +5,12 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
 import com.droplit.wave.fragments.ArtistFragment;
+import com.droplit.wave.fragments.SlidingPanelFragment;
 import com.droplit.wave.fragments.SongsFragment;
 
 public class TabsPagerAdapter extends FragmentPagerAdapter {
 
-    private String[] tabs = { "Songs", "Artists" };
+    private String[] tabs = { "Songs", "Artists", "Now Playing" };
 
     public TabsPagerAdapter(FragmentManager fm) {
         super(fm);
@@ -25,6 +26,9 @@ public class TabsPagerAdapter extends FragmentPagerAdapter {
             case 1:
                 // Games fragment activity
                 return new ArtistFragment();
+            case 2:
+                // Games fragment activity
+                return new SlidingPanelFragment();
         }
 
         return null;
