@@ -6,12 +6,6 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_song">
 
-    <at.markushi.ui.RevealColorView
-        android:id="@+id/reveal"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#ffffff"/>
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/song_view"
         android:layout_width="match_parent"
@@ -19,14 +13,4 @@
         android:cacheColorHint="@android:color/transparent"
         android:scrollbars="vertical"/>
 
-    <com.melnykov.fab.FloatingActionButton
-        android:id="@+id/fab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="16dp"
-        android:src="@drawable/ic_add_white_24dp"
-        fab:fab_colorNormal="@color/accent"
-        fab:fab_colorPressed="@color/accent_pressed"
-        fab:fab_colorRipple="@color/ripple"/>
 </FrameLayout>

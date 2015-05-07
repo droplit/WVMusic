@@ -1,47 +1,76 @@
 package com.droplit.wave.adapters;
 
-import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.droplit.wave.R;
 
-public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
-    private final Context mContext;
-    private final String[] mDataset;
+import org.w3c.dom.Text;
 
-    public RecyclerViewAdapter(Context context, String[] dataset) {
-        mContext = context;
-        mDataset = dataset;
+import java.util.List;
+
+/**
+ * Created by florentchampigny on 24/04/15.
+ */
+public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    List<Object> contents;
+
+    static final int TYPE_HEADER = 0;
+    static final int TYPE_CELL = 1;
+
+    public RecyclerViewAdapter(List<Object> contents) {
+        this.contents = contents;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        TextView view = (TextView) LayoutInflater.from(parent.getContext()).inflate(R.layout.song_item, parent, false);
-        return new ViewHolder(view);
-    }
-
-    @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        String[] values = mDataset[position].split(",");
-        String songName = values[0];
-        viewHolder.mTextView.setText(songName);
+    public int getItemViewType(int position) {
+        switch (position) {
+            case 0:
+                return TYPE_HEADER;
+            default:
+                return TYPE_CELL;
+        }
     }
 
     @Override
     public int getItemCount() {
-        return mDataset.length;
+        return contents.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        public TextView mTextView;
+    @Override
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = null;
 
-        public ViewHolder(TextView v) {
-            super(v);
-            mTextView = v;
+        switch (viewType) {
+            case TYPE_HEADER: {
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.tools_list_item_card_big, parent, false);
+                return new RecyclerView.ViewHolder(view) {
+                };
+            }
+            case TYPE_CELL: {
+                view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.tools_list_item_card_small, parent, false);
+
+                return new RecyclerView.ViewHolder(view) {
+                };
+            }
+        }
+        return null;
+    }
+
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        switch (getItemViewType(position)) {
+            case TYPE_HEADER:
+                break;
+            case TYPE_CELL:
+                break;
         }
     }
-    
 }
