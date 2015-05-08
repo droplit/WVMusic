@@ -7,26 +7,26 @@
     android:layout_height="wrap_content"
     android:layout_alignParentBottom="true"
     android:layout_gravity="bottom|right"
+    android:layout_margin="16dp"
     fab:fab_addButtonColorNormal="@color/white"
     fab:fab_addButtonColorPressed="@color/white_pressed"
     fab:fab_addButtonPlusIconColor="@color/half_black"
-    fab:fab_labelStyle="@style/menu_labels_style"
-    android:layout_margin="16dp">
+    fab:fab_labelStyle="@style/menu_labels_style">
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/action_a"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="@color/white"
-        fab:fab_title="Next"
-        fab:fab_colorPressed="@color/white_pressed"/>
+        fab:fab_colorPressed="@color/white_pressed"
+        fab:fab_title="Next" />
 
     <com.getbase.floatingactionbutton.FloatingActionButton
         android:id="@+id/action_b"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         fab:fab_colorNormal="@color/white"
-        fab:fab_title="Previous"
-        fab:fab_colorPressed="@color/white_pressed"/>
+        fab:fab_colorPressed="@color/white_pressed"
+        fab:fab_title="Previous" />
 
 </com.getbase.floatingactionbutton.FloatingActionsMenu>

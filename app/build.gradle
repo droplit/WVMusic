@@ -13,7 +13,9 @@ apply plugin: 'io.fabric'
 repositories {
     maven { url 'https://maven.fabric.io/public' }
     mavenCentral()
-
+    maven {
+        url "https://jitpack.io"
+    }
 
 }
 
@@ -49,6 +51,8 @@ dependencies {
     compile 'com.getbase:floatingactionbutton:1.9.0'
     compile 'it.neokree:MaterialTabs:0.11'
 
+    compile 'com.github.ozodrukh:CircularReveal:1.0.6@aar'
+
     compile('com.mikepenz.aboutlibraries:library:4.5.5@aar') {
         transitive = true
     }
@@ -57,7 +61,7 @@ dependencies {
         transitive = true;
     }
     compile 'com.github.markushi:android-ui:1.2'
-    compile ('com.github.florent37:materialviewpager:1.0.1@aar'){
+    compile('com.github.florent37:materialviewpager:1.0.1@aar') {
         transitive = true
     }
 }

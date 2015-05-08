@@ -17,10 +17,9 @@ import java.util.List;
  */
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
-    List<Object> contents;
-
     static final int TYPE_HEADER = 0;
     static final int TYPE_CELL = 1;
+    List<Object> contents;
 
     public RecyclerViewAdapter(List<Object> contents) {
         this.contents = contents;

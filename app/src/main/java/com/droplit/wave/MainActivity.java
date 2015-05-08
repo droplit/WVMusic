@@ -2,15 +2,22 @@ package com.droplit.wave;
 
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Point;
 import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 
+import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.support.v4.view.ViewPager;
+
 
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
@@ -20,6 +27,8 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
@@ -31,17 +40,29 @@ import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mikepenz.aboutlibraries.Libs;
 
+import at.markushi.ui.RevealColorView;
+import io.codetail.animation.SupportAnimator;
+import io.codetail.animation.ViewAnimationUtils;
 import io.fabric.sdk.android.Fabric;
+import it.neokree.materialtabs.MaterialTab;
+import it.neokree.materialtabs.MaterialTabHost;
+import it.neokree.materialtabs.MaterialTabListener;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends ActionBarActivity implements MaterialTabListener {
 
 
-    private MaterialViewPager mViewPager;
-
-    private DrawerLayout mDrawer;
+    ViewPager pager;
+    ViewPagerAdapter adapter;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
+    private MaterialTabHost tabHost;
+    private int numTabs = 0;
+
+    private RevealColorView revealColorView;
+    private View selectedView;
+    private int backgroundColor;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,13 +71,36 @@ public class MainActivity extends ActionBarActivity {
 
         setContentView(R.layout.activity_main);
 
-        setTitle("");
 
-        mViewPager = (MaterialViewPager) findViewById(R.id.materialViewPager);
+        Toolbar toolbar = (android.support.v7.widget.Toolbar) this.findViewById(R.id.toolbar);
+        this.setSupportActionBar(toolbar);
 
-        toolbar = mViewPager.getToolbar();
-        //mDrawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
+        tabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
+        pager = (ViewPager) this.findViewById(R.id.pager);
+
+
+        // init view pager
+        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        pager.setAdapter(adapter);
+        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+            @Override
+            public void onPageSelected(int position) {
+                // when user do a swipe the selected tab change
+                tabHost.setSelectedNavigationItem(position);
+
+            }
+        });
+
+        // insert all tabs from pagerAdapter data
+        for (int i = 0; i < adapter.getCount(); i++) {
+            tabHost.addTab(
+                    tabHost.newTab()
+                            .setText(adapter.getPageTitle(i))
+                            .setTabListener(this)
+            );
+
+        }
         if (toolbar != null) {
             setSupportActionBar(toolbar);
 
@@ -70,99 +114,51 @@ public class MainActivity extends ActionBarActivity {
             }
         }
 
-        //mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, 0, 0);
-        //mDrawer.setDrawerListener(mDrawerToggle);
 
-        mViewPager.getViewPager().setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.revealer);
 
-            int oldPosition = -1;
+        revealColorView = (RevealColorView) findViewById(R.id.reveal);
+        backgroundColor = Color.parseColor("#00000000");
 
-            @Override
-            public Fragment getItem(int position) {
-                switch (position) {
-                    //case 0:
-                    //    return RecyclerViewFragment.newInstance();
-                    //case 1:
-                    //    return ScrollFragment.newInstance();
-                    //case 2:
-                    //    return ListViewFragment.newInstance();
-                    //case 3:
-                    //    return WebViewFragment.newInstance();
-                    default:
-                        return SongsFragment.newInstance();
-                }
-            }
-
-            @Override
-            public void setPrimaryItem(ViewGroup container, int position, Object object) {
-                super.setPrimaryItem(container, position, object);
-
-                //only if position changed
-                if (position == oldPosition)
-                    return;
-                oldPosition = position;
-
-                int color = 0;
-                String imageUrl = "";
-                switch (position) {
-                    case 0:
-                        imageUrl = "http://cdn1.tnwcdn.com/wp-content/blogs.dir/1/files/2014/06/wallpaper_51.jpg";
-                        color = getResources().getColor(R.color.blue);
-                        break;
-                    case 1:
-                        imageUrl = "https://fs01.androidpit.info/a/63/0e/android-l-wallpapers-630ea6-h900.jpg";
-                        color = getResources().getColor(R.color.green);
-                        break;
-                    case 2:
-                        imageUrl = "http://www.droid-life.com/wp-content/uploads/2014/10/lollipop-wallpapers10.jpg";
-                        color = getResources().getColor(R.color.cyan);
-                        break;
-                    case 3:
-                        imageUrl = "http://www.tothemobile.com/wp-content/uploads/2014/07/original.jpg";
-                        color = getResources().getColor(R.color.red);
-                        break;
-                }
-
-                final int fadeDuration = 400;
-                mViewPager.setImageUrl(imageUrl, fadeDuration);
-                mViewPager.setColor(color, fadeDuration);
-
-            }
-
-            @Override
-            public int getCount() {
-                return 4;
-            }
-
-            @Override
-            public CharSequence getPageTitle(int position) {
-                switch (position) {
-                    case 0:
-                        return "Songs";
-                    case 1:
-                        return "Albums";
-                    case 2:
-                        return "Artists";
-                    case 3:
-                        return "Genres";
-                }
-                return "";
-            }
-        });
-        mViewPager.getViewPager().setOffscreenPageLimit(mViewPager.getViewPager().getAdapter().getCount());
-        mViewPager.getPagerTitleStrip().setViewPager(mViewPager.getViewPager());
-
-        FloatingActionsMenu floatingActionsMenu = (FloatingActionsMenu)findViewById(R.id.multiple_actions_left);
-
-        floatingActionsMenu.setOnClickListener(new View.OnClickListener() {
+        floatingActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
+                final int color = R.color.accent;
+                int[] coords = new int[2];
+                findViewById(R.id.multiple_actions_left).getLocationOnScreen(coords);
+
+                if (selectedView == v) {
+                    revealColorView.hide(coords[0], coords[1], backgroundColor, 0, 300, null);
+                    selectedView = null;
+                    FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
+                    View child = getLayoutInflater().inflate(R.layout.activity_main, null);
+                    item.removeAllViews();
+                    item.addView(child);
+
+                } else {
+                    revealColorView.reveal(coords[0], coords[1], color, v.getHeight() / 2, 350, null);
+                    selectedView = v;
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Do something after 350ms
+                            //TODO Make this a fragment, not a layout inflater
+                            FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
+                            View child = getLayoutInflater().inflate(R.layout.fragment_artists, null);
+                            item.removeAllViews();
+                            item.addView(child);
+                            Toast.makeText(getApplicationContext(), "This is the Now Playing Screen", Toast.LENGTH_SHORT).show();
+                        }
+                    }, 350);
+                }
             }
         });
 
 
 
-        floatingActionsMenu.setOnTouchListener(new View.OnTouchListener() {
+        /*floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -180,7 +176,22 @@ public class MainActivity extends ActionBarActivity {
 
                 return false;
             }
-        });
+        });*/
+    }
+
+    @Override
+    public void onTabSelected(MaterialTab tab) {
+        pager.setCurrentItem(tab.getPosition());
+    }
+
+    @Override
+    public void onTabReselected(MaterialTab tab) {
+
+    }
+
+    @Override
+    public void onTabUnselected(MaterialTab tab) {
+
     }
 
     @Override
@@ -216,5 +227,38 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+
+    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
+
+        public ViewPagerAdapter(FragmentManager fm) {
+            super(fm);
+
+        }
+
+        public Fragment getItem(int num) {
+            return new SongsFragment();
+        }
+
+        @Override
+        public int getCount() {
+            return 3 + numTabs;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "Songs";
+                case 1:
+                    return "Albums";
+                case 2:
+                    return "Artists";
+
+            }
+            return "";
+
+        }
     }
 }
