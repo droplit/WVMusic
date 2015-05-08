@@ -52,6 +52,7 @@ import it.neokree.materialtabs.MaterialTabListener;
 public class MainActivity extends ActionBarActivity implements MaterialTabListener {
 
 
+
     ViewPager pager;
     ViewPagerAdapter adapter;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -78,7 +79,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         tabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
         pager = (ViewPager) this.findViewById(R.id.pager);
-
 
         // init view pager
         adapter = new ViewPagerAdapter(getSupportFragmentManager());
@@ -125,7 +125,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 // Perform action on click
                 final int color = R.color.accent;
                 int[] coords = new int[2];
-                findViewById(R.id.multiple_actions_left).getLocationOnScreen(coords);
+                v.getLocationOnScreen(coords);
 
                 if (selectedView == v) {
                     revealColorView.hide(coords[0], coords[1], backgroundColor, 0, 300, null);
@@ -193,7 +193,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     public void onTabUnselected(MaterialTab tab) {
 
     }
-
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
