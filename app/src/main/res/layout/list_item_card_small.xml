@@ -17,6 +17,7 @@
         app:cardPreventCornerOverlap="false"
         app:contentPadding="0dp">
 
+
     </android.support.v7.widget.CardView>
 
 </FrameLayout>

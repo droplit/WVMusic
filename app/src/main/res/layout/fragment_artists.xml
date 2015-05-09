@@ -1,61 +1,16 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:fab="http://schemas.android.com/apk/res-auto"
-    xmlns:tb="http://schemas.android.com/tools"
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:layout_height="match_parent">
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/artist_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:cacheColorHint="@android:color/transparent"
-        android:scrollbars="vertical" />
-
-    <com.github.alexkolpa.fabtoolbar.FabToolbar
-        android:id="@+id/fab_toolbar"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:src="@drawable/ic_add_white_24dp"
-        tb:tb_animation_duration="500"
-        tb:tb_button_gravity="end"
-        tb:tb_container_gravity="center">
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:text="Artists Tab"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
-        <ImageView
-            android:id="@+id/prev"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:layout_marginLeft="@dimen/icon_margin"
-            android:layout_marginRight="@dimen/icon_margin"
-            android:layout_toLeftOf="@+id/play"
-            android:src="@drawable/ic_skip_previous" />
-
-
-        <ImageView
-            android:id="@+id/play"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:layout_marginLeft="@dimen/icon_margin"
-            android:layout_marginRight="@dimen/icon_margin"
-            android:src="@drawable/ic_play" />
-
-        <ImageView
-            android:id="@+id/next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|right"
-            android:layout_margin="16dp"
-            android:layout_marginLeft="@dimen/icon_margin"
-            android:layout_marginRight="@dimen/icon_margin"
-            android:layout_toRightOf="@+id/play"
-            android:src="@drawable/ic_skip_next" />
-
-
-    </com.github.alexkolpa.fabtoolbar.FabToolbar>
-</FrameLayout>
+</RelativeLayout>

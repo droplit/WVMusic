@@ -10,14 +10,14 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.droplit.wave.R;
-import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 import com.droplit.wave.adapters.AlbumsViewAdapter;
+import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
-public class SongsFragment extends Fragment {
+public class AlbumFragment extends Fragment {
 
     private RecyclerView mRecyclerView;
     private RecyclerView.Adapter mAdapter;
@@ -30,7 +30,7 @@ public class SongsFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_songs, container, false);
+        return inflater.inflate(R.layout.fragment_albums, container, false);
     }
 
     @Override

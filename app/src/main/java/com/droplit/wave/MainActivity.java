@@ -34,6 +34,8 @@ import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
+import com.droplit.wave.adapters.ViewPagerAdapter;
+import com.droplit.wave.fragments.ArtistFragment;
 import com.droplit.wave.fragments.SongsFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.getbase.floatingactionbutton.FloatingActionsMenu;
@@ -55,14 +57,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
     ViewPager pager;
     ViewPagerAdapter adapter;
-    private ActionBarDrawerToggle mDrawerToggle;
+    SlidingTabLayout tabs;
     private Toolbar toolbar;
-    private MaterialTabHost tabHost;
-    private int numTabs = 0;
 
-    private RevealColorView revealColorView;
-    private View selectedView;
-    private int backgroundColor;
+    private String[] titles = new String[]{"Songs", "Albums", "Artists"};
 
 
     @Override
@@ -72,55 +70,36 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         setContentView(R.layout.activity_main);
 
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
-        Toolbar toolbar = (android.support.v7.widget.Toolbar) this.findViewById(R.id.toolbar);
-        this.setSupportActionBar(toolbar);
 
-
-        tabHost = (MaterialTabHost) this.findViewById(R.id.tabHost);
         pager = (ViewPager) this.findViewById(R.id.pager);
 
         // init view pager
-        adapter = new ViewPagerAdapter(getSupportFragmentManager());
+        adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, titles.length);
         pager.setAdapter(adapter);
-        pager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-            @Override
-            public void onPageSelected(int position) {
-                // when user do a swipe the selected tab change
-                tabHost.setSelectedNavigationItem(position);
 
+        // Assiging the Sliding Tab Layout View
+        tabs = (SlidingTabLayout) findViewById(R.id.tabs);
+        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+
+
+        // Setting Custom Color for the Scroll bar indicator of the Tab View
+        tabs.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
+            @Override
+            public int getIndicatorColor(int position) {
+                return getResources().getColor(R.color.accent);
             }
         });
 
-        // insert all tabs from pagerAdapter data
-        for (int i = 0; i < adapter.getCount(); i++) {
-            tabHost.addTab(
-                    tabHost.newTab()
-                            .setText(adapter.getPageTitle(i))
-                            .setTabListener(this)
-            );
+        // Setting the ViewPager For the SlidingTabsLayout
+        tabs.setViewPager(pager);
 
-        }
-        if (toolbar != null) {
-            setSupportActionBar(toolbar);
-
-            final ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.setDisplayHomeAsUpEnabled(true);
-                actionBar.setDisplayShowHomeEnabled(true);
-                actionBar.setDisplayShowTitleEnabled(true);
-                actionBar.setDisplayUseLogoEnabled(false);
-                actionBar.setHomeButtonEnabled(true);
-            }
-        }
+        //final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.revealer);
 
 
-        final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.revealer);
-
-        revealColorView = (RevealColorView) findViewById(R.id.reveal);
-        backgroundColor = Color.parseColor("#00000000");
-
-        floatingActionButton.setOnClickListener(new View.OnClickListener() {
+        /*floatingActionButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 final int color = R.color.accent;
@@ -130,10 +109,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                 if (selectedView == v) {
                     revealColorView.hide(coords[0], coords[1], backgroundColor, 0, 300, null);
                     selectedView = null;
-                    FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
+                    //FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
                     View child = getLayoutInflater().inflate(R.layout.activity_main, null);
-                    item.removeAllViews();
-                    item.addView(child);
+                    //item.removeAllViews();
+                    //item.addView(child);
 
                 } else {
                     revealColorView.reveal(coords[0], coords[1], color, v.getHeight() / 2, 350, null);
@@ -145,24 +124,23 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
                         public void run() {
                             //Do something after 350ms
                             //TODO Make this a fragment, not a layout inflater
-                            FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
+                            //FrameLayout item = (FrameLayout) findViewById(R.id.frame_main);
                             View child = getLayoutInflater().inflate(R.layout.fragment_artists, null);
-                            item.removeAllViews();
-                            item.addView(child);
+                            //item.removeAllViews();
+                            //item.addView(child);
                             Toast.makeText(getApplicationContext(), "This is the Now Playing Screen", Toast.LENGTH_SHORT).show();
                         }
                     }, 350);
                 }
             }
         });
-
+        */
 
 
         /*floatingActionButton.setOnTouchListener(new View.OnTouchListener() {
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                // TODO Auto-generated method stub
                 FloatingActionsMenu button = (FloatingActionsMenu) v;
                 if (event.getAction() == MotionEvent.ACTION_DOWN) {
                     //button.setBackgroundColor(0x8066bbdd);
@@ -183,12 +161,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     public void onTabSelected(MaterialTab tab) {
         pager.setCurrentItem(tab.getPosition());
     }
-
     @Override
     public void onTabReselected(MaterialTab tab) {
 
     }
-
     @Override
     public void onTabUnselected(MaterialTab tab) {
 
@@ -229,35 +205,5 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     }
 
 
-    private class ViewPagerAdapter extends FragmentStatePagerAdapter {
 
-        public ViewPagerAdapter(FragmentManager fm) {
-            super(fm);
-
-        }
-
-        public Fragment getItem(int num) {
-            return new SongsFragment();
-        }
-
-        @Override
-        public int getCount() {
-            return 3 + numTabs;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "Songs";
-                case 1:
-                    return "Albums";
-                case 2:
-                    return "Artists";
-
-            }
-            return "";
-
-        }
-    }
 }
