@@ -15,7 +15,6 @@
         android:background="@color/primary"
         android:elevation="2dp"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
-
     <com.droplit.wave.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -23,52 +22,55 @@
         android:background="@color/primary"
         android:elevation="2dp" />
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/pager"
+    <FrameLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/tabs" />
+        android:layout_height="wrap_content">
 
-
-    <com.getbase.floatingactionbutton.FloatingActionsMenu
-        android:id="@+id/multiple_actions_left"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentStart="true"
-        android:layout_gravity="bottom|right"
-        android:layout_margin="8dp"
-        fab:fab_addButtonColorNormal="@color/white"
-        fab:fab_addButtonColorPressed="@color/white_pressed"
-        fab:fab_addButtonPlusIconColor="@color/half_black"
-        fab:fab_addButtonStrokeVisible="true"
-        fab:fab_expandDirection="left">
-
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
+        <android.support.v4.view.ViewPager
+            android:id="@+id/pager"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            fab:fab_colorNormal="@color/blue"
-            fab:fab_colorPressed="@color/blue_semi_transparent_pressed"
-            fab:fab_icon="@drawable/ic_skip_previous" />
+            android:layout_below="@+id/tabs" />
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:id="@+id/revealer"
+        <com.getbase.floatingactionbutton.FloatingActionsMenu
+            android:id="@+id/multiple_actions_left"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/blue"
-            fab:fab_colorPressed="@color/blue_semi_transparent_pressed"
-            fab:fab_icon="@drawable/ic_play" />
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentStart="true"
+            android:layout_gravity="bottom|right"
+            android:layout_margin="8dp"
+            fab:fab_addButtonColorNormal="@color/white"
+            fab:fab_addButtonColorPressed="@color/white_pressed"
+            fab:fab_addButtonPlusIconColor="@color/half_black"
+            fab:fab_addButtonStrokeVisible="true"
+            fab:fab_expandDirection="left">
 
-        <com.getbase.floatingactionbutton.FloatingActionButton
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            fab:fab_colorNormal="@color/blue"
-            fab:fab_colorPressed="@color/blue_semi_transparent_pressed"
-            fab:fab_icon="@drawable/ic_skip_next" />
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                fab:fab_colorNormal="@color/blue"
+                fab:fab_colorPressed="@color/blue_pressed"
+                fab:fab_icon="@drawable/ic_skip_previous" />
 
-    </com.getbase.floatingactionbutton.FloatingActionsMenu>
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:id="@+id/play"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/blue"
+                fab:fab_colorPressed="@color/blue_pressed"
+                fab:fab_icon="@drawable/ic_play" />
 
+            <com.getbase.floatingactionbutton.FloatingActionButton
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                fab:fab_colorNormal="@color/blue"
+                fab:fab_colorPressed="@color/blue_pressed"
+                fab:fab_icon="@drawable/ic_skip_next" />
+
+        </com.getbase.floatingactionbutton.FloatingActionsMenu>
+    </FrameLayout>
 </LinearLayout>
