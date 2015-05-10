@@ -1,53 +1,27 @@
 package com.droplit.wave;
 
 
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Point;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.OvalShape;
 import android.os.Bundle;
 
-import android.os.Handler;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.support.v4.view.ViewPager;
 
 
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
 
 import com.crashlytics.android.Crashlytics;
 import com.droplit.wave.adapters.ViewPagerAdapter;
-import com.droplit.wave.fragments.ArtistFragment;
-import com.droplit.wave.fragments.SongsFragment;
+import com.droplit.wave.ui.fragments.QueueFragment;
 import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
-import com.github.florent37.materialviewpager.MaterialViewPager;
 import com.mikepenz.aboutlibraries.Libs;
 
-import at.markushi.ui.RevealColorView;
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
 import io.fabric.sdk.android.Fabric;
 import it.neokree.materialtabs.MaterialTab;
-import it.neokree.materialtabs.MaterialTabHost;
 import it.neokree.materialtabs.MaterialTabListener;
 
 
@@ -60,8 +34,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     SlidingTabLayout tabs;
     private Toolbar toolbar;
 
-    private String[] titles = new String[]{"Songs", "Albums", "Artists"};
-
+    private String[] titles = new String[]{"Artists", "Albums", "Songs"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,8 +45,6 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
-
         pager = (ViewPager) this.findViewById(R.id.pager);
 
         // init view pager
@@ -82,7 +53,7 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         // Assiging the Sliding Tab Layout View
         tabs = (SlidingTabLayout) findViewById(R.id.tabs);
-        tabs.setDistributeEvenly(true); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
+        tabs.setDistributeEvenly(false); // To make the Tabs Fixed set this true, This makes the tabs Space Evenly in Available width
 
 
         // Setting Custom Color for the Scroll bar indicator of the Tab View
@@ -95,6 +66,15 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
 
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
+
+        final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.revealer);
+        actionA.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                queueDialog();
+            }
+        });
+
 
         //final FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.revealer);
 
@@ -204,6 +184,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-
+    private void queueDialog() {
+        QueueFragment queueFragment = new QueueFragment();
+        queueFragment.queueDialog(this);
+    }
 
 }

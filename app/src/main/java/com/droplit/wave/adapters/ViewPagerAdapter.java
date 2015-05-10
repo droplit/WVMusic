@@ -4,9 +4,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import com.droplit.wave.fragments.AlbumFragment;
-import com.droplit.wave.fragments.ArtistFragment;
-import com.droplit.wave.fragments.SongsFragment;
+import com.droplit.wave.ui.fragments.AlbumFragment;
+import com.droplit.wave.ui.fragments.ArtistFragment;
+import com.droplit.wave.ui.fragments.SongsFragment;
 
 /**
  * Created by Julian on 5/8/2015.
