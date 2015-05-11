@@ -4,8 +4,6 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +13,9 @@ import com.droplit.wave.MusicService.MusicBinder;
 import com.droplit.wave.R;
 import com.droplit.wave.adapters.SongAdapter;
 import com.droplit.wave.models.Song;
-import com.getbase.floatingactionbutton.FloatingActionButton;
-import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
-import com.droplit.wave.adapters.AlbumsViewAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
@@ -35,8 +29,6 @@ import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.view.MenuItem;
-import android.view.View;
 
 public class SongsFragment extends Fragment {
 

@@ -15,6 +15,14 @@
         android:background="@color/primary"
         android:elevation="2dp"
         android:theme="@style/Base.ThemeOverlay.AppCompat.Dark" />
+
+    <FrameLayout
+        android:id="@+id/frame"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:visibility="gone">
+
+    </FrameLayout>
     <com.droplit.wave.SlidingTabLayout
         android:id="@+id/tabs"
         android:layout_width="match_parent"
@@ -72,5 +80,7 @@
                 fab:fab_icon="@drawable/ic_skip_next" />
 
         </com.getbase.floatingactionbutton.FloatingActionsMenu>
+
     </FrameLayout>
+
 </LinearLayout>

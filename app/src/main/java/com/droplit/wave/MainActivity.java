@@ -1,5 +1,11 @@
 package com.droplit.wave;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
+import android.animation.ValueAnimator;
+import android.annotation.TargetApi;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.support.v4.view.ViewPager;
@@ -8,6 +14,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
+import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,8 +26,10 @@ import com.droplit.wave.fragments.QueueFragment;
 import com.droplit.wave.models.Song;
 import com.getbase.floatingactionbutton.FloatingActionButton;
 
+import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mikepenz.aboutlibraries.Libs;
 
+import at.markushi.ui.RevealColorView;
 import io.fabric.sdk.android.Fabric;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;
@@ -32,19 +41,25 @@ import java.util.Comparator;
 import android.net.Uri;
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.view.ViewAnimationUtils;
+import android.widget.FrameLayout;
 
 public class MainActivity extends ActionBarActivity implements MaterialTabListener {
-
 
 
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
+    private RevealColorView revealColorView;
+    private View selectedView;
+    private int backgroundColor;
     private Toolbar toolbar;
+    private Transition.TransitionListener mEnterTransitionListener;
 
 
     private String[] titles = new String[]{"Artists", "Albums", "Songs"};
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -79,11 +94,17 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.play);
         actionA.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
+            public void onClick(View v) {
                 //queueDialog();
             }
         });
-
+        final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_left);
+        actionsMenu.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //queueDialog();
+            }
+        });
 
     }
 
@@ -145,5 +166,4 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         QueueFragment queueFragment = new QueueFragment();
         queueFragment.queueDialog(this);
     }
-
 }
