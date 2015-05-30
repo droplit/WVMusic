@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
@@ -96,6 +97,9 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
             @Override
             public void onClick(View v) {
                 //queueDialog();
+                Intent i = new Intent(getApplicationContext(), NowPlaying.class);
+                startActivity(i);
+
             }
         });
         final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_left);

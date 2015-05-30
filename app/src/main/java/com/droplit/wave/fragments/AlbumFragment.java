@@ -14,7 +14,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -61,21 +63,25 @@ public class AlbumFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mAlbumItems = new ArrayList<Album>();
         albumView = (RecyclerView) view.findViewById(R.id.album_list);
-        /*albumView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //albumPicked(view);
-                Toast.makeText(getActivity().getApplicationContext(),"Chose an album", Toast.LENGTH_SHORT).show();
-            }
-        });*/
+
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         albumView.setLayoutManager(layoutManager);
         albumView.setHasFixedSize(true);
+
 
         getAlbumList();
 
         mAdapter = new AlbumAdapter(getActivity().getApplicationContext(), mAlbumItems);
         albumView.setAdapter(mAdapter);
+
+        albumView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Toast.makeText(getActivity(),v.getTag().toString(), Toast.LENGTH_SHORT).show();
+            }
+        });
 
         Collections.sort(mAlbumItems, new Comparator<Album>() {
             public int compare(Album a, Album b) {
@@ -85,56 +91,52 @@ public class AlbumFragment extends Fragment {
 
     }
 
+
+
     public void getAlbumList() {
         //retrieve song info
         ContentResolver musicResolver = getActivity().getContentResolver();
-        final String[] cursor_cols = {MediaStore.Audio.Media._ID,
-                MediaStore.Audio.Media.ARTIST, MediaStore.Audio.Media.ALBUM,
-                MediaStore.Audio.Media.TITLE, MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media.ALBUM_ID, MediaStore.Audio.Media.YEAR,
-                MediaStore.Audio.Media.DURATION, MediaStore.Audio.Media.TRACK};
-        final String where = MediaStore.Audio.Media.IS_MUSIC + "=1";
+        final String[] cursor_cols = {
+                MediaStore.Audio.AlbumColumns.ARTIST, MediaStore.Audio.AlbumColumns.ALBUM,
+                MediaStore.Audio.AlbumColumns.ALBUM_ART, MediaStore.Audio.AlbumColumns.ALBUM_KEY,
+                MediaStore.Audio.AlbumColumns.FIRST_YEAR, MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS};
+        //final String where = MediaStore.Audio.Media.IS_MUSIC + "=1";
 
-        Uri musicUri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, cursor_cols, where, null, null);
+        Uri musicUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
+        Cursor musicCursor = musicResolver.query(musicUri,cursor_cols,null,null,null);
         if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
-            int trackColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.TRACK);
+            int trackNumColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS);
             int idColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM_ID);
+                    (MediaStore.Audio.AlbumColumns.ALBUM_KEY);
             int artistColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ARTIST);
+                    (MediaStore.Audio.AlbumColumns.ARTIST);
             int albumColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM);
+                    (MediaStore.Audio.AlbumColumns.ALBUM);
             int albumYear = musicCursor.getColumnIndex
-                    (MediaStore.Audio.Media.YEAR);
-            Uri sArtworkUri = Uri
-                    .parse("content://media/external/audio/albumart");
-            Uri albumArtUri = ContentUris.withAppendedId(sArtworkUri, idColumn);
+                    (MediaStore.Audio.AlbumColumns.FIRST_YEAR);
+            String albumArt = musicCursor.getString(musicCursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.ALBUM_ART));
 
-            Bitmap bitmap = null;
-            try {
-                bitmap = MediaStore.Images.Media.getBitmap(
-                        getActivity().getApplicationContext().getContentResolver(), albumArtUri);
-                bitmap = Bitmap.createScaledBitmap(bitmap, 30, 30, true);
 
-            } catch (FileNotFoundException exception) {
-                exception.printStackTrace();
-                bitmap = BitmapFactory.decodeResource(getActivity().getApplicationContext().getResources(),
-                        R.drawable.default_artwork);
-            } catch (IOException e) {
+            Drawable img = null;
 
-                e.printStackTrace();
+            if(albumArt != null) {
+                img = Drawable.createFromPath(albumArt);
+            } else {
+                img = getResources().getDrawable(R.drawable.default_artwork);
             }
+
             //add songs to list
             do {
                 long thisId = musicCursor.getLong(idColumn);
-                int thisTrack = musicCursor.getInt(trackColumn);
+                int thisTrack = musicCursor.getInt(trackNumColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
                 String thisAlbum = musicCursor.getString(albumColumn);
                 String thisYear = musicCursor.getString(albumYear);
-                mAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, bitmap));
+                Log.d("ART", "Album art: " + albumArt);
+                mAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, img));
             }
 
             while (musicCursor.moveToNext());

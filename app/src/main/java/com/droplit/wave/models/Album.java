@@ -1,6 +1,8 @@
 package com.droplit.wave.models;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.text.TextUtils;
 import android.widget.ImageView;
 
@@ -41,7 +43,7 @@ public class Album {
     public String mYear;
 
 
-    public Bitmap mAlbumArt;
+    public Drawable mAlbumArt;
 
     /**
      * Constructor of <code>Album</code>
@@ -53,14 +55,14 @@ public class Album {
      * @param albumYear  The year the album was released
      */
     public Album(final long albumId, final String albumName, final String artistName,
-                 final int songNumber, final String albumYear, final Bitmap albumBitmap) {
+                 final int songNumber, final String albumYear, final Drawable albumArt) {
         super();
         mAlbumId = albumId;
         mAlbumName = albumName;
         mArtistName = artistName;
         mSongNumber = songNumber;
         mYear = albumYear;
-        mAlbumArt = albumBitmap;
+        mAlbumArt = albumArt;
 
     }
 
@@ -133,6 +135,9 @@ public class Album {
         if (mArtistName.equals("<unknown>")) {
             return "unknown";
         }
+        if(mArtistName.length() > 26) {
+            return mArtistName.substring(0,27) + "...";
+        }
         return mArtistName;
     }
 
@@ -140,7 +145,7 @@ public class Album {
         return mSongNumber;
     }
 
-    public Bitmap getAlbumArt() {
+    public Drawable getAlbumArt() {
         return mAlbumArt;
     }
 

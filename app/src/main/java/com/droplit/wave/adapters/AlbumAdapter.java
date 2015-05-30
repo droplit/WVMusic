@@ -2,6 +2,7 @@ package com.droplit.wave.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,8 +10,10 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.droplit.wave.R;
+import com.droplit.wave.RecylcerOnClick;
 import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Song;
 
@@ -55,9 +58,9 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         songView.setText(currAlbum.getTitle());
         artistView.setText(currAlbum.getArtist() + " | " + currAlbum.getNumSongs() + numSongs());
         //if(currAlbum.getAlbumArt() != null) {
-        coverAlbum.setImageBitmap(currAlbum.getAlbumArt());
-        //}
+        coverAlbum.setImageDrawable(currAlbum.getAlbumArt());
         //set position as tag
+        cardView.setOnClickListener(new RecylcerOnClick());
 
 
         return new RecyclerView.ViewHolder(cardView) {
@@ -74,6 +77,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-
+        
     }
+
 }
