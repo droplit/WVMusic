@@ -9,5 +9,6 @@ public class RecylcerOnClick implements View.OnClickListener {
     public void onClick(View v) {
         //int itemPosition = 50;
         Log.e("Clicked and Position is ", v.toString());
+
     }
 }

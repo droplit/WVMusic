@@ -1,17 +1,27 @@
 package com.droplit.wave;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
 
 public class AlbumActivity extends ActionBarActivity {
 
+    private String album_name;
+    private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
+        Intent intent = getIntent();
+        album_name = intent.getStringExtra("ALBUM_NAME");
+
+        mToolbar = (Toolbar) findViewById(R.id.album_toolbar);
+        mToolbar.setTitle(album_name);
+
     }
 
     @Override
