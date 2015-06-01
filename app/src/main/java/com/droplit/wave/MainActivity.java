@@ -1,21 +1,20 @@
 package com.droplit.wave;
 
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
-import android.animation.ValueAnimator;
 import android.annotation.TargetApi;
 import android.content.Intent;
-import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 
-import android.transition.Transition;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,26 +23,13 @@ import com.crashlytics.android.Crashlytics;
 import com.droplit.wave.adapters.ViewPagerAdapter;
 import com.droplit.wave.fragments.QueueFragment;
 
-import com.droplit.wave.models.Song;
-import com.getbase.floatingactionbutton.FloatingActionButton;
 
-import com.getbase.floatingactionbutton.FloatingActionsMenu;
 import com.mikepenz.aboutlibraries.Libs;
 
-import at.markushi.ui.RevealColorView;
 import io.fabric.sdk.android.Fabric;
 import it.neokree.materialtabs.MaterialTab;
 import it.neokree.materialtabs.MaterialTabListener;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import android.net.Uri;
-import android.content.ContentResolver;
-import android.database.Cursor;
-import android.view.ViewAnimationUtils;
-import android.widget.FrameLayout;
 
 public class MainActivity extends ActionBarActivity implements MaterialTabListener {
 
@@ -51,12 +37,10 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
-    private RevealColorView revealColorView;
-    private View selectedView;
-    private int backgroundColor;
-    private Toolbar toolbar;
-    private Transition.TransitionListener mEnterTransitionListener;
 
+    private DrawerLayout mDrawerLayout;
+
+    private Toolbar toolbar;
 
     private String[] titles = new String[]{"Artists", "Albums", "Songs"};
 
@@ -71,6 +55,19 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         pager = (ViewPager) this.findViewById(R.id.pager);
+
+        final ActionBar ab = getSupportActionBar();
+        ab.setHomeAsUpIndicator(R.drawable.ic_menu);
+        ab.setDisplayHomeAsUpEnabled(true);
+
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+
+
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        if (navigationView != null) {
+            setupDrawerContent(navigationView);
+        }
 
         // init view pager
         adapter = new ViewPagerAdapter(getSupportFragmentManager(), titles, titles.length);
@@ -92,24 +89,28 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         // Setting the ViewPager For the SlidingTabsLayout
         tabs.setViewPager(pager);
 
-        final FloatingActionButton actionA = (FloatingActionButton) findViewById(R.id.play);
-        actionA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //queueDialog();
-                Intent i = new Intent(getApplicationContext(), NowPlaying.class);
-                startActivity(i);
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+            fab.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Snackbar.make(view, "Here's a Snackbar", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+            });
 
-            }
-        });
-        final FloatingActionsMenu actionsMenu = (FloatingActionsMenu) findViewById(R.id.multiple_actions_left);
-        actionsMenu.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //queueDialog();
-            }
-        });
 
+    }
+
+    private void setupDrawerContent(NavigationView navigationView) {
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        menuItem.setChecked(true);
+                        mDrawerLayout.closeDrawers();
+                        return true;
+                    }
+                });
     }
 
     @Override
@@ -165,9 +166,4 @@ public class MainActivity extends ActionBarActivity implements MaterialTabListen
         return super.onOptionsItemSelected(item);
     }
 
-
-    private void queueDialog() {
-        QueueFragment queueFragment = new QueueFragment();
-        queueFragment.queueDialog(this);
-    }
 }

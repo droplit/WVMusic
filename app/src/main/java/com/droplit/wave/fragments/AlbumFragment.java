@@ -1,14 +1,10 @@
 package com.droplit.wave.fragments;
 
 import android.content.ContentResolver;
-import android.content.ContentUris;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.ParcelFileDescriptor;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -16,30 +12,18 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ImageView;
-import android.widget.ListAdapter;
-import android.widget.ListView;
+
 import android.widget.Toast;
 
 import com.droplit.wave.R;
 import com.droplit.wave.adapters.AlbumAdapter;
-import com.droplit.wave.adapters.SongAdapter;
 import com.droplit.wave.models.Album;
-import com.droplit.wave.models.Song;
-import com.github.florent37.materialviewpager.adapter.RecyclerViewMaterialAdapter;
 
-import java.io.FileDescriptor;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
-
 
 public class AlbumFragment extends Fragment {
 
@@ -47,7 +31,6 @@ public class AlbumFragment extends Fragment {
 
     private ArrayList<Album> mAlbumItems = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
-
 
     public static AlbumFragment newInstance() {
         return new AlbumFragment();
@@ -64,11 +47,9 @@ public class AlbumFragment extends Fragment {
         mAlbumItems = new ArrayList<Album>();
         albumView = (RecyclerView) view.findViewById(R.id.album_list);
 
-
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         albumView.setLayoutManager(layoutManager);
         albumView.setHasFixedSize(true);
-
 
         getAlbumList();
 
@@ -78,7 +59,6 @@ public class AlbumFragment extends Fragment {
         albumView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Toast.makeText(getActivity(),v.getTag().toString(), Toast.LENGTH_SHORT).show();
             }
         });

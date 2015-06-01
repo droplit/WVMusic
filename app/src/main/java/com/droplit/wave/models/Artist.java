@@ -98,4 +98,18 @@ public class Artist {
         return mArtistName;
     }
 
+    public long getID() {
+        return mArtistId;
+    }
+
+    public String getArtist() {
+        if(mArtistName.length() > 26) {
+            return mArtistName.substring(0,27) + "...";
+        }
+        return mArtistName;
+    }
+
+    public int getNumSongs() {
+        return mSongNumber;
+    }
 }

@@ -50,6 +50,14 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.droplit.wave.MainActivity" />
         </activity>
+        <activity
+            android:name=".ArtistActivity"
+            android:label="@string/title_activity_artist"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.droplit.wave.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

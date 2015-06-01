@@ -1,33 +1,33 @@
 package com.droplit.wave;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+public class ArtistActivity extends AppCompatActivity {
 
-public class AlbumActivity extends ActionBarActivity {
-
-    private String album_name;
+    private String artist_name;
     private Toolbar mToolbar;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_album);
+        setContentView(R.layout.activity_artist);
         Intent intent = getIntent();
-        album_name = intent.getStringExtra("ALBUM_NAME");
+        artist_name = intent.getStringExtra("ARTIST_NAME");
 
-        mToolbar = (Toolbar) findViewById(R.id.album_toolbar);
-        mToolbar.setTitle(album_name);
+        mToolbar = (Toolbar) findViewById(R.id.artist_toolbar);
+        mToolbar.setTitle(artist_name);
         setSupportActionBar(mToolbar);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_album, menu);
+        getMenuInflater().inflate(R.menu.menu_artist, menu);
         return true;
     }
 
