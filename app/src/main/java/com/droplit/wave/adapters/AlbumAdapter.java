@@ -2,6 +2,7 @@ package com.droplit.wave.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.BitmapFactory;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -32,6 +33,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private LayoutInflater albumInf;
     private Album currAlbum;
     private final Context mContext;
+    private ArrayList<String> artPaths = new ArrayList<>();
 
     public AlbumAdapter(Context c, ArrayList<Album> contents) {
         mContext = c;
@@ -57,20 +59,25 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         //get title and artist views
         TextView albumView = (TextView) cardView.findViewById(R.id.album_title);
         TextView artistView = (TextView) cardView.findViewById(R.id.album_artist);
-        ImageView coverAlbum = (ImageView) cardView.findViewById(R.id.album_art);
+        final ImageView coverAlbum = (ImageView) cardView.findViewById(R.id.album_art);
         //get song using position
         currAlbum = albums.get(pos);
         //get title and artist strings
         albumView.setText(currAlbum.getTitle());
         artistView.setText(currAlbum.getArtist() + " | " + currAlbum.getNumSongs() + numSongs());
-        //if(currAlbum.getAlbumArt() != null) {
-        coverAlbum.setImageDrawable(currAlbum.getAlbumArt());
+        if(currAlbum.getAlbumArt() != null) {
+            coverAlbum.setImageBitmap(BitmapFactory.decodeFile(currAlbum.getAlbumArt()));
+            artPaths.add(currAlbum.getAlbumArt());
+        } else {
+            coverAlbum.setImageResource(R.drawable.default_artwork);
+        }
         //set position as tag
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, AlbumActivity.class);
                 i.putExtra("ALBUM_NAME", ((TextView) cardView.findViewById(R.id.album_title)).getText());
+                i.putExtra("ALBUM_ART", currAlbum.getAlbumArt());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 Toast.makeText(mContext,((TextView) cardView.findViewById(R.id.album_title)).getText(),Toast.LENGTH_SHORT).show();

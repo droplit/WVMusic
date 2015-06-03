@@ -18,5 +18,25 @@
     <string name="title_activity_now_playing">Now Playing</string>
     <string name="title_activity_album">Album</string>
     <string name="title_activity_artist">Artist</string>
+    <string name="changelog">Changelog</string>
+    <string name="about_ok">Okay</string>
+
+    <string-array name="changelog">
+            <item>
+                <h2>4/15/15 - A0.2</h2><br />
+                    <p>Added Ripple effect for what will hopefully be the animation for the Now Playing Panel. <br />Only valid on the Songs Panel for right now. <br />Changed version number to A0.2</p></item>
+                <item><h2>4/18/15 - A0.3</h2><br />
+                    <p>The artist page now has a FAB Toolbar as featured in the new Material Design Specs.</p></item>
+                <item><h2>5/6/15 - A0.4</h2><br />
+                    <p>Hopefully the FAB should fit on screen now, as well as when they are pressed it is not transparent, but a darker shade of blue. The tabs bar underline is white now.</p></item>
+                <item><h2>5/8/15 - A0.4.2</h2>
+                    <p>Made yet another Tab System, it is custom this time though.</p></item>
+                <item><h2>5/10/15 - A0.5</h2>
+                    <p>Changed the looks of the tab panel. Music can be played! But not controlled. To stop playback the app needs to be manually closed, either by removing it from multitasking, or via the overflow menu(three dots) and hitting end. FAB is on all tabs now. Beginnings of album view is there. Songs panel is done except for the scrolbar will probably be changed to one that can be used to search alphabetically.</p></item>
+                <item><h2>5/30/15 - A0.6</h2>
+                    <p>Album view works, and the basics of Album art is implemented. Now playing Activiy (PLACEHOLDER) is accessed via the play button via the FAB. Artist View is there, only intereaction is a toast. Music no longer plays, it sill be re-implemented more efficiently.</p></item>
+                <item><h2>6/2/15 - A0.7</h2>
+                    <p>Album View is practically finished, need to fix the Art loading in the Banner. NavDrawer text is done, the only working fuction is the Changelog, which will eventually move to the Settings Page. Artist Panel is almost done. Planning on adding an Album list for that artist, and loading information from Last.fm. Songs tab is now a recycler-view along with the rest of the tabs. More of the general idea of what the Now Playing page will look like is there. Access that via the snackbar that is shown by the FAB on the main page.</p></item>
+    </string-array>
 
 </resources>

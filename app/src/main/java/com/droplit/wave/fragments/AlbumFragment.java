@@ -2,7 +2,10 @@ package com.droplit.wave.fragments;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.media.Image;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -96,27 +99,27 @@ public class AlbumFragment extends Fragment {
                     (MediaStore.Audio.AlbumColumns.ALBUM);
             int albumYear = musicCursor.getColumnIndex
                     (MediaStore.Audio.AlbumColumns.FIRST_YEAR);
-            String albumArt = musicCursor.getString(musicCursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.ALBUM_ART));
-
-
-            Drawable img = null;
-
-            if(albumArt != null) {
-                img = Drawable.createFromPath(albumArt);
-            } else {
-                img = getResources().getDrawable(R.drawable.default_artwork);
-            }
+            int artColumn = musicCursor.getColumnIndex
+                    (MediaStore.Audio.Albums.ALBUM_ART);
 
             //add songs to list
             do {
+                String thisArtPath = musicCursor.getString(artColumn);
+
+
+                /*if(thisArtPath == null) {
+                    thisArtPath = BitmapFactory.decodeFile(thisArtPath);
+                } else {
+                    img = BitmapFactory.decodeResource(getResources(), R.drawable.default_artwork);
+                }*/
+
                 long thisId = musicCursor.getLong(idColumn);
                 int thisTrack = musicCursor.getInt(trackNumColumn);
                 String thisArtist = musicCursor.getString(artistColumn);
                 String thisAlbum = musicCursor.getString(albumColumn);
                 String thisYear = musicCursor.getString(albumYear);
-                Log.d("ART", "Album art: " + albumArt);
-                mAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, img));
+                //Log.d("ART", "Album art: " + thisArtPath);
+                mAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, thisArtPath));
             }
 
             while (musicCursor.moveToNext());

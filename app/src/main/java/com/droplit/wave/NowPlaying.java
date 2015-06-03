@@ -1,102 +1,186 @@
 package com.droplit.wave;
 
+import android.content.res.AssetFileDescriptor;
+import android.database.Cursor;
+import android.media.AudioManager;
+import android.media.MediaPlayer;
+import android.os.Handler;
+import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Toast;
 
-import io.codetail.animation.SupportAnimator;
-import io.codetail.animation.ViewAnimationUtils;
-import io.codetail.widget.RevealFrameLayout;
+import android.widget.SeekBar;
+import com.android.custom.widget.waveformseekbar.WaveformSeekBar;
+
+import java.io.IOException;
 
 
 public class NowPlaying extends ActionBarActivity {
 
 
-    private SupportAnimator mAnimator;
+    private static final int UPDATE_FREQUENCY_MS = 5;
+    private WaveformSeekBar seekbar = null;
+    private MediaPlayer player = null;
+    private FloatingActionButton playButton = null;
+    private boolean isStarted = false;
+    private boolean isMoveingSeekBar = false;
+    private final Handler handler = new Handler();
+    private final Runnable updatePositionRunnable = new Runnable() {
+        public void run() {
+            updatePosition();
+        }
+    };
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_now_playing);
 
-    }
+        final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-    /*@Override
-    protected void onStart() {
-        if(mAnimator != null && !mAnimator.isRunning()){
-            //mAnimator = mAnimator.reverse();
-            mAnimator.addListener(new SupportAnimator.AnimatorListener() {
-                @Override
-                public void onAnimationStart() {
+        AppBarLayout appBarLayout = (AppBarLayout) findViewById(R.id.appbar);
+        toolbar.setTitle("Now Playing");
 
+        playButton = (FloatingActionButton) findViewById(R.id.fab_play);
+
+        playButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                if (player.isPlaying()) {
+                    handler.removeCallbacks(updatePositionRunnable);
+                    player.pause();
+                    playButton.setImageResource(android.R.drawable.ic_media_play);
+                } else {
+                    if (isStarted) {
+                        player.start();
+                        playButton.setImageResource(android.R.drawable.ic_media_pause);
+
+                        updatePosition();
+                    } else {
+                        startPlay();
+                    }
                 }
+            }
+        });
 
-                @Override
-                public void onAnimationEnd() {
-                    mAnimator = null;
+        player = new MediaPlayer();
+        player.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
+            @Override
+            public void onCompletion(MediaPlayer mp) {
+                stopPlay();
+            }
+        });
+        player.setOnErrorListener(new MediaPlayer.OnErrorListener() {
+            @Override
+            public boolean onError(MediaPlayer mp, int what, int extra) {
+                return false;
+                // returning false will call the OnCompletionListener
+            }
+        });
+
+
+        seekbar = (WaveformSeekBar) findViewById(R.id.seekbar);
+        try {
+            seekbar.setAudio(this.getAssets().open("razorsharp.wav"));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        seekbar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+                isMoveingSeekBar = false;
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+                isMoveingSeekBar = true;
+            }
+
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                if (isMoveingSeekBar) {
+                    player.seekTo(progress);
                 }
+            }
+        });
 
-                @Override
-                public void onAnimationCancel() {
+        Cursor cursor = getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI, null, null, null, null);
 
-                }
-
-                @Override
-                public void onAnimationRepeat() {
-
-                }
-            });
-        }else if(mAnimator != null){
-            //mAnimator.cancel();
-            return;
-        }else {
-
-            final View myView =findViewById(R.id.card_view);
-
-            // get the center for the clipping circle
-            //int cx = (myView.getLeft() + myView.getRight()) / 2;
-            //int cy = (myView.getTop() + myView.getBottom()) / 2;
-            int cx = myView.getRight();
-            int cy = myView.getBottom();
-
-            // get the final radius for the clipping circle
-            float finalRadius = hypo(myView.getWidth(), myView.getHeight());
-
-            mAnimator = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
-            mAnimator.addListener(new SupportAnimator.AnimatorListener() {
-                @Override
-                public void onAnimationStart() {
-                }
-
-                @Override
-                public void onAnimationEnd() {
-                    Toast.makeText(getApplicationContext(), "Done", Toast.LENGTH_LONG).show();
-                }
-
-                @Override
-                public void onAnimationCancel() {
-
-                }
-
-                @Override
-                public void onAnimationRepeat() {
-
-                }
-            });
+        if (null != cursor) {
+            cursor.moveToFirst();
         }
 
-        mAnimator.setInterpolator(new AccelerateDecelerateInterpolator());
-        mAnimator.setDuration(1500);
-        mAnimator.start();
-    }*/
-
-    static float hypo(int a, int b){
-        return (float) Math.sqrt(Math.pow(a, 2) + Math.pow(b, 2));
     }
+
+
+    private void startPlay() {
+        seekbar.setProgress(0);
+        player.stop();
+        player.reset();
+
+        AssetFileDescriptor afd = null;
+        try {
+            afd = getAssets().openFd("razorsharp.wav");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            player.setDataSource(afd.getFileDescriptor(), afd.getStartOffset(), afd.getLength());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            player.prepare();
+            player.start();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+        } catch (IllegalStateException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        seekbar.setMax(player.getDuration());
+        playButton.setImageResource(android.R.drawable.ic_media_pause);
+
+        updatePosition();
+
+        isStarted = true;
+    }
+
+
+    private void stopPlay() {
+        player.stop();
+        player.reset();
+        playButton.setImageResource(android.R.drawable.ic_media_play);
+        handler.removeCallbacks(updatePositionRunnable);
+        seekbar.setProgress(0);
+
+        isStarted = false;
+    }
+
+
+    private void updatePosition() {
+        handler.removeCallbacks(updatePositionRunnable);
+
+        seekbar.setProgress(player.getCurrentPosition());
+
+        handler.postDelayed(updatePositionRunnable, UPDATE_FREQUENCY_MS);
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

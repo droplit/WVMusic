@@ -43,7 +43,7 @@ public class Album {
     public String mYear;
 
 
-    public Drawable mAlbumArt;
+    public String mAlbumArt;
 
     /**
      * Constructor of <code>Album</code>
@@ -55,7 +55,7 @@ public class Album {
      * @param albumYear  The year the album was released
      */
     public Album(final long albumId, final String albumName, final String artistName,
-                 final int songNumber, final String albumYear, final Drawable albumArt) {
+                 final int songNumber, final String albumYear, final String albumArt) {
         super();
         mAlbumId = albumId;
         mAlbumName = albumName;
@@ -145,7 +145,7 @@ public class Album {
         return mSongNumber;
     }
 
-    public Drawable getAlbumArt() {
+    public String getAlbumArt() {
         return mAlbumArt;
     }
 

@@ -14,12 +14,6 @@
     <color name="black">#000000</color>
     <color name="gray">#ff696969</color>
     <color name="background">#e5e5e5</color>
-    <color name="half_black">#808080</color>
-    <color name="white_pressed">#f1f1f1</color>
-    <color name="pink">#e91e63</color>
-    <color name="pink_pressed">#ec407a</color>
-    <color name="blue_semi_transparent">#805677fc</color>
-    <color name="blue_semi_transparent_pressed">#80738ffe</color>
 
     <color name="tabsScrollColor">#8a140e</color>
     <color name="blue">#3F51B5</color>
@@ -49,4 +43,7 @@
     <color name="bg_swipe_group_item_right">#ff295db3</color>
 
     <color name="snackbar_action_color_done">#ffccccff</color>
+
+    <color name="window_background">#FFF5F5F5</color>
+
 </resources>

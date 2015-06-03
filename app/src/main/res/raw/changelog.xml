@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<changelog bulletedList="true">
+
+    <changelogversion versionName="A0.7" changeDate="June 2,2015">
+        <changelogtext>Album View is practically finished, need to fix the Art loading in the Banner.</changelogtext>
+        <changelogtext>NavDrawer text is done, the only working fuction is the Changelog, which will eventually move to the Settings Page.</changelogtext>
+        <changelogtext>Artist Panel is almost done.</changelogtext>
+        <changelogtext>Planning on adding an Album list for the artist view.</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Songs tab is now a recycler-view along with the rest of the tabs.</changelogtext>
+        <changelogtext>[b]New![/b] Now Playing panel shell is there. Access via the Snackbar from the main FAB.</changelogtext>
+        <changelogtext>[b]Todo:[/b] Fix the album art in the Album view, implement Last.fm, and change the artists view art from a square to circle, and the default icon to a person.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.6" changeDate="May 30,2015">
+        <changelogtext>[b]New![/b] Album view is implemented, along with album art, expect bugs.</changelogtext>
+        <changelogtext>[b]New![/b] NavDrawer, not nearly setup yet.</changelogtext>
+        <changelogtext>Music no longer plays, it will be re-implemented more efficiently in the near future.</changelogtext>
+        <changelogtext>Artist Panel only reacts with a toast.</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Changed anything I could over to the new v22 support library, ex. the Tab Bars, the Nav Drawer, and the FAB's.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.5" changeDate="May 10,2015">
+        <changelogtext>[b]New![/] Music can be played, but not paused or controlled. Stop it via the overflow menu.</changelogtext>
+        <changelogtext>Changed the looks of the tab panel.</changelogtext>
+        <changelogtext>FAB is on all tabs now.</changelogtext>
+        <changelogtext>Beginnings of album view is there.</changelogtext>
+        <changelogtext>[b]Todo:[/b] Each panel needs a scrollbar that can scroll through quickly alphabetically</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.4.2" changeDate="May 8,2015">
+        <changelogtext>[i]Improvement[/i] - Tab menu is custom now.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.4" changeDate="May 6,2015">
+        <changelogtext>[i]Improvement[/i] - FAB stays on screen now.</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Tabs underline is now white.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.3" changeDate="April 18,2015">
+        <changelogtext>[b]New![/b] The artist page now has a FAB Toolbar as featured in the new Material Design Specs.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="A0.2" changeDate="April 15,2015">
+        <changelogtext>[b]New![/b] Added Ripple effect for what will hopefully be the animation for the Now Playing Panel.</changelogtext>
+        <changelogtext>[b]New![/b] Started tracking versions.</changelogtext>
+    </changelogversion>
+
+</changelog>

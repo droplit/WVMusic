@@ -2,25 +2,29 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_home"
+            android:id="@+id/nav_artists"
             android:title="Home" />
         <item
-            android:id="@+id/nav_messages"
+            android:id="@+id/nav_albums"
             android:title="Messages" />
         <item
-            android:id="@+id/nav_friends"
+            android:id="@+id/nav_songs"
             android:title="Friends" />
-        <item
-            android:id="@+id/nav_discussion"
-            android:title="Discussion" />
     </group>
 
-    <item android:title="Sub items">
+    <item android:title="Other">
         <menu>
             <item
-                android:title="Sub item 1" />
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Settings" />
             <item
-                android:title="Sub item 2" />
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_drafts_black_24dp"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_changelog"
+                android:title="Changelog" />
         </menu>
     </item>
 
