@@ -70,12 +70,7 @@ public class AlbumActivity extends AppCompatActivity {
         mAdapter = new AlbumSongAdapter(getApplicationContext(), mAlbumSongItems);
         songsView.setAdapter(mAdapter);
 
-        songsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+
 
         Collections.sort(mAlbumSongItems, new Comparator<Song>() {
             public int compare(Song a, Song b) {

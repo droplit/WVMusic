@@ -1,11 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:recyclerviewfastscroller="http://schemas.android.com/apk/res-auto">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/song_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    <xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller
+        android:id="@+id/fast_scroller"
+        android:layout_width="24dp"
+        android:layout_height="match_parent"
+        android:layout_alignParentRight="true"
+        recyclerviewfastscroller:rfs_handleColor="@color/accent"
+        recyclerviewfastscroller:rfs_barColor="@color/bar_color"
+        />
+
+    <com.droplit.wave.ui.SelectionTitleIndicatior
+        android:id="@+id/fast_scroller_section_title_indicator"
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/list_item_height"
+        android:layout_toLeftOf="@id/fast_scroller"
+        android:layout_toStartOf="@id/fast_scroller"
+
+        recyclerviewfastscroller:rfs_backgroundColor="@android:color/white"
+        recyclerviewfastscroller:rfs_textColor="@android:color/black"
+        />
 
 </RelativeLayout>

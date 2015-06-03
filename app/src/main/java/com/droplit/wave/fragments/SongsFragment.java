@@ -23,6 +23,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
+
 public class SongsFragment extends Fragment {
 
     private RecyclerView songView;
@@ -46,6 +49,10 @@ public class SongsFragment extends Fragment {
         mSongItems = new ArrayList<Song>();
         songView = (RecyclerView) view.findViewById(R.id.song_list);
 
+        VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) view.findViewById(R.id.fast_scroller);
+        SectionTitleIndicator sectionTitleIndicator =
+                (SectionTitleIndicator) view.findViewById(R.id.fast_scroller_section_title_indicator);
+
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         songView.setLayoutManager(layoutManager);
         songView.setHasFixedSize(true);
@@ -55,12 +62,12 @@ public class SongsFragment extends Fragment {
         mAdapter = new SongAdapter(getActivity().getApplicationContext(), mSongItems);
         songView.setAdapter(mAdapter);
 
-        songView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getActivity(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
+        fastScroller.setRecyclerView(songView);
+        fastScroller.setSectionIndicator(sectionTitleIndicator);
+
+        // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
+        songView.setOnScrollListener(fastScroller.getOnScrollListener());
+
 
         Collections.sort(mSongItems, new Comparator<Song>() {
             public int compare(Song a, Song b) {

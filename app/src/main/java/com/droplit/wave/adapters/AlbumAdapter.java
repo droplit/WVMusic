@@ -14,8 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.MainActivity;
+import com.droplit.wave.MaterialColorPalette;
 import com.droplit.wave.NowPlaying;
 import com.droplit.wave.R;
 import com.droplit.wave.RecylcerOnClick;
@@ -52,7 +54,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,final int pos) {
         //map to song layout
         final FrameLayout cardView = (FrameLayout) albumInf.inflate
                 (R.layout.list_item_card_small, parent, false);
@@ -62,6 +64,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         final ImageView coverAlbum = (ImageView) cardView.findViewById(R.id.album_art);
         //get song using position
         currAlbum = albums.get(pos);
+        //albums.get(pos) = currAlbum.setTag(pos);
         //get title and artist strings
         albumView.setText(currAlbum.getTitle());
         artistView.setText(currAlbum.getArtist() + " | " + currAlbum.getNumSongs() + numSongs());
@@ -69,7 +72,10 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             coverAlbum.setImageBitmap(BitmapFactory.decodeFile(currAlbum.getAlbumArt()));
             artPaths.add(currAlbum.getAlbumArt());
         } else {
-            coverAlbum.setImageResource(R.drawable.default_artwork);
+            int color = MaterialColorPalette.randomColor();
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRect(currAlbum.getTitle().substring(0,1), color);
+            coverAlbum.setImageDrawable(drawable);
         }
         //set position as tag
         cardView.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +83,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             public void onClick(View v) {
                 Intent i = new Intent(mContext, AlbumActivity.class);
                 i.putExtra("ALBUM_NAME", ((TextView) cardView.findViewById(R.id.album_title)).getText());
-                i.putExtra("ALBUM_ART", currAlbum.getAlbumArt());
+                //int position= (Integer)v.getTag();
+                i.putExtra("ALBUM_ART", albums.get(pos).getAlbumArt());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 Toast.makeText(mContext,((TextView) cardView.findViewById(R.id.album_title)).getText(),Toast.LENGTH_SHORT).show();

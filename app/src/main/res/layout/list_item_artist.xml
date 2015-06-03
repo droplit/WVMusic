@@ -18,10 +18,9 @@
         app:contentPadding="0dp">
 
         <ImageView
-            android:id="@+id/album_art"
+            android:id="@+id/artist_view"
             android:layout_width="80dp"
-            android:layout_height="80dp"
-            android:src="@drawable/default_artwork" />
+            android:layout_height="80dp"/>
 
         <TextView
             android:id="@+id/artist_title"

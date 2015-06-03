@@ -2,6 +2,7 @@ package com.droplit.wave.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,9 +14,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.ArtistActivity;
 import com.droplit.wave.MainActivity;
+import com.droplit.wave.MaterialColorPalette;
 import com.droplit.wave.NowPlaying;
 import com.droplit.wave.R;
 import com.droplit.wave.RecylcerOnClick;
@@ -27,6 +30,7 @@ import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -59,13 +63,18 @@ public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //get title and artist views
         TextView artistView = (TextView) cardView.findViewById(R.id.artist_title);
         TextView trackView = (TextView) cardView.findViewById(R.id.artist_tracks);
+        ImageView imageView = (ImageView) cardView.findViewById(R.id.artist_view);
+
+
+        int color = MaterialColorPalette.randomColor();
         //get song using position
         currArtist = artists.get(pos);
         //get title and artist strings
         artistView.setText(currArtist.getArtist());
         trackView.setText(currArtist.getNumSongs() + numSongs());
-        //coverAlbum.setImageDrawable(currArtist.getAlbumArt());
-        //set position as tag
+        TextDrawable drawable = TextDrawable.builder()
+                .buildRect(currArtist.getArtist().substring(0,1), color);
+        imageView.setImageDrawable(drawable);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

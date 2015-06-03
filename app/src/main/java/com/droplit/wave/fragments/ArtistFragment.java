@@ -28,6 +28,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
+import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
+
 
 public class ArtistFragment extends Fragment {
 
@@ -49,6 +52,9 @@ public class ArtistFragment extends Fragment {
         mArtistItems = new ArrayList<Artist>();
         artistView = (RecyclerView) view.findViewById(R.id.artist_list);
 
+        VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) view.findViewById(R.id.fast_scroller);
+        SectionTitleIndicator sectionTitleIndicator =
+                (SectionTitleIndicator) view.findViewById(R.id.fast_scroller_section_title_indicator);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         artistView.setLayoutManager(layoutManager);
@@ -61,6 +67,11 @@ public class ArtistFragment extends Fragment {
 
         artistView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL));
 
+        fastScroller.setRecyclerView(artistView);
+        fastScroller.setSectionIndicator(sectionTitleIndicator);
+
+        // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
+        artistView.setOnScrollListener(fastScroller.getOnScrollListener());
 
        /* Collections.sort(mArtistItems, new Comparator<Artist>() {
             public int compare(Artist a, Artist b) {
