@@ -54,8 +54,7 @@ public class AlbumFragment extends Fragment {
         albumView = (RecyclerView) view.findViewById(R.id.album_list);
 
         VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) view.findViewById(R.id.fast_scroller);
-        SectionTitleIndicator sectionTitleIndicator =
-                (SectionTitleIndicator) view.findViewById(R.id.fast_scroller_section_title_indicator);
+
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         albumView.setLayoutManager(layoutManager);
@@ -67,7 +66,6 @@ public class AlbumFragment extends Fragment {
         albumView.setAdapter(mAdapter);
 
         fastScroller.setRecyclerView(albumView);
-        fastScroller.setSectionIndicator(sectionTitleIndicator);
 
         // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
         albumView.setOnScrollListener(fastScroller.getOnScrollListener());

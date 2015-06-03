@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.droplit.wave.adapters.ArtistSongAdapter;
 import com.droplit.wave.models.Song;
 
@@ -154,6 +155,14 @@ public class ArtistActivity extends AppCompatActivity {
 
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+        //if(thisArtPath != null) {
+        //    Glide.with(this).load(Uri.parse("file://" + thisArtPath)).into(imageView);
+        //} else {
+            int color = MaterialColorPalette.randomColor();
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRect(artistName.substring(0,1), color);
+            imageView.setImageDrawable(drawable);
+        //}
 
     }
 

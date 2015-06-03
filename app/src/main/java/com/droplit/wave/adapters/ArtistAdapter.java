@@ -56,7 +56,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int pos) {
         //map to song layout
         final FrameLayout cardView = (FrameLayout) artistInf.inflate
                 (R.layout.list_item_artist, parent, false);
@@ -72,14 +72,15 @@ public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         //get title and artist strings
         artistView.setText(currArtist.getArtist());
         trackView.setText(currArtist.getNumSongs() + numSongs());
-        TextDrawable drawable = TextDrawable.builder()
-                .buildRect(currArtist.getArtist().substring(0,1), color);
+        TextDrawable drawable;
+            drawable = TextDrawable.builder()
+                    .buildRect(currArtist.getArtist().substring(0, 1), color);
         imageView.setImageDrawable(drawable);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, ArtistActivity.class);
-                i.putExtra("ARTIST_NAME", ((TextView) cardView.findViewById(R.id.artist_title)).getText());
+                i.putExtra("ARTIST_NAME", artists.get(pos).getArtist());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 //Toast.makeText(mContext,((TextView) cardView.findViewById(R.id.artist_title)).getText(),Toast.LENGTH_SHORT).show();

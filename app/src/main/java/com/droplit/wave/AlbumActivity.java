@@ -24,6 +24,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.droplit.wave.adapters.AlbumSongAdapter;
 import com.droplit.wave.adapters.SongAdapter;
@@ -123,6 +124,7 @@ public class AlbumActivity extends AppCompatActivity {
                 MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE,
                 MediaStore.Audio.Media.DISPLAY_NAME,
                 MediaStore.Audio.Media.DURATION,
+                MediaStore.Audio.Media.ARTIST,
                 MediaStore.Audio.Media.MIME_TYPE};
 
         String where = android.provider.MediaStore.Audio.Media.ALBUM + "=?";
@@ -142,6 +144,8 @@ public class AlbumActivity extends AppCompatActivity {
                     (android.provider.MediaStore.Audio.Media._ID);
             int durationColumn = cursor.getColumnIndex
                     (MediaStore.Audio.Media.DURATION);
+            int artistColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.Media.ARTIST);
 
             //add songs to list
             do {
@@ -150,8 +154,9 @@ public class AlbumActivity extends AppCompatActivity {
                                 .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
                 long thisId = cursor.getLong(idColumn);
                 String thisTitle = cursor.getString(titleColumn);
+                String thisArtist = cursor.getString(artistColumn);
                 int thisDuration = cursor.getInt(durationColumn);
-                mAlbumSongItems.add(new Song(thisId, thisTitle, null, null, thisDuration));
+                mAlbumSongItems.add(new Song(thisId, thisTitle, thisArtist, null, thisDuration));
 
             } while (cursor.moveToNext());
         }
@@ -173,7 +178,14 @@ public class AlbumActivity extends AppCompatActivity {
 
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
-        Glide.with(this).load(Uri.parse("file://" + thisArtPath)).into(imageView);
+        if(thisArtPath != null) {
+            Glide.with(this).load(Uri.parse("file://" + thisArtPath)).into(imageView);
+        } else {
+            int color = MaterialColorPalette.randomColor();
+            TextDrawable drawable = TextDrawable.builder()
+                    .buildRect(albumName.substring(0,1), color);
+            imageView.setImageDrawable(drawable);
+        }
 
     }
 

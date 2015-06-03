@@ -50,8 +50,6 @@ public class SongsFragment extends Fragment {
         songView = (RecyclerView) view.findViewById(R.id.song_list);
 
         VerticalRecyclerViewFastScroller fastScroller = (VerticalRecyclerViewFastScroller) view.findViewById(R.id.fast_scroller);
-        SectionTitleIndicator sectionTitleIndicator =
-                (SectionTitleIndicator) view.findViewById(R.id.fast_scroller_section_title_indicator);
 
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity());
         songView.setLayoutManager(layoutManager);
@@ -63,7 +61,6 @@ public class SongsFragment extends Fragment {
         songView.setAdapter(mAdapter);
 
         fastScroller.setRecyclerView(songView);
-        fastScroller.setSectionIndicator(sectionTitleIndicator);
 
         // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
         songView.setOnScrollListener(fastScroller.getOnScrollListener());

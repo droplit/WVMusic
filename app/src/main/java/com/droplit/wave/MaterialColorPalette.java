@@ -20,9 +20,6 @@ public class MaterialColorPalette {
     static {
         // Red
         // mMaterialColors.add("#e51c23");
-        mMaterialColors.add("#fde0dc");
-        mMaterialColors.add("#f9bdbb");
-        mMaterialColors.add("#f69988");
         mMaterialColors.add("#f36c60");
         mMaterialColors.add("#e84e40");
         mMaterialColors.add("#e51c23");
@@ -37,9 +34,6 @@ public class MaterialColorPalette {
 
         // Pink
         // mMaterialColors.add("#e91e63");
-        mMaterialColors.add("#fce4ec");
-        mMaterialColors.add("#f8bbd0");
-        mMaterialColors.add("#f48fb1");
         mMaterialColors.add("#f06292");
         mMaterialColors.add("#ec407a");
         mMaterialColors.add("#e91e63");
@@ -54,9 +48,6 @@ public class MaterialColorPalette {
 
         // Purple
         // mMaterialColors.add("#9c27b0");
-        mMaterialColors.add("#f3e5f5");
-        mMaterialColors.add("#e1bee7");
-        mMaterialColors.add("#ce93d8");
         mMaterialColors.add("#ba68c8");
         mMaterialColors.add("#ab47bc");
         mMaterialColors.add("#9c27b0");
@@ -71,9 +62,6 @@ public class MaterialColorPalette {
 
         // Deep Purple
         // mMaterialColors.add("#673ab7");
-        mMaterialColors.add("#ede7f6");
-        mMaterialColors.add("#d1c4e9");
-        mMaterialColors.add("#b39ddb");
         mMaterialColors.add("#9575cd");
         mMaterialColors.add("#7e57c2");
         mMaterialColors.add("#673ab7");
@@ -88,9 +76,6 @@ public class MaterialColorPalette {
 
         // Indigo
         // mMaterialColors.add("#3f51b5");
-        mMaterialColors.add("#e8eaf6");
-        mMaterialColors.add("#c5cae9");
-        mMaterialColors.add("#9fa8da");
         mMaterialColors.add("#7986cb");
         mMaterialColors.add("#5c6bc0");
         mMaterialColors.add("#3f51b5");
@@ -105,9 +90,6 @@ public class MaterialColorPalette {
 
         // Blue
         // mMaterialColors.add("#5677fc");
-        mMaterialColors.add("#e7e9fd");
-        mMaterialColors.add("#d0d9ff");
-        mMaterialColors.add("#afbfff");
         mMaterialColors.add("#91a7ff");
         mMaterialColors.add("#738ffe");
         mMaterialColors.add("#5677fc");
@@ -122,9 +104,6 @@ public class MaterialColorPalette {
 
         // Light Blue
         // mMaterialColors.add("#03a9f4");
-        mMaterialColors.add("#e1f5fe");
-        mMaterialColors.add("#b3e5fc");
-        mMaterialColors.add("#81d4fa");
         mMaterialColors.add("#4fc3f7");
         mMaterialColors.add("#29b6f6");
         mMaterialColors.add("#03a9f4");
@@ -139,9 +118,6 @@ public class MaterialColorPalette {
 
         // Cyan
         // mMaterialColors.add("#00bcd4");
-        mMaterialColors.add("#e0f7fa");
-        mMaterialColors.add("#b2ebf2");
-        mMaterialColors.add("#80deea");
         mMaterialColors.add("#4dd0e1");
         mMaterialColors.add("#26c6da");
         mMaterialColors.add("#00bcd4");
@@ -156,9 +132,6 @@ public class MaterialColorPalette {
 
         // Teal
         // mMaterialColors.add("#009688");
-        mMaterialColors.add("#e0f2f1");
-        mMaterialColors.add("#b2dfdb");
-        mMaterialColors.add("#80cbc4");
         mMaterialColors.add("#4db6ac");
         mMaterialColors.add("#26a69a");
         mMaterialColors.add("#009688");
@@ -173,9 +146,6 @@ public class MaterialColorPalette {
 
         // Green
         // mMaterialColors.add("#259b24");
-        mMaterialColors.add("#d0f8ce");
-        mMaterialColors.add("#a3e9a4");
-        mMaterialColors.add("#72d572");
         mMaterialColors.add("#42bd41");
         mMaterialColors.add("#2baf2b");
         mMaterialColors.add("#259b24");
@@ -190,9 +160,6 @@ public class MaterialColorPalette {
 
         // Light Green
         // mMaterialColors.add("#8bc34a");
-        mMaterialColors.add("#f1f8e9");
-        mMaterialColors.add("#dcedc8");
-        mMaterialColors.add("#c5e1a5");
         mMaterialColors.add("#aed581");
         mMaterialColors.add("#9ccc65");
         mMaterialColors.add("#8bc34a");
@@ -207,9 +174,6 @@ public class MaterialColorPalette {
 
         // Lime
         // mMaterialColors.add("#cddc39");
-        mMaterialColors.add("#f9fbe7");
-        mMaterialColors.add("#f0f4c3");
-        mMaterialColors.add("#e6ee9c");
         mMaterialColors.add("#dce775");
         mMaterialColors.add("#d4e157");
         mMaterialColors.add("#cddc39");
@@ -224,9 +188,6 @@ public class MaterialColorPalette {
 
         // Yellow
         // mMaterialColors.add("#ffeb3b");
-        mMaterialColors.add("#fffde7");
-        mMaterialColors.add("#fff9c4");
-        mMaterialColors.add("#fff59d");
         mMaterialColors.add("#fff176");
         mMaterialColors.add("#ffee58");
         mMaterialColors.add("#ffeb3b");
@@ -241,9 +202,6 @@ public class MaterialColorPalette {
 
         // Amber
         // mMaterialColors.add("#ffc107");
-        mMaterialColors.add("#fff8e1");
-        mMaterialColors.add("#ffecb3");
-        mMaterialColors.add("#ffe082");
         mMaterialColors.add("#ffd54f");
         mMaterialColors.add("#ffca28");
         mMaterialColors.add("#ffc107");
@@ -258,9 +216,6 @@ public class MaterialColorPalette {
 
         // Orange
         // mMaterialColors.add("#ff9800");
-        mMaterialColors.add("#fff3e0");
-        mMaterialColors.add("#ffe0b2");
-        mMaterialColors.add("#ffcc80");
         mMaterialColors.add("#ffb74d");
         mMaterialColors.add("#ffa726");
         mMaterialColors.add("#ff9800");
@@ -275,9 +230,6 @@ public class MaterialColorPalette {
 
         // Deep Orange
         // mMaterialColors.add("#ff5722");
-        mMaterialColors.add("#fbe9e7");
-        mMaterialColors.add("#ffccbc");
-        mMaterialColors.add("#ffab91");
         mMaterialColors.add("#ff8a65");
         mMaterialColors.add("#ff7043");
         mMaterialColors.add("#ff5722");
@@ -292,9 +244,6 @@ public class MaterialColorPalette {
 
         // Brown
         // mMaterialColors.add("#795548");
-        mMaterialColors.add("#efebe9");
-        mMaterialColors.add("#d7ccc8");
-        mMaterialColors.add("#bcaaa4");
         mMaterialColors.add("#a1887f");
         mMaterialColors.add("#8d6e63");
         mMaterialColors.add("#795548");
@@ -305,10 +254,6 @@ public class MaterialColorPalette {
 
         // Grey
         // mMaterialColors.add("#9e9e9e");
-        mMaterialColors.add("#fafafa");
-        mMaterialColors.add("#f5f5f5");
-        mMaterialColors.add("#eeeeee");
-        mMaterialColors.add("#e0e0e0");
         mMaterialColors.add("#bdbdbd");
         mMaterialColors.add("#9e9e9e");
         mMaterialColors.add("#757575");
@@ -316,13 +261,9 @@ public class MaterialColorPalette {
         mMaterialColors.add("#424242");
         mMaterialColors.add("#212121");
         mMaterialColors.add("#000000");
-        mMaterialColors.add("#ffffff");
 
         // Blue Grey
         // mMaterialColors.add("#607d8b");
-        mMaterialColors.add("#eceff1");
-        mMaterialColors.add("#cfd8dc");
-        mMaterialColors.add("#b0bec5");
         mMaterialColors.add("#90a4ae");
         mMaterialColors.add("#78909c");
         mMaterialColors.add("#607d8b");

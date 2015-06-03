@@ -82,12 +82,12 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             @Override
             public void onClick(View v) {
                 Intent i = new Intent(mContext, AlbumActivity.class);
-                i.putExtra("ALBUM_NAME", ((TextView) cardView.findViewById(R.id.album_title)).getText());
+                i.putExtra("ALBUM_NAME", albums.get(pos).getTitle());
                 //int position= (Integer)v.getTag();
                 i.putExtra("ALBUM_ART", albums.get(pos).getAlbumArt());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
-                Toast.makeText(mContext,((TextView) cardView.findViewById(R.id.album_title)).getText(),Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext,albums.get(pos).getTitle(),Toast.LENGTH_SHORT).show();
 
             }
         });

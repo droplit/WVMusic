@@ -40,7 +40,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
     }
 
     @Override
-    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int pos) {
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int pos) {
         //map to song layout
         final FrameLayout songLay = (FrameLayout) songInf.inflate
                 (R.layout.item_song, parent, false);
@@ -58,7 +58,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         songLay.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mContext, ((TextView) songLay.findViewById(R.id.song_title)).getText(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(mContext, songs.get(pos).getTitle(), Toast.LENGTH_SHORT).show();
             }
         });
 
