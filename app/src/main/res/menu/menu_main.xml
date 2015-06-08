@@ -8,10 +8,9 @@
         android:title="@string/action_about"
         app:showAsAction="never" />
     <item
-        android:id="@+id/action_shuffle"
-        android:icon="@drawable/rand"
+        android:id="@+id/action_view_as"
         android:orderInCategory="1"
-        android:title="Shuffle" />
+        android:title="View As" />
 
     <item
         android:id="@+id/action_end"

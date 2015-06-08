@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/view_as_list"
+        android:title="@string/list" />
+    <item
+        android:id="@+id/view_as_grid"
+        android:title="@string/grid" />
+    <item
+        android:id="@+id/view_as_grid_palette"
+        android:title="@string/grid_palette" />
+</menu>

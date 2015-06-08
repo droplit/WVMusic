@@ -3,6 +3,7 @@ package com.droplit.wave;
 import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -13,6 +14,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
@@ -25,6 +27,8 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.PopupMenu;
+import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.droplit.wave.adapters.ViewPagerAdapter;
@@ -34,6 +38,7 @@ import com.droplit.wave.fragments.ArtistFragment;
 
 
 import com.droplit.wave.fragments.SongsFragment;
+import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
@@ -47,10 +52,15 @@ import io.fabric.sdk.android.Fabric;
 
 public class MainActivity extends ActionBarActivity {
 
+    public static final String PREFS_NAME = "WVPrefs";
+    static final String CURRENT_TAB = "currentTab";
 
     ViewPager pager;
     ViewPagerAdapter adapter;
     SlidingTabLayout tabs;
+
+    private int albumViewType = 0;
+    private SharedPreferences views;
 
     private DrawerLayout mDrawerLayout;
 
@@ -67,6 +77,8 @@ public class MainActivity extends ActionBarActivity {
         Fabric.with(this, new Crashlytics());
         setContentView(R.layout.activity_main);
 
+
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -74,6 +86,8 @@ public class MainActivity extends ActionBarActivity {
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
         ab.setDisplayHomeAsUpEnabled(true);
 
+        views = getSharedPreferences(PREFS_NAME, 0);
+        albumViewType = views.getInt("albumView", 0);
 
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -106,13 +120,21 @@ public class MainActivity extends ActionBarActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+        // Check whether we're recreating a previously destroyed instance
+        if (savedInstanceState != null) {
+            viewPager.setCurrentItem(savedInstanceState.getInt(CURRENT_TAB));
+        }
+
     }
 
     private void setupViewPager(ViewPager viewPager) {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ArtistFragment(), "Artists");
-        adapter.addFragment(new AlbumFragment(), "Albums");
-        adapter.addFragment(new AlbumGridFragment(), "AlbumsG");
+        if (albumViewType == 0) {
+            adapter.addFragment(new AlbumFragment(), "Albums");
+        } else {
+            adapter.addFragment(new AlbumGridFragment(), "Albums");
+        }
         adapter.addFragment(new SongsFragment(), "Songs");
         viewPager.setAdapter(adapter);
     }
@@ -125,7 +147,7 @@ public class MainActivity extends ActionBarActivity {
                         menuItem.setChecked(true);
                         if (menuItem.getItemId() == R.id.nav_changelog) {
                             DialogFragment dialogFragment = new ChangelogDialogFragment();
-                            dialogFragment.show(getFragmentManager(),"dialog");
+                            dialogFragment.show(getFragmentManager(), "dialog");
                         } else if (menuItem.getItemId() == R.id.nav_artists) {
                             viewPager.setCurrentItem(0, true);
                         } else if (menuItem.getItemId() == R.id.nav_albums) {
@@ -157,10 +179,46 @@ public class MainActivity extends ActionBarActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
+        final SharedPreferences.Editor editor = views.edit();
 
         switch (item.getItemId()) {
-            case R.id.action_shuffle:
-                //shuffle
+            case R.id.action_view_as:
+                if(viewPager.getCurrentItem() == 1){
+                    final PopupMenu popup = new PopupMenu(getApplicationContext(), getCurrentFocus());
+                    popup.getMenuInflater().inflate(R.menu.menu_view_as, popup.getMenu());
+                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.view_as_list:
+                                    Toast.makeText(getApplicationContext(), "List", Toast.LENGTH_SHORT).show();
+                                    editor.putInt("albumView",0);
+                                    editor.commit();
+                                    finish();
+                                    startActivity(getIntent());
+                                    return true;
+                                case R.id.view_as_grid:
+                                    Toast.makeText(getApplicationContext(), "Grid", Toast.LENGTH_SHORT).show();
+                                    editor.putInt("albumView",1);
+                                    editor.commit();
+                                    finish();
+                                    startActivity(getIntent());
+                                    return true;
+                                case R.id.view_as_grid_palette:
+                                    Toast.makeText(getApplicationContext(), "Just normal Grid for now", Toast.LENGTH_SHORT).show();
+                                    editor.putInt("albumView",2);
+                                    editor.commit();
+                                    finish();
+                                    startActivity(getIntent());
+                                    return true;
+
+                                default:
+                                    return onMenuItemClick(item);
+                            }
+                        }
+                    });
+
+                    popup.show();
+                }
                 return true;
             case R.id.action_end:
                 //stopService(playIntent);
@@ -175,6 +233,7 @@ public class MainActivity extends ActionBarActivity {
                         .withAboutIconShown(true)
                         .withAboutVersionShown(true)
                         .withAboutDescription("This is my Music App.<br /><b>You will find info about what I used to make the app here!</b>")
+                        .withActivityStyle(Libs.ActivityStyle.LIGHT_DARK_TOOLBAR)
                         .start(this);
                 return true;
             case android.R.id.home:
@@ -182,6 +241,15 @@ public class MainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle savedInstanceState) {
+        // Save the user's current game state
+        savedInstanceState.putInt(CURRENT_TAB, viewPager.getCurrentItem());
+
+        // Always call the superclass so it can save the view hierarchy state
+        super.onSaveInstanceState(savedInstanceState);
     }
 
     static class Adapter extends FragmentPagerAdapter {

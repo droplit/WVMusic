@@ -45,5 +45,8 @@
     </string-array>
     <string name="title_activity_image_preview">Art</string>
     <string name="share">Share</string>
+    <string name="list">List</string>
+    <string name="grid">Grid</string>
+    <string name="grid_palette">Grid Palette</string>
 
 </resources>
