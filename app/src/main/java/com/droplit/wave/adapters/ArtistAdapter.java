@@ -74,7 +74,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         trackView.setText(currArtist.getNumSongs() + numSongs());
         TextDrawable drawable;
             drawable = TextDrawable.builder()
-                    .buildRect(currArtist.getArtist().substring(0, 1), color);
+                    .buildRect(currArtist.getArtist().substring(0, 1).toUpperCase(), color);
         imageView.setImageDrawable(drawable);
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -58,6 +58,7 @@
         app:layout_anchorGravity="bottom|right|end"
         android:src="@drawable/ic_play"
         android:layout_margin="@dimen/fab_margin"
+        app:borderWidth="0dp"
         android:clickable="true"/>
 
 </android.support.design.widget.CoordinatorLayout>

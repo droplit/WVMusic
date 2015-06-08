@@ -64,7 +64,7 @@ public class ArtistFragment extends Fragment {
         mAdapter = new ArtistAdapter(getActivity().getApplicationContext(), mArtistItems);
         artistView.setAdapter(mAdapter);
 
-        artistView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL));
+        //artistView.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.HORIZONTAL));
 
         fastScroller.setRecyclerView(artistView);
 

@@ -13,7 +13,7 @@
 
     <changelogversion versionName="A0.7" changeDate="June 2,2015">
         <changelogtext>Album View is practically finished, need to fix the Art loading in the Banner.</changelogtext>
-        <changelogtext>NavDrawer text is done, the only working fuction is the Changelog, which will eventually move to the Settings Page.</changelogtext>
+        <changelogtext>NavDrawer text is done, the only working function is the Changelog, which will eventually move to the Settings Page.</changelogtext>
         <changelogtext>Artist Panel is almost done.</changelogtext>
         <changelogtext>Planning on adding an Album list for the artist view.</changelogtext>
         <changelogtext>[i]Improvement[/i] - Songs tab is now a recycler-view along with the rest of the tabs.</changelogtext>

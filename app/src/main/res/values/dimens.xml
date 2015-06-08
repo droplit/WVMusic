@@ -10,7 +10,11 @@
     <dimen name="list_item_avatar_size">40dp</dimen>
     <dimen name="list_item_height">72dp</dimen>
 
-    <dimen name="cardMarginHorizontal">10dp</dimen>
+    <dimen name="cardMarginRight">18dp</dimen>
+    <dimen name="cardMarginLeft">10dp</dimen>
     <dimen name="cardMarginVertical">8dp</dimen>
+
+    <dimen name="grid_spacing">4dp</dimen>
+
 
 </resources>

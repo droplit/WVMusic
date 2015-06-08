@@ -1,7 +1,6 @@
 package com.droplit.wave;
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.os.Build;
@@ -19,30 +18,23 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
 
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
-import com.droplit.wave.adapters.ChangeLogAdapter;
 import com.droplit.wave.adapters.ViewPagerAdapter;
 import com.droplit.wave.fragments.AlbumFragment;
+import com.droplit.wave.fragments.AlbumGridFragment;
 import com.droplit.wave.fragments.ArtistFragment;
 
 
 import com.droplit.wave.fragments.SongsFragment;
-import com.mikepenz.aboutlibraries.Libs;
+import com.mikepenz.aboutlibraries.LibsBuilder;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import io.fabric.sdk.android.Fabric;
@@ -57,6 +49,8 @@ public class MainActivity extends ActionBarActivity {
     SlidingTabLayout tabs;
 
     private DrawerLayout mDrawerLayout;
+
+    private ViewPager viewPager;
 
     private Toolbar toolbar;
 
@@ -83,7 +77,7 @@ public class MainActivity extends ActionBarActivity {
             setupDrawerContent(navigationView);
         }
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         if (viewPager != null) {
             setupViewPager(viewPager);
         }
@@ -112,6 +106,7 @@ public class MainActivity extends ActionBarActivity {
         Adapter adapter = new Adapter(getSupportFragmentManager());
         adapter.addFragment(new ArtistFragment(), "Artists");
         adapter.addFragment(new AlbumFragment(), "Albums");
+        adapter.addFragment(new AlbumGridFragment(), "AlbumsG");
         adapter.addFragment(new SongsFragment(), "Songs");
         viewPager.setAdapter(adapter);
     }
@@ -130,7 +125,12 @@ public class MainActivity extends ActionBarActivity {
                             //getChangelog();
                             DialogFragment dialogFragment = new ChangelogDialogFragment();
                             dialogFragment.show(getFragmentManager(),"dialog");
-
+                        } else if (menuItem.getItemId() == R.id.nav_artists) {
+                            viewPager.setCurrentItem(0, true);
+                        } else if (menuItem.getItemId() == R.id.nav_albums) {
+                            viewPager.setCurrentItem(1, true);
+                        } else if (menuItem.getItemId() == R.id.nav_songs) {
+                            viewPager.setCurrentItem(2, true);
                         }
                         mDrawerLayout.closeDrawers();
                         return true;
@@ -138,20 +138,6 @@ public class MainActivity extends ActionBarActivity {
                 });
     }
 
-    public void getChangelog(){
-        new MaterialDialog.Builder(this)
-                .title("Changelog")
-                .adapter(new ChangeLogAdapter(this, new ArrayList<String>(Arrays
-                                .asList(getResources().getStringArray(R.array.changelog)))),
-                        new MaterialDialog.ListCallback() {
-                            @Override
-                            public void onSelection(MaterialDialog dialog, View itemView, int which, CharSequence text) {
-                                //Toast.makeText(MainActivity.this, "Clicked item " + which, Toast.LENGTH_SHORT).show();
-                            }
-                        })
-                .neutralText("Okay")
-                .show();
-    }
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
@@ -181,7 +167,7 @@ public class MainActivity extends ActionBarActivity {
                 System.exit(0);
                 break;
             case R.id.action_about:
-                new Libs.Builder()
+                new LibsBuilder()
                         //Pass the fields of your application to the lib so it can find all external lib information
                         .withFields(R.string.class.getFields())
                                 //start the activity

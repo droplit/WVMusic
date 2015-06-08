@@ -3,13 +3,13 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_artists"
-            android:title="Home" />
+            android:title="Artists" />
         <item
             android:id="@+id/nav_albums"
-            android:title="Messages" />
+            android:title="Albums" />
         <item
             android:id="@+id/nav_songs"
-            android:title="Friends" />
+            android:title="Songs" />
     </group>
 
     <item android:title="Other">

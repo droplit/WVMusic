@@ -45,6 +45,6 @@
     <color name="snackbar_action_color_done">#ffccccff</color>
 
     <color name="window_background">#FFF5F5F5</color>
-    <color name="bar_color">#1a7f7f7f</color>
+    <color name="bar_color">#007f7f7f</color>
 
 </resources>
