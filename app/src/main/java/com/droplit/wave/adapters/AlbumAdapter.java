@@ -3,18 +3,22 @@ package com.droplit.wave.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.support.v7.internal.view.menu.MenuBuilder;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.MaterialColorPalette;
+import com.droplit.wave.OnOverflowSelectedListener;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Album;
 
@@ -53,6 +57,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         TextView albumView = (TextView) cardView.findViewById(R.id.album_title);
         TextView artistView = (TextView) cardView.findViewById(R.id.album_artist);
         final ImageView coverAlbum = (ImageView) cardView.findViewById(R.id.album_art);
+        ImageView overflowImage = (ImageView) cardView.findViewById(R.id.album_overflow);
         //get song using position
         currAlbum = albums.get(pos);
         //albums.get(pos) = currAlbum.setTag(pos);
@@ -82,6 +87,8 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
             }
         });
+        overflowImage.setOnClickListener(new OnOverflowSelectedListener(mContext, albums.get(pos)));
+
 
 
         return new RecyclerView.ViewHolder(cardView) {

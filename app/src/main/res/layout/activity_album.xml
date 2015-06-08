@@ -41,7 +41,6 @@
 
     </android.support.design.widget.AppBarLayout>
 
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/album_song_list"
         android:overScrollMode="never"

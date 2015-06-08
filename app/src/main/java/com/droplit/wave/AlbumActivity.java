@@ -1,24 +1,37 @@
 package com.droplit.wave;
 
+import android.app.Dialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Point;
+import android.graphics.drawable.BitmapDrawable;
 import android.media.Image;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -30,9 +43,11 @@ import com.droplit.wave.adapters.AlbumSongAdapter;
 import com.droplit.wave.adapters.SongAdapter;
 import com.droplit.wave.models.Song;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.concurrent.ExecutionException;
 
 
 public class AlbumActivity extends AppCompatActivity {
@@ -48,12 +63,13 @@ public class AlbumActivity extends AppCompatActivity {
     private ArrayList<String> mArtPaths = new ArrayList<>();
     private RecyclerView.Adapter mAdapter;
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_album);
 
-
+        final Context context = getApplicationContext();
 
         mAlbumSongItems = new ArrayList<Song>();
         songsView = (RecyclerView) findViewById(R.id.album_song_list);
@@ -71,8 +87,6 @@ public class AlbumActivity extends AppCompatActivity {
         mAdapter = new AlbumSongAdapter(getApplicationContext(), mAlbumSongItems);
         songsView.setAdapter(mAdapter);
 
-
-
         Collections.sort(mAlbumSongItems, new Comparator<Song>() {
             public int compare(Song a, Song b) {
                 return a.getTitle().compareTo(b.getTitle());
@@ -85,9 +99,22 @@ public class AlbumActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout collapsingToolbar =
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
+        AppBarLayout appBarLayout =
+                (AppBarLayout) findViewById(R.id.appbar);
         collapsingToolbar.setTitle(albumName);
 
         loadBackdrop();
+
+        ImageView art = (ImageView) findViewById(R.id.backdrop);
+        art.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i = new Intent(context, ImagePreview.class);
+                i.putExtra("ART_PREVIEW", thisArtPath);
+                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                context.startActivity(i);
+            }
+        });
 
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.album_fab);
@@ -109,16 +136,12 @@ public class AlbumActivity extends AppCompatActivity {
                 null, null);
 
         if (cursor.moveToFirst()) {
-
-
             do {
-                Log.v("Vipul",
+                Log.v("ALBUM",
                         cursor.getString(cursor
                                 .getColumnIndex(android.provider.MediaStore.Audio.Albums.ALBUM)));
             } while (cursor.moveToNext());
         }
-
-        // I want to list down song in album Rolling Papers (Deluxe Version)
 
         String[] column = { MediaStore.Audio.Media.DATA,
                 MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE,
@@ -149,7 +172,7 @@ public class AlbumActivity extends AppCompatActivity {
 
             //add songs to list
             do {
-                Log.v("Vipul",
+                Log.v("ALBUM",
                         cursor.getString(cursor
                                 .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
                 long thisId = cursor.getLong(idColumn);
@@ -167,10 +190,6 @@ public class AlbumActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
-                return true;
-            case R.id.action_tester:
-                Toast.makeText(getApplicationContext(), "Test", Toast.LENGTH_SHORT).show();
-                Log.d("ART", mArtPaths.toString());
                 return true;
         }
         return super.onOptionsItemSelected(item);

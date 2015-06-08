@@ -58,6 +58,10 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.droplit.wave.MainActivity" />
         </activity>
+        <activity
+            android:name=".ImagePreview"
+            android:label="@string/title_activity_image_preview" >
+        </activity>
     </application>
 
 </manifest>

@@ -20,6 +20,11 @@
     <string name="title_activity_artist">Artist</string>
     <string name="changelog">Changelog</string>
     <string name="about_ok">Okay</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="delete">Delete</string>
+    <string name="add_to_queue">Add to queue</string>
+    <string name="edit_tags">Edit tags</string>
+    <string name="ok">OK</string>
 
     <string-array name="changelog">
             <item>
@@ -38,5 +43,6 @@
                 <item><h2>6/2/15 - A0.7</h2>
                     <p>Album View is practically finished, need to fix the Art loading in the Banner. NavDrawer text is done, the only working fuction is the Changelog, which will eventually move to the Settings Page. Artist Panel is almost done. Planning on adding an Album list for that artist, and loading information from Last.fm. Songs tab is now a recycler-view along with the rest of the tabs. More of the general idea of what the Now Playing page will look like is there. Access that via the snackbar that is shown by the FAB on the main page.</p></item>
     </string-array>
+    <string name="title_activity_image_preview">Art</string>
 
 </resources>

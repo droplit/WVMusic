@@ -9,7 +9,6 @@
     <color name="red">#FFF20000</color>
     <color name="white">#FFFFFF</color>
 
-
     <color name="black_semi_transparent">#B2000000</color>
     <color name="black">#000000</color>
     <color name="gray">#ff696969</color>
@@ -19,28 +18,6 @@
     <color name="blue">#3F51B5</color>
     <color name="blue_pressed">#303F9F</color>
     <color name="blue_light">#C5CAE9</color>
-
-    <color name="bg_item_normal_state">#fff0f0f0</color>
-    <color name="bg_item_normal_pressed_state">#ffe0e0e0</color>
-    <color name="bg_item_dragging_state">#ffffdddd</color>
-    <color name="bg_item_dragging_active_state">#ffff9999</color>
-    <color name="bg_item_swiping_state">#ffddddff</color>
-    <color name="bg_item_swiping_active_state">#ff9999ff</color>
-
-    <color name="bg_group_item_normal_state">#ffddffdd</color>
-    <color name="bg_group_item_normal_pressed_state">#ff99cc99</color>
-    <color name="bg_group_item_expanded_state">#ff88dd88</color>
-    <color name="bg_group_item_expanded_pressed_state">#ff99cc99</color>
-    <color name="bg_group_item_dragging_state">#ffeeccff</color>
-    <color name="bg_group_item_dragging_active_state">#ffee99ff</color>
-    <color name="bg_group_item_swiping_state">#ffddccff</color>
-    <color name="bg_group_item_swiping_active_state">#ffbb99ff</color>
-
-    <color name="bg_swipe_item_neutral">#ffffffff</color>
-    <color name="bg_swipe_item_left">#fff9930d</color>
-    <color name="bg_swipe_item_right">#ff2f8b2a</color>
-    <color name="bg_swipe_group_item_left">#fff45f30</color>
-    <color name="bg_swipe_group_item_right">#ff295db3</color>
 
     <color name="snackbar_action_color_done">#ffccccff</color>
 
