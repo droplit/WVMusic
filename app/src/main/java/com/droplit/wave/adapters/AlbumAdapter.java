@@ -17,6 +17,7 @@ import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.droplit.wave.AlbumActivity;
+import com.droplit.wave.Globals;
 import com.droplit.wave.MaterialColorPalette;
 import com.droplit.wave.OnOverflowSelectedListener;
 import com.droplit.wave.R;
@@ -81,6 +82,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
                 i.putExtra("ALBUM_NAME", albums.get(pos).getTitle());
                 //int position= (Integer)v.getTag();
                 i.putExtra("ALBUM_ART", albums.get(pos).getAlbumArt());
+                Globals.album = albums.get(pos);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 Toast.makeText(mContext,albums.get(pos).getTitle(),Toast.LENGTH_SHORT).show();

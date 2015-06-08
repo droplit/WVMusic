@@ -1,11 +1,14 @@
 package com.droplit.wave;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.internal.view.menu.MenuBuilder;
+import android.text.Html;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.PopupMenu;
+import android.widget.ShareActionProvider;
 import android.widget.Toast;
 
 import com.droplit.wave.models.Album;
@@ -18,6 +21,9 @@ public class OnOverflowSelectedListener implements View.OnClickListener {
     private Song mSong;
 
     private Context mContext;
+
+    private ShareActionProvider mShareActionProvider;
+
 
     public OnOverflowSelectedListener(Context context, Artist artist) {
         mContext = context;
@@ -49,7 +55,9 @@ public class OnOverflowSelectedListener implements View.OnClickListener {
                         case R.id.album_overflow_play:
                             Toast.makeText(mContext, "Play", Toast.LENGTH_SHORT).show();
                             return true;
-
+                        case R.id.album_overflow_share:
+                            Toast.makeText(mContext, "Share(Check actual overflow menu on the activity.", Toast.LENGTH_SHORT).show();
+                            return true;
                         case R.id.album_overflow_add_to_playlist:
                             Toast.makeText(mContext, "Add to playlist", Toast.LENGTH_SHORT).show();
                             return true;
@@ -76,6 +84,11 @@ public class OnOverflowSelectedListener implements View.OnClickListener {
         } else {
             Log.e("ONCLICKERROR", "Not an Album, Artist, or Song!");
             throw new RuntimeException("Not an Album, Artist, or Song!");
+        }
+    }
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
         }
     }
 }

@@ -5,6 +5,9 @@
 	<item
 		android:id="@+id/album_overflow_play"
 		android:title="@string/play" />
+    <item
+        android:id="@+id/album_overflow_share"
+        android:title="@string/share" />
 	<item
 		android:id="@+id/album_overflow_add_to_playlist"
         android:title="@string/add_to_playlist" />

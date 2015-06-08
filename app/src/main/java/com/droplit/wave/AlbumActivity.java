@@ -41,6 +41,7 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.bumptech.glide.Glide;
 import com.droplit.wave.adapters.AlbumSongAdapter;
 import com.droplit.wave.adapters.SongAdapter;
+import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Song;
 
 import java.io.IOException;
@@ -56,6 +57,8 @@ public class AlbumActivity extends AppCompatActivity {
 
     private String albumName;
     private String thisArtPath;
+
+    private Album mAlbum;
 
     private RecyclerView songsView;
 
@@ -82,13 +85,19 @@ public class AlbumActivity extends AppCompatActivity {
         albumName = intent.getStringExtra(EXTRA_NAME);
         thisArtPath = intent.getStringExtra("ALBUM_ART");
 
+        mAlbumSongItems.add(null);
+
         loadSongs();
 
-        mAdapter = new AlbumSongAdapter(getApplicationContext(), mAlbumSongItems);
+        mAlbum = Globals.album;
+        mAdapter = new AlbumSongAdapter(getApplicationContext(), mAlbumSongItems, mAlbum);
         songsView.setAdapter(mAdapter);
 
         Collections.sort(mAlbumSongItems, new Comparator<Song>() {
             public int compare(Song a, Song b) {
+                if(a == null || b == null) {
+                    return 0;
+                }
                 return a.getTitle().compareTo(b.getTitle());
             }
         });
@@ -101,7 +110,7 @@ public class AlbumActivity extends AppCompatActivity {
                 (CollapsingToolbarLayout) findViewById(R.id.collapsing_toolbar);
         AppBarLayout appBarLayout =
                 (AppBarLayout) findViewById(R.id.appbar);
-        collapsingToolbar.setTitle(albumName);
+        //collapsingToolbar.setTitle(albumName);
 
         loadBackdrop();
 
@@ -190,6 +199,15 @@ public class AlbumActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
+                return true;
+            case R.id.album_overflow_share:
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                sharingIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                sharingIntent.setType("text/plain");
+                String shareBody = "I'm listening to the album, \"" + mAlbum.getTitle() + "\" by " + mAlbum.getArtist() + "\n\n#WV";
+                sharingIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, "WV Music");
+                sharingIntent.putExtra(android.content.Intent.EXTRA_TEXT, shareBody);
+                startActivity(Intent.createChooser(sharingIntent, "Share via"));
                 return true;
         }
         return super.onOptionsItemSelected(item);
