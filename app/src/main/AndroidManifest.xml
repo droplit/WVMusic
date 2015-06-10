@@ -62,6 +62,14 @@
             android:name=".ImagePreview"
             android:label="@string/title_activity_image_preview" >
         </activity>
+        <activity
+            android:name=".GridActivity"
+            android:label="@string/title_activity_grid"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.droplit.wave.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

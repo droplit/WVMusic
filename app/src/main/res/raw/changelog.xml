@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <changelog bulletedList="true">
 
-    <changelogversion versionName="A0.7.3" changeDate="June 3,2015">
+    <changelogversion versionName="PA0.8" changeDate="June 8,2015">
+        <changelogtext>[b]New![/b] Album Grid View, swap between the two via the overflow menu. (Only works while on the album tab)</changelogtext>
+        <changelogtext>[b]New![/b] Overflow menus on most of the views. Currently only works on the album views, and it only shows toast messages.</changelogtext>
+        <changelogtext>[b]New![/b] Tap on the album art while in the Album View, it loads an activity with the entire album art showing.</changelogtext>
+        <changelogtext>[b]New![/b] In the album view, go into the overflow menu, there is an option to share the details about that album. It will
+        eventually get more detailed.</changelogtext>
+        <changelogtext>Changed the versioning to reflect my current views, PA for Pre-Alpha.</changelogtext>
+        <changelogtext>Hamburger icon now opens the drawer when clicked.</changelogtext>
+        <changelogtext>[b]Improvement[/b] - Fixed the about Libraries page works now, and is styled correctly.</changelogtext>
+    </changelogversion>
+
+    <changelogversion versionName="PA0.7.3" changeDate="June 3,2015">
         <changelogtext>[b]Improvement[/b] - Fixed the card size issue of the Artist tab and the Albums tab.</changelogtext>
         <changelogtext>[b]New![/b] Album view now shows the artist for the songs.</changelogtext>
     </changelogversion>
-    <changelogversion versionName="A0.7.2" changeDate="June 3,2015">
+
+    <changelogversion versionName="PA0.7.2" changeDate="June 3,2015">
         <changelogtext>[b]New![/b] Fast Scroll bar - expect bugs.</changelogtext>
         <changelogtext>[b]New![/b] If there is no artist or album art, an icon is generated with the first letter and a random color from the material palette.</changelogtext>
         <changelogtext>[b]New![/b] Album art loads in the Album view now!</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.7" changeDate="June 2,2015">
+    <changelogversion versionName="PA0.7" changeDate="June 2,2015">
         <changelogtext>Album View is practically finished, need to fix the Art loading in the Banner.</changelogtext>
         <changelogtext>NavDrawer text is done, the only working function is the Changelog, which will eventually move to the Settings Page.</changelogtext>
         <changelogtext>Artist Panel is almost done.</changelogtext>
@@ -21,7 +33,7 @@
         <changelogtext>[b]Todo:[/b] Fix the album art in the Album view([b]Done[/b]), implement Last.fm, and change the artists view art from a square to circle, and the default icon to a person.</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.6" changeDate="May 30,2015">
+    <changelogversion versionName="PA0.6" changeDate="May 30,2015">
         <changelogtext>[b]New![/b] Album view is implemented, along with album art, expect bugs.</changelogtext>
         <changelogtext>[b]New![/b] NavDrawer, not nearly setup yet.</changelogtext>
         <changelogtext>Music no longer plays, it will be re-implemented more efficiently in the near future.</changelogtext>
@@ -29,7 +41,7 @@
         <changelogtext>[i]Improvement[/i] - Changed anything I could over to the new v22 support library, ex. the Tab Bars, the Nav Drawer, and the FAB's.</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.5" changeDate="May 10,2015">
+    <changelogversion versionName="PA0.5" changeDate="May 10,2015">
         <changelogtext>[b]New![/] Music can be played, but not paused or controlled. Stop it via the overflow menu.</changelogtext>
         <changelogtext>Changed the looks of the tab panel.</changelogtext>
         <changelogtext>FAB is on all tabs now.</changelogtext>
@@ -37,20 +49,20 @@
         <changelogtext>[b]Todo:[/b] Each panel needs a scrollbar that can scroll through quickly alphabetically</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.4.2" changeDate="May 8,2015">
+    <changelogversion versionName="PA0.4.2" changeDate="May 8,2015">
         <changelogtext>[i]Improvement[/i] - Tab menu is custom now.</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.4" changeDate="May 6,2015">
+    <changelogversion versionName="PA0.4" changeDate="May 6,2015">
         <changelogtext>[i]Improvement[/i] - FAB stays on screen now.</changelogtext>
         <changelogtext>[i]Improvement[/i] - Tabs underline is now white.</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.3" changeDate="April 18,2015">
+    <changelogversion versionName="PA0.3" changeDate="April 18,2015">
         <changelogtext>[b]New![/b] The artist page now has a FAB Toolbar as featured in the new Material Design Specs.</changelogtext>
     </changelogversion>
 
-    <changelogversion versionName="A0.2" changeDate="April 15,2015">
+    <changelogversion versionName="PA0.2" changeDate="April 15,2015">
         <changelogtext>[b]New![/b] Added Ripple effect for what will hopefully be the animation for the Now Playing Panel.</changelogtext>
         <changelogtext>[b]New![/b] Started tracking versions.</changelogtext>
     </changelogversion>

@@ -18,9 +18,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.droplit.wave.AlbumActivity;
+import com.droplit.wave.MainActivity;
 import com.droplit.wave.R;
 import com.droplit.wave.adapters.AlbumAdapter;
 import com.droplit.wave.adapters.AlbumGridAdapter;
@@ -30,8 +34,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
-import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 public class AlbumGridFragment extends Fragment {
 
@@ -40,6 +42,7 @@ public class AlbumGridFragment extends Fragment {
     private ArrayList<Album> mAlbumItems = new ArrayList<>();
     private AlbumGridAdapter mAdapter;
 
+    private Cursor musicCursor;
     public static AlbumFragment newInstance() {
         return new AlbumFragment();
     }
@@ -57,14 +60,9 @@ public class AlbumGridFragment extends Fragment {
 
         getAlbumList();
 
-        mAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), mAlbumItems);
+        mAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), musicCursor, 0);
         albumView.setAdapter(mAdapter);
 
-        Collections.sort(mAlbumItems, new Comparator<Album>() {
-            public int compare(Album a, Album b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
 
     }
 
@@ -72,14 +70,15 @@ public class AlbumGridFragment extends Fragment {
         //retrieve song info
         ContentResolver musicResolver = getActivity().getContentResolver();
         final String[] cursor_cols = {
+                MediaStore.Audio.Albums._ID,
                 MediaStore.Audio.AlbumColumns.ARTIST, MediaStore.Audio.AlbumColumns.ALBUM,
                 MediaStore.Audio.AlbumColumns.ALBUM_ART, MediaStore.Audio.AlbumColumns.ALBUM_KEY,
                 MediaStore.Audio.AlbumColumns.FIRST_YEAR, MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS};
         //final String where = MediaStore.Audio.Media.IS_MUSIC + "=1";
 
         Uri musicUri = MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri,cursor_cols,null,null,null);
-        if (musicCursor != null && musicCursor.moveToFirst()) {
+        musicCursor = musicResolver.query(musicUri,cursor_cols,null,null, MediaStore.Audio.AlbumColumns.ALBUM);
+        /*if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
             int trackNumColumn = musicCursor.getColumnIndex
                     (MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS);
@@ -99,11 +98,6 @@ public class AlbumGridFragment extends Fragment {
                 String thisArtPath = musicCursor.getString(artColumn);
 
 
-                /*if(thisArtPath == null) {
-                    thisArtPath = BitmapFactory.decodeFile(thisArtPath);
-                } else {
-                    img = BitmapFactory.decodeResource(getResources(), R.drawable.default_artwork);
-                }*/
 
                 long thisId = musicCursor.getLong(idColumn);
                 int thisTrack = musicCursor.getInt(trackNumColumn);
@@ -115,7 +109,7 @@ public class AlbumGridFragment extends Fragment {
             }
 
             while (musicCursor.moveToNext());
-        }
+        }*/
 
     }
 }

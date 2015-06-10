@@ -40,6 +40,7 @@ import com.droplit.wave.fragments.ArtistFragment;
 import com.droplit.wave.fragments.SongsFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -79,6 +80,9 @@ public class MainActivity extends ActionBarActivity {
 
 
 
+        getWindow().getDecorView().setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -88,7 +92,6 @@ public class MainActivity extends ActionBarActivity {
 
         views = getSharedPreferences(PREFS_NAME, 0);
         albumViewType = views.getInt("albumView", 0);
-
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -221,9 +224,9 @@ public class MainActivity extends ActionBarActivity {
                 }
                 return true;
             case R.id.action_end:
-                //stopService(playIntent);
-                //musicSrv=null;
-                System.exit(0);
+                Intent i = new Intent(getApplicationContext(), GridActivity.class);
+                startActivity(i);
+                //System.exit(0);
                 return true;
             case R.id.action_about:
                 new LibsBuilder()
@@ -241,6 +244,10 @@ public class MainActivity extends ActionBarActivity {
                 return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public MainActivity getActivity() {
+        return this;
     }
 
     @Override
