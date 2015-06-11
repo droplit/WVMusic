@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_artists"
+            android:title="Artists" />
+        <item
+            android:id="@+id/nav_albums"
+            android:title="Albums" />
+        <item
+            android:id="@+id/nav_songs"
+            android:title="Songs" />
+    </group>
+
+    <item android:title="Other">
+        <menu>
+            <item
+                android:id="@+id/nav_settings"
+                android:icon="@drawable/ic_settings_black_24dp"
+                android:title="Settings" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_drafts_black_24dp"
+                android:title="About" />
+            <item
+                android:id="@+id/nav_changelog"
+                android:title="Changelog" />
+        </menu>
+    </item>
+
+</menu>

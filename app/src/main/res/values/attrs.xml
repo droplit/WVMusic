@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="WaveformSeekBar">
+        <attr name="activeLineColor" format="color" />
+        <attr name="inactiveLineColor" format="color" />
+        <attr name="inactiveLineColorAlpha" format="integer" />
+    </declare-styleable>
+
+</resources>
