@@ -1,5 +1,6 @@
 package com.droplit.wave;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -36,6 +37,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -44,15 +47,17 @@ import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
 import com.bumptech.glide.Glide;
 import com.droplit.wave.adapters.AlbumSongAdapter;
+import com.droplit.wave.adapters.ArtistAlbumsAdapter;
 import com.droplit.wave.adapters.SongAdapter;
 import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Song;
+import com.github.florent37.materialimageloading.MaterialImageLoading;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
 
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.concurrent.ExecutionException;
+
 
 
 public class AlbumActivity extends AppCompatActivity {
@@ -63,7 +68,6 @@ public class AlbumActivity extends AppCompatActivity {
     private String thisArtPath;
 
     private Album mAlbum;
-
     private RecyclerView songsView;
 
     private ArrayList<Song> mAlbumSongItems = new ArrayList<>();
@@ -97,6 +101,9 @@ public class AlbumActivity extends AppCompatActivity {
         mAdapter = new AlbumSongAdapter(getApplicationContext(), mAlbumSongItems, mAlbum);
         songsView.setAdapter(mAdapter);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //setTranslucentStatus(true);
+        }
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -156,13 +163,13 @@ public class AlbumActivity extends AppCompatActivity {
             collapsingToolbar.setTitle(albumName);
         } else {
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-            int color = generator.getColor(albumName);
+            int darkColor = generator.getColor(albumName);
 
             float[] hsv = new float[3];
-            int darkColor = color;
-            Color.colorToHSV(color, hsv);
+            int color = darkColor;
+            Color.colorToHSV(darkColor, hsv);
             hsv[2] *= 0.8f; // value component
-            color = Color.HSVToColor(hsv);
+            darkColor = Color.HSVToColor(hsv);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 collapsingToolbar.setStatusBarScrimColor(darkColor);
             }
@@ -207,6 +214,19 @@ public class AlbumActivity extends AppCompatActivity {
         });
     }
 
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
     private void loadSongs() {
         String[] columns = { android.provider.MediaStore.Audio.Albums._ID,
                 android.provider.MediaStore.Audio.Albums.ALBUM};
@@ -237,7 +257,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         String whereVal[] = { albumName };
 
-        String orderBy = android.provider.MediaStore.Audio.Media.TITLE;
+        String orderBy = MediaStore.Audio.Media.TRACK;
 
         cursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
                 column, where, whereVal, orderBy);
@@ -289,14 +309,25 @@ public class AlbumActivity extends AppCompatActivity {
 
     private void loadBackdrop() {
         final ImageView imageView = (ImageView) findViewById(R.id.backdrop);
+
         if(thisArtPath != null) {
-            Glide.with(this).load(Uri.parse("file://" + thisArtPath)).into(imageView);
+            Picasso.with(this).load(Uri.parse("file://" + thisArtPath)).fit().centerCrop().into(imageView, new Callback() {
+
+                @Override
+                public void onSuccess() {
+                    MaterialImageLoading.animate(imageView).setDuration(2000).start();
+                }
+
+                @Override
+                public void onError() {
+
+                }
+            });
         } else {
             ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
             int color = generator.getColor(albumName);
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRect(albumName.substring(0,1), color);
-            imageView.setImageDrawable(drawable);
+                    .buildRect(albumName.substring(0,1), color);            imageView.setImageDrawable(drawable);
         }
 
     }

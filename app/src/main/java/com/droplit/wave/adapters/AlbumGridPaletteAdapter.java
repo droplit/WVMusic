@@ -32,7 +32,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 
 import java.util.ArrayList;
 
-public class AlbumGridAdapter extends BaseAdapter {
+public class AlbumGridPaletteAdapter extends BaseAdapter {
 
     private ArrayList<Album> albums;
     private LayoutInflater albumInf;
@@ -43,7 +43,7 @@ public class AlbumGridAdapter extends BaseAdapter {
     private DisplayImageOptions options;
 
 
-    public AlbumGridAdapter(Context c, ArrayList<Album> contents) {
+    public AlbumGridPaletteAdapter(Context c, ArrayList<Album> contents) {
         mContext = c;
         this.albums = contents;
         albumInf = LayoutInflater.from(c);
@@ -80,7 +80,7 @@ public class AlbumGridAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         //map to song layout
         if (view == null) {
-            view = albumInf.inflate(R.layout.list_item_album_grid, parent, false);
+            view = albumInf.inflate(R.layout.list_item_album_grid_palette, parent, false);
         }
         //get title and artist views
         final TextView albumView = (TextView) view.findViewById(R.id.album_title);
@@ -109,12 +109,20 @@ public class AlbumGridAdapter extends BaseAdapter {
                 .bitmapConfig(Bitmap.Config.RGB_565)
                 .build();
 
+        albumView.setBackgroundColor(Color.BLACK);
+        artistView.setBackgroundColor(Color.BLACK);
+        albumView.setTextColor(Color.WHITE);
+        artistView.setTextColor(Color.WHITE);
+
         if(currAlbum.getAlbumArt() != null) {
             ImageLoader.getInstance()
                     .displayImage("file://" + currAlbum.getAlbumArt(), coverAlbum, options, new ImageLoadingListener() {
                         @Override
                         public void onLoadingStarted(String imageUri, View view) {
-
+                            albumView.setBackgroundColor(Color.BLACK);
+                            artistView.setBackgroundColor(Color.BLACK);
+                            albumView.setTextColor(Color.WHITE);
+                            artistView.setTextColor(Color.WHITE);
                         }
 
                         @Override
@@ -125,11 +133,70 @@ public class AlbumGridAdapter extends BaseAdapter {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
+                            Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette p) {
+                                    // Here's your generated palette
+                                    // Gets the RGB packed int -> same as palette.getVibrantColor(defaultColor);
+                                    Palette.Swatch swatch = p.getVibrantSwatch();
+
+                                    int rgbColor = 0;
+                                    int titleTextColor = 0;
+                                    int bodyTextColor = 0;
+
+                                    if (swatch != null) {
+                                        rgbColor = swatch.getRgb();
+                                        // Gets an appropriate title text color
+                                        titleTextColor = swatch.getTitleTextColor();
+                                        // Gets an appropriate body text color
+                                        bodyTextColor = swatch.getBodyTextColor();
+                                    } else {
+
+                                        swatch = p.getDarkVibrantSwatch();
+
+                                        if(swatch != null) {
+                                            rgbColor = swatch.getRgb();
+
+                                            // Gets an appropriate title text color
+                                            titleTextColor = swatch.getTitleTextColor();
+                                            // Gets an appropriate body text color
+                                            bodyTextColor = swatch.getBodyTextColor();
+                                        } else {
+                                            rgbColor = Color.DKGRAY;
+                                            // Gets an appropriate title text color
+                                            titleTextColor = Color.LTGRAY;
+                                            // Gets an appropriate body text color
+                                            bodyTextColor = Color.GRAY;
+                                        }
+                                    }
+
+                                    int colorFrom = Color.BLACK;
+                                    int colorTo = rgbColor;
+                                    ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+                                    colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                                        @Override
+                                        public void onAnimationUpdate(ValueAnimator animator) {
+                                            albumView.setBackgroundColor((Integer)animator.getAnimatedValue());
+                                            artistView.setBackgroundColor((Integer)animator.getAnimatedValue());
+                                        }
+
+                                    });
+                                    colorAnimation.start();
+
+                                    albumView.setTextColor(titleTextColor);
+                                    artistView.setTextColor(bodyTextColor);
+                                }
+                            });
+
                         }
 
                         @Override
                         public void onLoadingCancelled(String imageUri, View view) {
-
+                            albumView.setBackgroundColor(Color.BLACK);
+                            artistView.setBackgroundColor(Color.BLACK);
+                            albumView.setTextColor(Color.WHITE);
+                            artistView.setTextColor(Color.WHITE);
                         }
                     }, new ImageLoadingProgressListener() {
                         @Override
@@ -141,6 +208,19 @@ public class AlbumGridAdapter extends BaseAdapter {
 
 
         } else {
+            int colorFrom = Color.BLACK;
+            int colorTo = color;
+            ValueAnimator colorAnimation = ValueAnimator.ofObject(new ArgbEvaluator(), colorFrom, colorTo);
+            colorAnimation.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+
+                @Override
+                public void onAnimationUpdate(ValueAnimator animator) {
+                    albumView.setBackgroundColor((Integer)animator.getAnimatedValue());
+                    artistView.setBackgroundColor((Integer)animator.getAnimatedValue());
+                }
+
+            });
+            colorAnimation.start();
             coverAlbum.setImageDrawable(drawable);
         }
 

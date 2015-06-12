@@ -16,4 +16,7 @@
 
     <dimen name="grid_spacing">4dp</dimen>
 
+    <dimen name="cover_width">120dp</dimen>
+    <dimen name="cover_height">180dp</dimen>
+
 </resources>

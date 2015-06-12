@@ -10,6 +10,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.droplit.wave.R;
+import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Song;
 
 import java.util.ArrayList;
@@ -17,13 +18,14 @@ import java.util.ArrayList;
 public class ArtistSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
 
     private ArrayList<Song> songs;
+    private ArrayList<Album> albums;
     private LayoutInflater songInf;
     private Song currSong;
     private final Context mContext;
 
     public ArtistSongAdapter(Context c, ArrayList<Song> contents) {
         mContext = c;
-        this.songs = contents;
+        songs = contents;
         songInf = LayoutInflater.from(c);
     }
 
@@ -39,8 +41,10 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int pos) {
-        //map to song layout
-        final FrameLayout songLay = (FrameLayout) songInf.inflate
+
+        FrameLayout songLay = null;
+
+        songLay = (FrameLayout) songInf.inflate
                 (R.layout.item_song, parent, false);
         //get title and artist views
         TextView songView = (TextView) songLay.findViewById(R.id.song_title);
@@ -64,6 +68,7 @@ public class ArtistSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         return new RecyclerView.ViewHolder(songLay) {
 
         };
+
     }
 
     @Override

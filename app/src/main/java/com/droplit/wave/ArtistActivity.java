@@ -1,16 +1,20 @@
 package com.droplit.wave;
 
+import android.annotation.TargetApi;
+import android.content.ContentResolver;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -18,17 +22,22 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.GridLayout;
 import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
+import com.droplit.wave.adapters.ArtistAlbumsAdapter;
 import com.droplit.wave.adapters.ArtistSongAdapter;
+import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Song;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
+
 
 import static android.graphics.Color.TRANSPARENT;
 
@@ -36,13 +45,21 @@ import static android.graphics.Color.TRANSPARENT;
 public class ArtistActivity extends AppCompatActivity {
 
     public static final String EXTRA_NAME = "ARTIST_NAME";
+    public static final String EXTRA_ID = "ARTIST_ID";
 
     private String artistName;
+    private Long artistId;
+
+    private ArtistAlbumsAdapter cAdapter;
 
     private RecyclerView songsView;
+    private RecyclerView albumsView;
 
     private ArrayList<Song> mArtistSongItems = new ArrayList<>();
+    private ArrayList<Album> mArtistAlbumItems = new ArrayList<>();
+
     private RecyclerView.Adapter mAdapter;
+    private RecyclerView.Adapter aAdapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -50,32 +67,30 @@ public class ArtistActivity extends AppCompatActivity {
         setContentView(R.layout.activity_artist);
 
         mArtistSongItems = new ArrayList<Song>();
+        mArtistAlbumItems = new ArrayList<Album>();
         songsView = (RecyclerView) findViewById(R.id.artist_view_list);
-
+        albumsView = (RecyclerView) findViewById(R.id.artist_album_view_list);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getApplicationContext());
         songsView.setLayoutManager(layoutManager);
         songsView.setHasFixedSize(true);
 
+        LinearLayoutManager gLayoutManager= new LinearLayoutManager(getApplicationContext());
+        gLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        albumsView.setLayoutManager(gLayoutManager);
+        albumsView.setHasFixedSize(true);
+
         Intent intent = getIntent();
         artistName = intent.getStringExtra(EXTRA_NAME);
+        artistId = intent.getLongExtra(EXTRA_ID, 0);
+
 
         loadSongs();
 
         mAdapter = new ArtistSongAdapter(getApplicationContext(), mArtistSongItems);
         songsView.setAdapter(mAdapter);
 
-        songsView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(getApplicationContext(), v.getTag().toString(), Toast.LENGTH_SHORT).show();
-            }
-        });
-
-        Collections.sort(mArtistSongItems, new Comparator<Song>() {
-            public int compare(Song a, Song b) {
-                return a.getTitle().compareTo(b.getTitle());
-            }
-        });
+        aAdapter = new ArtistAlbumsAdapter(getApplicationContext(), mArtistAlbumItems);
+        albumsView.setAdapter(aAdapter);
 
         final Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -86,38 +101,48 @@ public class ArtistActivity extends AppCompatActivity {
         AppBarLayout appBarLayout =
                 (AppBarLayout) findViewById(R.id.appbar);
         collapsingToolbar.setExpandedTitleColor(TRANSPARENT);
-        collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
-            ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
-            int color = generator.getColor(artistName);
 
-            float[] hsv = new float[3];
-            int darkColor = color;
-            Color.colorToHSV(color, hsv);
-            hsv[2] *= 0.8f; // value component
-            color = Color.HSVToColor(hsv);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                collapsingToolbar.setStatusBarScrimColor(darkColor);
-            }
-            collapsingToolbar.setContentScrimColor(color);
-            appBarLayout.setBackgroundColor(color);
+        ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
+        int darkColor = generator.getColor(artistName);
 
-            int r = Color.red(color);
-            int g = Color.green(color);
-            int b = Color.blue(color);
+        float[] hsv = new float[3];
+        int color = darkColor;
+        Color.colorToHSV(darkColor, hsv);
+        hsv[2] *= 0.8f; // value component
+        darkColor = Color.HSVToColor(hsv);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            collapsingToolbar.setStatusBarScrimColor(darkColor);
+        }
+        collapsingToolbar.setContentScrimColor(color);
+        appBarLayout.setBackgroundColor(color);
 
-            if ((r*0.299 + g*0.587 + b*0.114) > 186) {
-                collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
-            } else {
-                collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
-            }
+        int r = Color.red(color);
+        int g = Color.green(color);
+        int b = Color.blue(color);
 
-            collapsingToolbar.setTitle(artistName);
+        if ((r*0.299 + g*0.587 + b*0.114) > 186) {
+            collapsingToolbar.setCollapsedTitleTextColor(Color.BLACK);
+        } else {
+            collapsingToolbar.setCollapsedTitleTextColor(Color.WHITE);
+        }
 
-
+        collapsingToolbar.setTitle(artistName);
 
         loadBackdrop();
-
     }
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
+    }
+
 
     private void loadSongs() {
         String[] columns = {android.provider.MediaStore.Audio.Artists._ID,
@@ -179,6 +204,55 @@ public class ArtistActivity extends AppCompatActivity {
 
             } while (cursor.moveToNext());
         }
+
+
+        String[] aColumn = {MediaStore.Audio.AlbumColumns.ARTIST, MediaStore.Audio.AlbumColumns.ALBUM,
+                MediaStore.Audio.AlbumColumns.ALBUM_ART, MediaStore.Audio.AlbumColumns.ALBUM_KEY,
+                MediaStore.Audio.AlbumColumns.FIRST_YEAR, MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS};
+
+        String aWhere = MediaStore.Audio.AlbumColumns.ARTIST + "=?";
+
+        String aWhereVal[] = {artistName};
+
+        String aOrderBy = MediaStore.Audio.AlbumColumns.ALBUM;
+
+        cursor = managedQuery(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
+                aColumn, aWhere, aWhereVal, aOrderBy);
+
+        if (cursor != null && cursor.moveToFirst()) {
+            //get columns
+            int trackNumColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS);
+            int idColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.ALBUM_KEY);
+            int artistColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.ARTIST);
+            int albumColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.ALBUM);
+            int albumYear = cursor.getColumnIndex
+                    (MediaStore.Audio.AlbumColumns.FIRST_YEAR);
+            int artColumn = cursor.getColumnIndex
+                    (MediaStore.Audio.Albums.ALBUM_ART);
+
+            //add songs to list
+            do {
+                String thisArtPath = cursor.getString(artColumn);
+
+
+
+                long thisId = cursor.getLong(idColumn);
+                int thisTrack = cursor.getInt(trackNumColumn);
+                String thisArtist = cursor.getString(artistColumn);
+                String thisAlbum = cursor.getString(albumColumn);
+                String thisYear = cursor.getString(albumYear);
+                //Log.d("ART", "Album art: " + thisArtPath);
+                mArtistAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, thisArtPath));
+            }
+
+            while (cursor.moveToNext());
+        }
+
+
     }
 
     @Override
@@ -199,7 +273,7 @@ public class ArtistActivity extends AppCompatActivity {
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         int color = generator.getColor(artistName);
             TextDrawable drawable = TextDrawable.builder()
-                    .buildRect(artistName.substring(0,1), color);
+                    .buildRect(artistName.substring(0,1).toUpperCase(), color);
             imageView.setImageDrawable(drawable);
         //}
 

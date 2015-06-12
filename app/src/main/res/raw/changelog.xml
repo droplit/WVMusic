@@ -2,6 +2,18 @@
 <changelog bulletedList="true">
 
 
+    <changelogversion versionName="PA0.8.7" changeDate="June 12,2015">
+        <changelogtext>[b]New![/b] Album Gridview without palette.</changelogtext>
+        <changelogtext>[b]New![/b] Transitions when loading art and palette colors. It fades in from black/grey.</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Album Listview is now efficient</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Overflow menus are no longer buggy</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Colors for the status bar and the AppBar on lollipop have been corrected if there was no album art.
+        Previously it had the darker color as the AppBar, which is the opposite of what it should be, and now is.</changelogtext>
+        <changelogtext>Basic implementation of album view for artist. However it did break the songs listing for them. Also ([i]Bug[/i] it doesn't load albums
+        that contains a song(s) made by the artist, it only loads it if the album is considered to be made by that artist)</changelogtext>
+        <changelogtext>Probably more things. I honestly cannot remember, it's 3AM.</changelogtext>
+    </changelogversion>
+
     <changelogversion versionName="PA0.8.5" changeDate="June 11,2015">
         <changelogtext>[i]Improvement[/i] - Album Art now loads efficiently. And the Color Pallete is implemented.</changelogtext>
         <changelogtext>[i]Improvement[/i] - AppBar is now fully visible on KitKat, previously was sunk into the statusbar.</changelogtext>

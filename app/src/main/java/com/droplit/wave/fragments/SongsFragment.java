@@ -10,6 +10,8 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -46,6 +48,9 @@ public class SongsFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         mSongItems = new ArrayList<Song>();
         songView = (RecyclerView) view.findViewById(R.id.song_list);
 
@@ -65,9 +70,12 @@ public class SongsFragment extends Fragment {
         // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
         songView.setOnScrollListener(fastScroller.getOnScrollListener());
 
+    }
 
-
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_main,menu);
     }
 
     public void getSongList() {
@@ -81,7 +89,7 @@ public class SongsFragment extends Fragment {
 
 
         Uri musicUri = android.provider.MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-        Cursor musicCursor = musicResolver.query(musicUri, cursor_cols, where, null, null);
+        Cursor musicCursor = musicResolver.query(musicUri, cursor_cols, where, null, MediaStore.Audio.Media.TITLE);
         if (musicCursor != null && musicCursor.moveToFirst()) {
             //get columns
             int titleColumn = musicCursor.getColumnIndex

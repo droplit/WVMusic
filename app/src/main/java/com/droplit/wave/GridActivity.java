@@ -11,7 +11,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.GridView;
 import android.widget.ImageView;
@@ -91,7 +90,7 @@ public class GridActivity extends AppCompatActivity {
 
         @Override
         public View getView(int position, View view, ViewGroup viewGroup) {
-            view = LayoutInflater.from(context).inflate(R.layout.list_item_album_grid, null);
+            view = LayoutInflater.from(context).inflate(R.layout.list_item_album_grid_palette, null);
             ImageView thumbnail = (ImageView) view.findViewById(R.id.album_art);
 
             cursor.moveToPosition(position);

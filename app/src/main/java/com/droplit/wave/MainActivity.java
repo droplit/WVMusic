@@ -24,12 +24,14 @@ import android.support.v7.app.ActionBarActivity;
 
 import android.support.v7.widget.Toolbar;
 
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.GridView;
 import android.widget.PopupMenu;
 import android.widget.Toast;
 
@@ -64,7 +66,13 @@ public class MainActivity extends ActionBarActivity {
     SlidingTabLayout tabs;
 
     private int albumViewType = 0;
+    private int albumCols = GridView.AUTO_FIT;
     private SharedPreferences views;
+
+    private Menu mOptionsMenu;
+
+    private GridView gridView;
+
 
     private DrawerLayout mDrawerLayout;
 
@@ -91,6 +99,15 @@ public class MainActivity extends ActionBarActivity {
             window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
             window.setStatusBarColor(getResources().getColor(R.color.primary_dark));
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
+
+        SystemBarTintManager tintManager = new SystemBarTintManager(this);
+        tintManager.setStatusBarTintEnabled(true);
+        tintManager.setStatusBarTintResource(R.color.primary);
+
         //getWindow().setStatusBarColor(R.color.primary_dark);
         final ActionBar ab = getSupportActionBar();
         ab.setHomeAsUpIndicator(R.drawable.ic_menu);
@@ -98,6 +115,7 @@ public class MainActivity extends ActionBarActivity {
 
         views = getSharedPreferences(PREFS_NAME, 0);
         albumViewType = views.getInt("albumView", 0);
+        albumCols = views.getInt("albumCols", GridView.AUTO_FIT);
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
 
@@ -129,6 +147,19 @@ public class MainActivity extends ActionBarActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -175,6 +206,29 @@ public class MainActivity extends ActionBarActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+        mOptionsMenu = menu;
+
+        MenuItem item = menu.findItem(R.id.col_default);
+
+        if(albumCols == GridView.AUTO_FIT) {
+            item = menu.findItem(R.id.col_default);
+        } else if(albumCols == 1) {
+            item = menu.findItem(R.id.col_1);
+        } else if(albumCols == 2) {
+            item = menu.findItem(R.id.col_2);
+        } else if(albumCols == 3) {
+            item = menu.findItem(R.id.col_3);
+        } else if(albumCols == 4) {
+            item = menu.findItem(R.id.col_4);
+        } else if(albumCols == 5) {
+            item = menu.findItem(R.id.col_5);
+        } else if(albumCols == 6) {
+            item = menu.findItem(R.id.col_6);
+        }
+
+        //item.setChecked(true);
+
+
         return true;
     }
 
@@ -184,51 +238,93 @@ public class MainActivity extends ActionBarActivity {
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         final SharedPreferences.Editor editor = views.edit();
+        gridView = (GridView) viewPager.findViewById(R.id.album_grid_list);
 
         switch (item.getItemId()) {
-            case R.id.action_view_as:
-                if(viewPager.getCurrentItem() == 1){
-                    //TODO: Fix this, make it in line and themed correctly.
-                    final PopupMenu popup = new PopupMenu(getApplicationContext(), getCurrentFocus());
-                    popup.getMenuInflater().inflate(R.menu.menu_view_as, popup.getMenu());
-                    popup.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
-                        public boolean onMenuItemClick(MenuItem item) {
-                            switch (item.getItemId()) {
-                                case R.id.view_as_list:
-                                    Toast.makeText(getApplicationContext(), "List", Toast.LENGTH_SHORT).show();
-                                    editor.putInt("albumView",0);
-                                    editor.commit();
-                                    finish();
-                                    startActivity(getIntent());
-                                    return true;
-                                case R.id.view_as_grid:
-                                    Toast.makeText(getApplicationContext(), "Grid", Toast.LENGTH_SHORT).show();
-                                    editor.putInt("albumView",1);
-                                    editor.commit();
-                                    finish();
-                                    startActivity(getIntent());
-                                    return true;
-                                case R.id.view_as_grid_palette:
-                                    Toast.makeText(getApplicationContext(), "Just normal Grid for now", Toast.LENGTH_SHORT).show();
-                                    editor.putInt("albumView",2);
-                                    editor.commit();
-                                    finish();
-                                    startActivity(getIntent());
-                                    return true;
 
-                                default:
-                                    return onMenuItemClick(item);
-                            }
-                        }
-                    });
-
-                    popup.show();
+            case R.id.view_as_list:
+                if(albumViewType == 0) {
+                    Toast.makeText(getApplicationContext(), "Already in ListView!", Toast.LENGTH_SHORT).show();
+                    return true;
                 }
+                editor.putInt("albumView",0);
+                editor.apply();
+                finish();
+                startActivity(getIntent());
                 return true;
+            case R.id.view_as_grid:
+                if(albumViewType == 1) {
+                    Toast.makeText(getApplicationContext(), "Already in GridView!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                editor.putInt("albumView",1);
+                editor.apply();
+                finish();
+                startActivity(getIntent());
+                return true;
+            case R.id.view_as_grid_palette:
+                if(albumViewType == 2) {
+                    Toast.makeText(getApplicationContext(), "Already in GridView!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                editor.putInt("albumView",2);
+                editor.apply();
+                finish();
+                startActivity(getIntent());
+                return true;
+
+            case R.id.col_default:
+                gridView.setNumColumns(GridView.AUTO_FIT);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",GridView.AUTO_FIT);
+                editor.apply();
+                return true;
+            case R.id.col_1:
+                gridView.setNumColumns(1);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",1);
+                editor.apply();
+                return true;
+            case R.id.col_2:
+                gridView.setNumColumns(2);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",2);
+                editor.apply();
+                return true;
+            case R.id.col_3:
+                gridView.setNumColumns(3);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",3);
+                editor.apply();
+                return true;
+            case R.id.col_4:
+                gridView.setNumColumns(4);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",4);
+                editor.apply();
+                return true;
+            case R.id.col_5:
+                gridView.setNumColumns(5);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",5);
+                editor.apply();
+                return true;
+            case R.id.col_6:
+                gridView.setNumColumns(6);
+                if (item.isChecked()) item.setChecked(false);
+                else item.setChecked(true);
+                editor.putInt("albumCols",3);
+                editor.apply();
+                return true;
+
             case R.id.action_end:
-                Intent i = new Intent(getApplicationContext(), GridActivity.class);
-                startActivity(i);
-                //System.exit(0);
+                System.exit(0);
                 return true;
             case R.id.action_about:
                 new LibsBuilder()
@@ -248,9 +344,6 @@ public class MainActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public MainActivity getActivity() {
-        return this;
-    }
 
     @Override
     public void onSaveInstanceState(Bundle savedInstanceState) {

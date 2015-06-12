@@ -23,8 +23,7 @@ public class AlbumSongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHold
     private final Context mContext;
     private Album mAlbum;
 
-    static final int TYPE_HEADER = 0;
-    static final int TYPE_CELL = 1;
+
 
     public AlbumSongAdapter(Context c, ArrayList<Song> contents, Album album) {
         mContext = c;

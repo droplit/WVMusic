@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.droplit.wave.MainActivity">
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_view_as"
+        android:orderInCategory="1"
+        android:title="View As">
+        <menu>
+            <item
+                android:id="@+id/view_as_list"
+                android:title="@string/list" />
+            <item
+                android:id="@+id/view_as_grid"
+                android:title="@string/grid" />
+            <item
+                android:id="@+id/view_as_grid_palette"
+                android:title="@string/grid_palette" />
+        </menu>
+    </item>
+
+    <item
+        android:id="@+id/action_end"
+        android:orderInCategory="2"
+        android:title="End" />
+</menu>

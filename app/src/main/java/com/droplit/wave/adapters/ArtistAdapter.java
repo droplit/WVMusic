@@ -2,36 +2,22 @@ package com.droplit.wave.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
-import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.ArtistActivity;
-import com.droplit.wave.MainActivity;
-import com.droplit.wave.MaterialColorPalette;
-import com.droplit.wave.NowPlaying;
 import com.droplit.wave.R;
-import com.droplit.wave.RecylcerOnClick;
-import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Artist;
-import com.droplit.wave.models.Song;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+
 
 public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
@@ -85,6 +71,7 @@ public class ArtistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             public void onClick(View v) {
                 Intent i = new Intent(mContext, ArtistActivity.class);
                 i.putExtra("ARTIST_NAME", artists.get(pos).getArtist());
+                i.putExtra("ARTIST_ID", artists.get(pos).getID());
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(i);
                 //Toast.makeText(mContext,((TextView) cardView.findViewById(R.id.artist_title)).getText(),Toast.LENGTH_SHORT).show();

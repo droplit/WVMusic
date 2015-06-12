@@ -2,7 +2,6 @@ package com.droplit.wave.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,40 +17,21 @@ import com.droplit.wave.Globals;
 import com.droplit.wave.OnOverflowSelectedListener;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Album;
-import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
-import com.nostra13.universalimageloader.core.assist.FailReason;
-import com.nostra13.universalimageloader.core.assist.QueueProcessingType;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
-import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListener;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+public class ArtistAlbumsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Album> albums;
     private LayoutInflater albumInf;
     private Album currAlbum;
     private final Context mContext;
 
-    private DisplayImageOptions options;
-
-    public AlbumAdapter(Context c, ArrayList<Album> contents) {
+    public ArtistAlbumsAdapter(Context c, ArrayList<Album> contents) {
         mContext = c;
         this.albums = contents;
         albumInf = LayoutInflater.from(c);
-
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(mContext);
-        config.threadPriority(Thread.NORM_PRIORITY - 2);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.diskCacheSize(175 * 1024 * 1024); // 175 MiB
-        config.tasksProcessingOrder(QueueProcessingType.LIFO);
-        config.writeDebugLogs(); // Remove for release app
-
-        ImageLoader.getInstance().init(config.build());
     }
 
     @Override
@@ -68,7 +48,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent,final int pos) {
         //map to song layout
         final FrameLayout cardView = (FrameLayout) albumInf.inflate
-                (R.layout.list_item_album, parent, false);
+                (R.layout.list_item_artist_album, parent, false);
         //get title and artist views
         TextView albumView = (TextView) cardView.findViewById(R.id.album_title);
         TextView artistView = (TextView) cardView.findViewById(R.id.album_artist);
@@ -79,57 +59,18 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         //albums.get(pos) = currAlbum.setTag(pos);
         //get title and artist strings
         albumView.setText(currAlbum.getTitle());
-        artistView.setText(currAlbum.getArtist() + " | " + currAlbum.getNumSongs() + numSongs());
+        artistView.setText(currAlbum.getNumSongs() + numSongs());
 
         ColorGenerator generator = ColorGenerator.MATERIAL; // or use DEFAULT
         int color = generator.getColor(currAlbum.getTitle());
         TextDrawable drawable = TextDrawable.builder()
                 .buildRect(currAlbum.getTitle().substring(0,1).toUpperCase(), color);
+        Picasso.with(mContext)
+                .load("file://" + currAlbum.getAlbumArt())
+                .placeholder(drawable)
+                .error(drawable)
+                .into(coverAlbum);
 
-        options = new DisplayImageOptions.Builder()
-                .showImageOnLoading(drawable)
-                .showImageForEmptyUri(drawable)
-                .showImageOnFail(drawable)
-                .cacheInMemory(true)
-                .cacheOnDisk(true)
-                .considerExifParams(true)
-                .bitmapConfig(Bitmap.Config.RGB_565)
-                .build();
-
-        if(currAlbum.getAlbumArt() != null) {
-            ImageLoader.getInstance()
-                    .displayImage("file://" + currAlbum.getAlbumArt(), coverAlbum, options, new ImageLoadingListener() {
-                        @Override
-                        public void onLoadingStarted(String imageUri, View view) {
-
-                        }
-
-                        @Override
-                        public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-
-                        }
-
-                        @Override
-                        public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-
-                        }
-
-                        @Override
-                        public void onLoadingCancelled(String imageUri, View view) {
-
-                        }
-                    }, new ImageLoadingProgressListener() {
-                        @Override
-                        public void onProgressUpdate(String imageUri, View view, int current, int total) {
-
-                        }
-                    });
-
-
-
-        } else {
-            coverAlbum.setImageDrawable(drawable);
-        }
         //set position as tag
         cardView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -162,7 +103,7 @@ public class AlbumAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        
+
     }
 
 }

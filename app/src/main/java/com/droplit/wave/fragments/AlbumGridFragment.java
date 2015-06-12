@@ -1,47 +1,43 @@
 package com.droplit.wave.fragments;
 
-import android.app.Activity;
 import android.content.ContentResolver;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.GridView;
-import android.widget.Toast;
 
 import com.droplit.wave.R;
-import com.droplit.wave.adapters.AlbumAdapter;
 import com.droplit.wave.adapters.AlbumGridAdapter;
+import com.droplit.wave.adapters.AlbumGridPaletteAdapter;
 import com.droplit.wave.models.Album;
-import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-
-import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
-import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 public class AlbumGridFragment extends Fragment {
+
+    public static final String PREFS_NAME = "WVPrefs";
+
 
     private GridView albumView;
 
     private ArrayList<Album> mAlbumItems = new ArrayList<>();
-    private AlbumGridAdapter mAdapter;
+    private AlbumGridPaletteAdapter mAdapter;
+    private AlbumGridAdapter gAdapter;
+
+    private int albumCols = GridView.AUTO_FIT;
+    private int albumViewType = 0;
+
+    private SharedPreferences views;
 
     public static AlbumFragment newInstance() {
         return new AlbumFragment();
@@ -55,17 +51,35 @@ public class AlbumGridFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         mAlbumItems = new ArrayList<Album>();
         albumView = (GridView) view.findViewById(R.id.album_grid_list);
 
         getAlbumList();
 
+        views = getActivity().getSharedPreferences(PREFS_NAME, 0);
+        albumViewType = views.getInt("albumView", 0);
+        albumCols = views.getInt("albumCols", GridView.AUTO_FIT);
 
+        if(albumViewType == 1) {
+            gAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.setAdapter(gAdapter);
+        } else if(albumViewType == 2) {
+            mAdapter = new AlbumGridPaletteAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.setAdapter(mAdapter);
+        }
+        if(albumViewType == 1 || albumViewType == 2) {
+            albumView.setNumColumns(albumCols);
+        }
 
-        mAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), mAlbumItems);
-        albumView.setAdapter(mAdapter);
+    }
 
-
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_album_grid_fragment,menu);
     }
 
     public void getAlbumList() {

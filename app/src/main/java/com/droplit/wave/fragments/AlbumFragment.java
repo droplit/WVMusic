@@ -16,6 +16,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
@@ -51,6 +53,9 @@ public class AlbumFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         mAlbumItems = new ArrayList<Album>();
         albumView = (RecyclerView) view.findViewById(R.id.album_list);
 
@@ -70,6 +75,12 @@ public class AlbumFragment extends Fragment {
         // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
         albumView.setOnScrollListener(fastScroller.getOnScrollListener());
 
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_album_fragment,menu
+    );
     }
 
     public void getAlbumList() {

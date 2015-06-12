@@ -1,0 +1,53 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.droplit.wave.MainActivity">
+    <item
+        android:id="@+id/action_about"
+        android:orderInCategory="100"
+        android:title="@string/action_about"
+        app:showAsAction="never" />
+    <item
+        android:id="@+id/action_view_as"
+        android:orderInCategory="2"
+        android:title="View As">
+        <menu>
+            <item
+                android:id="@+id/view_as_list"
+                android:title="@string/list" />
+            <item
+                android:id="@+id/view_as_grid"
+                android:title="@string/grid" />
+            <item
+                android:id="@+id/view_as_grid_palette"
+                android:title="@string/grid_palette" />
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_columns"
+        android:orderInCategory="1"
+        android:title="Columns">
+        <menu>
+            <group android:checkableBehavior="single">
+                <item android:id="@+id/col_default"
+                    android:title="@string/def" />
+                <item android:id="@+id/col_1"
+                    android:title="1" />
+                <item android:id="@+id/col_2"
+                    android:title="2" />
+                <item android:id="@+id/col_3"
+                    android:title="3" />
+                <item android:id="@+id/col_4"
+                    android:title="4" />
+                <item android:id="@+id/col_5"
+                    android:title="5" />
+                <item android:id="@+id/col_6"
+                    android:title="6" />
+            </group>
+        </menu>
+    </item>
+    <item
+        android:id="@+id/action_end"
+        android:orderInCategory="3"
+        android:title="End" />
+</menu>

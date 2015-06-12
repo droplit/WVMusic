@@ -12,6 +12,8 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
@@ -49,6 +51,9 @@ public class ArtistFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        setHasOptionsMenu(true);
+
         mArtistItems = new ArrayList<Artist>();
         artistView = (RecyclerView) view.findViewById(R.id.artist_list);
 
@@ -71,8 +76,11 @@ public class ArtistFragment extends Fragment {
         // Connect the scroller to the recycler (to let the recycler scroll the scroller's handle)
         artistView.setOnScrollListener(fastScroller.getOnScrollListener());
 
-
-
+    }
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater){
+        menu.clear();
+        inflater.inflate(R.menu.menu_main,menu);
     }
 
     public void getArtistList() {
@@ -80,6 +88,7 @@ public class ArtistFragment extends Fragment {
         ContentResolver musicResolver = getActivity().getContentResolver();
         final String[] cursor_cols = {
                 MediaStore.Audio.ArtistColumns.ARTIST, MediaStore.Audio.ArtistColumns.ARTIST_KEY,
+                MediaStore.Audio.Artists._ID,
                 MediaStore.Audio.ArtistColumns.NUMBER_OF_ALBUMS, MediaStore.Audio.ArtistColumns.NUMBER_OF_TRACKS};
         //final String where = MediaStore.Audio.Media.IS_MUSIC + "=1";
 
@@ -90,7 +99,7 @@ public class ArtistFragment extends Fragment {
             int trackNumColumn = musicCursor.getColumnIndex
                     (MediaStore.Audio.ArtistColumns.NUMBER_OF_TRACKS);
             int idColumn = musicCursor.getColumnIndex
-                    (MediaStore.Audio.ArtistColumns.ARTIST_KEY);
+                    (MediaStore.Audio.Artists._ID);
             int artistColumn =musicCursor.getColumnIndex
                     (MediaStore.Audio.ArtistColumns.ARTIST);
 
