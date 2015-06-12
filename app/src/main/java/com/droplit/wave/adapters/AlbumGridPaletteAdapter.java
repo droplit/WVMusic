@@ -21,6 +21,7 @@ import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.Globals;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Album;
+import com.github.florent37.materialimageloading.MaterialImageLoading;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -133,6 +134,8 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
                         @Override
                         public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
 
+                            //MaterialImageLoading.animate(coverAlbum).setDuration(500).start();
+
                             Palette.generateAsync(loadedImage, new Palette.PaletteAsyncListener() {
                                 @Override
                                 public void onGenerated(Palette p) {
@@ -152,7 +155,7 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
                                         bodyTextColor = swatch.getBodyTextColor();
                                     } else {
 
-                                        swatch = p.getDarkVibrantSwatch();
+                                        swatch = p.getDarkMutedSwatch();
 
                                         if(swatch != null) {
                                             rgbColor = swatch.getRgb();

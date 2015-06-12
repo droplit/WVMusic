@@ -2,6 +2,7 @@ package com.droplit.wave;
 
 import android.annotation.TargetApi;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -9,6 +10,7 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.provider.BaseColumns;
 import android.provider.MediaStore;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -85,6 +87,7 @@ public class ArtistActivity extends AppCompatActivity {
 
 
         loadSongs();
+        loadAlbums();
 
         mAdapter = new ArtistSongAdapter(getApplicationContext(), mArtistSongItems);
         songsView.setAdapter(mAdapter);
@@ -130,6 +133,9 @@ public class ArtistActivity extends AppCompatActivity {
 
         loadBackdrop();
     }
+
+
+
     @TargetApi(19)
     private void setTranslucentStatus(boolean on) {
         Window win = getWindow();
@@ -205,54 +211,60 @@ public class ArtistActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
         }
 
+    }
 
-        String[] aColumn = {MediaStore.Audio.AlbumColumns.ARTIST, MediaStore.Audio.AlbumColumns.ALBUM,
-                MediaStore.Audio.AlbumColumns.ALBUM_ART, MediaStore.Audio.AlbumColumns.ALBUM_KEY,
-                MediaStore.Audio.AlbumColumns.FIRST_YEAR, MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS};
+    private void loadAlbums() {
+        Cursor mCursor = makeArtistAlbumCursor(getApplicationContext(), artistId);
+            // Gather the dataS
+            if (mCursor != null && mCursor.moveToFirst()) {
+                do {
+                    // Copy the album id
+                    Long id = mCursor.getLong(0);
 
-        String aWhere = MediaStore.Audio.AlbumColumns.ARTIST + "=?";
+                    // Copy the album name
+                    String albumName = mCursor.getString(1);
 
-        String aWhereVal[] = {artistName};
+                    // Copy the artist name
+                    String artist = mCursor.getString(2);
 
-        String aOrderBy = MediaStore.Audio.AlbumColumns.ALBUM;
+                    // Copy the number of songs
+                    int songCount = mCursor.getInt(3);
 
-        cursor = managedQuery(MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI,
-                aColumn, aWhere, aWhereVal, aOrderBy);
-
-        if (cursor != null && cursor.moveToFirst()) {
-            //get columns
-            int trackNumColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS);
-            int idColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.ALBUM_KEY);
-            int artistColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.ARTIST);
-            int albumColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.ALBUM);
-            int albumYear = cursor.getColumnIndex
-                    (MediaStore.Audio.AlbumColumns.FIRST_YEAR);
-            int artColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.Albums.ALBUM_ART);
-
-            //add songs to list
-            do {
-                String thisArtPath = cursor.getString(artColumn);
+                    // Copy the release year
+                    String art = mCursor.getString(4);
 
 
 
-                long thisId = cursor.getLong(idColumn);
-                int thisTrack = cursor.getInt(trackNumColumn);
-                String thisArtist = cursor.getString(artistColumn);
-                String thisAlbum = cursor.getString(albumColumn);
-                String thisYear = cursor.getString(albumYear);
-                //Log.d("ART", "Album art: " + thisArtPath);
-                mArtistAlbumItems.add(new Album(thisId, thisAlbum, thisArtist, thisTrack, thisYear, thisArtPath));
+                    // Create a new album
+                    final Album album = new Album(id, albumName, artist, songCount, null, art);
+
+                    // Add everything up
+                    mArtistAlbumItems.add(album);
+                } while (mCursor.moveToNext());
             }
-
-            while (cursor.moveToNext());
+            // Close the cursor
+            if (mCursor != null) {
+                mCursor.close();
+                mCursor = null;
+            }
         }
 
 
+
+    public static final Cursor makeArtistAlbumCursor(final Context context, final Long artistId) {
+        return context.getContentResolver().query(
+                MediaStore.Audio.Artists.Albums.getContentUri("external", artistId), new String[] {
+                        /* 0 */
+                        BaseColumns._ID,
+                        /* 1 */
+                        MediaStore.Audio.AlbumColumns.ALBUM,
+                        /* 2 */
+                        MediaStore.Audio.AlbumColumns.ARTIST,
+                        /* 3 */
+                        MediaStore.Audio.AlbumColumns.NUMBER_OF_SONGS,
+                        /* 4 */
+                        MediaStore.Audio.AlbumColumns.ALBUM_ART
+                }, null, null, MediaStore.Audio.AlbumColumns.ALBUM);
     }
 
     @Override

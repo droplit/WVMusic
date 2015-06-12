@@ -21,6 +21,9 @@
             <item
                 android:id="@+id/view_as_grid_palette"
                 android:title="@string/grid_palette" />
+            <item
+                android:id="@+id/view_as_grid_card"
+                android:title="@string/grid_card" />
         </menu>
     </item>
     <item

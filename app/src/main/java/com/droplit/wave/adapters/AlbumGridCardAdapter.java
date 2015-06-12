@@ -1,19 +1,14 @@
 package com.droplit.wave.adapters;
 
-import android.animation.ArgbEvaluator;
-import android.animation.ValueAnimator;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amulyakhare.textdrawable.TextDrawable;
 import com.amulyakhare.textdrawable.util.ColorGenerator;
@@ -21,7 +16,6 @@ import com.droplit.wave.AlbumActivity;
 import com.droplit.wave.Globals;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Album;
-import com.github.florent37.materialimageloading.MaterialImageLoading;
 import com.nostra13.universalimageloader.cache.disc.naming.Md5FileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -33,7 +27,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 
 import java.util.ArrayList;
 
-public class AlbumGridAdapter extends BaseAdapter {
+public class AlbumGridCardAdapter extends BaseAdapter {
 
     private ArrayList<Album> albums;
     private LayoutInflater albumInf;
@@ -44,7 +38,7 @@ public class AlbumGridAdapter extends BaseAdapter {
     private DisplayImageOptions options;
 
 
-    public AlbumGridAdapter(Context c, ArrayList<Album> contents) {
+    public AlbumGridCardAdapter(Context c, ArrayList<Album> contents) {
         mContext = c;
         this.albums = contents;
         albumInf = LayoutInflater.from(c);
@@ -81,7 +75,7 @@ public class AlbumGridAdapter extends BaseAdapter {
     public View getView(final int position, View view, ViewGroup parent) {
         //map to song layout
         if (view == null) {
-            view = albumInf.inflate(R.layout.list_item_album_grid, parent, false);
+            view = albumInf.inflate(R.layout.list_item_album_grid_card, parent, false);
         }
         //get title and artist views
         final TextView albumView = (TextView) view.findViewById(R.id.album_title);

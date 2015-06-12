@@ -5,6 +5,9 @@
     <changelogversion versionName="PA0.8.7" changeDate="June 12,2015">
         <changelogtext>[b]New![/b] Album Gridview without palette.</changelogtext>
         <changelogtext>[b]New![/b] Transitions when loading art and palette colors. It fades in from black/grey.</changelogtext>
+        <changelogtext>[b]New![/b] Album Gridview now has configurable columns.</changelogtext>
+        <changelogtext>[i]Improvement[/i] - Options such as view as, and columns, now only apply to their things. only visible on album tab, and only visible on album
+         gridview, respectively.</changelogtext>
         <changelogtext>[i]Improvement[/i] - Album Listview is now efficient</changelogtext>
         <changelogtext>[i]Improvement[/i] - Overflow menus are no longer buggy</changelogtext>
         <changelogtext>[i]Improvement[/i] - Colors for the status bar and the AppBar on lollipop have been corrected if there was no album art.

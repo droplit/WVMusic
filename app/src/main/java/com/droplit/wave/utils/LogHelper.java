@@ -1,4 +1,4 @@
-package com.droplit.wave.util;
+package com.droplit.wave.utils;
 
 import android.util.Log;
 

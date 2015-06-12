@@ -1,8 +1,7 @@
-package com.droplit.wave.fragments;
+package com.droplit.wave.ui.fragments;
 
 import android.content.ContentResolver;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -10,27 +9,18 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 
-import com.droplit.wave.DividerItemDecoration;
 import com.droplit.wave.R;
-import com.droplit.wave.adapters.AlbumAdapter;
 import com.droplit.wave.adapters.ArtistAdapter;
-import com.droplit.wave.models.Album;
 import com.droplit.wave.models.Artist;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 
-import xyz.danoz.recyclerviewfastscroller.sectionindicator.title.SectionTitleIndicator;
 import xyz.danoz.recyclerviewfastscroller.vertical.VerticalRecyclerViewFastScroller;
 
 

@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.app.DialogFragment;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -15,8 +14,6 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
@@ -24,7 +21,8 @@ import android.support.v7.app.ActionBarActivity;
 
 import android.support.v7.widget.Toolbar;
 
-import android.util.Log;
+import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -32,17 +30,19 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.GridView;
-import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.afollestad.materialdialogs.MaterialDialog;
 import com.crashlytics.android.Crashlytics;
 import com.droplit.wave.adapters.ViewPagerAdapter;
-import com.droplit.wave.fragments.AlbumFragment;
-import com.droplit.wave.fragments.AlbumGridFragment;
-import com.droplit.wave.fragments.ArtistFragment;
+import com.droplit.wave.ui.activities.SettingsActivity;
+import com.droplit.wave.ui.fragments.AlbumFragment;
+import com.droplit.wave.ui.fragments.AlbumGridFragment;
+import com.droplit.wave.ui.fragments.ArtistFragment;
 
 
-import com.droplit.wave.fragments.SongsFragment;
+import com.droplit.wave.ui.fragments.SongsFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
@@ -50,8 +50,6 @@ import com.readystatesoftware.systembartint.SystemBarTintManager;
 import java.util.ArrayList;
 import java.util.List;
 
-import at.markushi.ui.ActionView;
-import at.markushi.ui.action.BackAction;
 import io.fabric.sdk.android.Fabric;
 
 
@@ -73,6 +71,7 @@ public class MainActivity extends ActionBarActivity {
 
     private GridView gridView;
 
+    private MaterialDialog.Builder materialDialog;
 
     private DrawerLayout mDrawerLayout;
 
@@ -103,6 +102,11 @@ public class MainActivity extends ActionBarActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
             setTranslucentStatus(true);
         }
+
+        materialDialog =  new MaterialDialog.Builder(this)
+                .title(R.string.app_name)
+                .content(R.string.app_name)
+                .neutralText(R.string.ok);
 
         SystemBarTintManager tintManager = new SystemBarTintManager(this);
         tintManager.setStatusBarTintEnabled(true);
@@ -175,6 +179,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setupDrawerContent(NavigationView navigationView) {
+
+        //TODO: add highlight to the current tab in the navDrawer.
+        
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -183,6 +191,24 @@ public class MainActivity extends ActionBarActivity {
                         if (menuItem.getItemId() == R.id.nav_changelog) {
                             DialogFragment dialogFragment = new ChangelogDialogFragment();
                             dialogFragment.show(getFragmentManager(), "dialog");
+                        } else if(menuItem.getItemId() == R.id.nav_settings){
+                          Intent i = new Intent(getApplicationContext(), SettingsActivity.class);
+                            startActivity(i);
+                        } else if (menuItem.getItemId() == R.id.nav_about) {
+
+                            //((TextView) findViewById(R.id.about_body)).setText(Html.fromHtml(getResources().getString(R.string.about)));
+                            //((TextView) findViewById(R.id.about_links)).setMovementMethod(LinkMovementMethod.getInstance());
+                            //((TextView) findViewById(R.id.about_links)).setText(Html.fromHtml(getResources().getString(R.string.about_links)));
+
+                            /*new MaterialDialog.Builder(getApplicationContext())
+                                    .title(R.string.action_about)
+                                    .customView(R.layout.about_view, true)
+                                    .neutralText(R.string.ok)
+                                    .show();*/
+                            materialDialog.icon(getResources().getDrawable(R.drawable.ic_launcher));
+
+                            materialDialog.show();
+
                         } else if (menuItem.getItemId() == R.id.nav_artists) {
                             viewPager.setCurrentItem(0, true);
                         } else if (menuItem.getItemId() == R.id.nav_albums) {
@@ -268,6 +294,16 @@ public class MainActivity extends ActionBarActivity {
                     return true;
                 }
                 editor.putInt("albumView",2);
+                editor.apply();
+                finish();
+                startActivity(getIntent());
+                return true;
+            case R.id.view_as_grid_card:
+                if(albumViewType == 3) {
+                    Toast.makeText(getApplicationContext(), "Already in GridView!", Toast.LENGTH_SHORT).show();
+                    return true;
+                }
+                editor.putInt("albumView",3);
                 editor.apply();
                 finish();
                 startActivity(getIntent());

@@ -1,4 +1,4 @@
-package com.droplit.wave.fragments;
+package com.droplit.wave.ui.fragments;
 
 import android.content.ContentResolver;
 import android.content.SharedPreferences;
@@ -18,6 +18,7 @@ import android.widget.GridView;
 
 import com.droplit.wave.R;
 import com.droplit.wave.adapters.AlbumGridAdapter;
+import com.droplit.wave.adapters.AlbumGridCardAdapter;
 import com.droplit.wave.adapters.AlbumGridPaletteAdapter;
 import com.droplit.wave.models.Album;
 
@@ -31,8 +32,10 @@ public class AlbumGridFragment extends Fragment {
     private GridView albumView;
 
     private ArrayList<Album> mAlbumItems = new ArrayList<>();
-    private AlbumGridPaletteAdapter mAdapter;
+    private AlbumGridPaletteAdapter pAdapter;
     private AlbumGridAdapter gAdapter;
+    private AlbumGridCardAdapter cAdapter;
+
 
     private int albumCols = GridView.AUTO_FIT;
     private int albumViewType = 0;
@@ -67,10 +70,13 @@ public class AlbumGridFragment extends Fragment {
             gAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), mAlbumItems);
             albumView.setAdapter(gAdapter);
         } else if(albumViewType == 2) {
-            mAdapter = new AlbumGridPaletteAdapter(getActivity().getApplicationContext(), mAlbumItems);
-            albumView.setAdapter(mAdapter);
+            pAdapter = new AlbumGridPaletteAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.setAdapter(pAdapter);
+        } else if(albumViewType == 3) {
+            cAdapter = new AlbumGridCardAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.setAdapter(cAdapter);
         }
-        if(albumViewType == 1 || albumViewType == 2) {
+        if(albumViewType >= 1) {
             albumView.setNumColumns(albumCols);
         }
 

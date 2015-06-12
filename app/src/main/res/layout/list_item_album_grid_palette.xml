@@ -34,6 +34,7 @@
         android:layout_gravity="bottom"
         android:background="@color/black"
         android:textColor="@color/white"
+
         android:paddingLeft="16dp"
         android:text="Artist"
         android:maxLines="1"

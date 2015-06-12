@@ -31,8 +31,12 @@
     <string name="share">Share</string>
     <string name="list">List</string>
     <string name="grid">Grid</string>
-    <string name="grid_palette">Grid Palette</string>
+    <string name="grid_palette">Grid: Palette</string>
+    <string name="grid_card">Grid: Card</string>
     <string name="title_activity_grid">GridActivity</string>
     <string name="def">Default</string>
+    <string name="title_activity_settings">Settings</string>
+    <string name="about"><![CDATA[WV Music Player is a free material designed music player by <b>Droplit Studios</b>.]]></string>
+    <string name="about_links"><![CDATA[&lt;a href=\"https://plus.google.com/+JulianPinzer/\">Google+&lt;/a>   &lt;a href=\"https://twitter.com/Droplit_\">Twitter&lt;/a>]]></string>
 
 </resources>

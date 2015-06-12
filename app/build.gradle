@@ -67,6 +67,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.github.asyl.animation:arcanimator:1.0.0'
 
+    compile 'org:jaudiotagger:2.0.3'
+
     compile 'com.github.ozodrukh:CircularReveal:1.0.6@aar'
     compile 'com.github.bumptech.glide:glide:3.6.0'
 
