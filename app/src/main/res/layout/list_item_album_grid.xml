@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:background="@color/black_semi_transparent"
-        android:paddingLeft="16dp"
+        android:paddingLeft="@dimen/gridview_text_padding"
         android:paddingBottom="20dp"
         android:singleLine="true"
         android:text="Title"
@@ -33,11 +33,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
-        android:paddingLeft="16dp"
+        android:paddingLeft="@dimen/gridview_text_padding"
         android:text="Artist"
         android:singleLine="true"
         android:textSize="14sp" />
-
+    <ImageView
+        android:id="@+id/album_overflow"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
+        android:layout_gravity="bottom|right"
+        android:paddingLeft="8dp"
+        android:src="@drawable/ic_dots_vertical_black_48dp" />
 
 
 </FrameLayout>

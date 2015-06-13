@@ -151,66 +151,60 @@ public class ArtistActivity extends AppCompatActivity {
 
 
     private void loadSongs() {
-        String[] columns = {android.provider.MediaStore.Audio.Artists._ID,
-                MediaStore.Audio.Artists.ARTIST};
-
-        Cursor cursor = managedQuery(
-                MediaStore.Audio.Albums.EXTERNAL_CONTENT_URI, columns, null,
-                null, null);
-
-        if (cursor.moveToFirst()) {
+        // Create the Cursor
+        Cursor mCursor = makeArtistSongCursor(getApplicationContext(), artistId);
+        // Gather the data
+        if (mCursor != null && mCursor.moveToFirst()) {
             do {
-                Log.v("Vipul",
-                        cursor.getString(cursor
-                                .getColumnIndex(MediaStore.Audio.Artists.ARTIST)));
-            } while (cursor.moveToNext());
+                // Copy the song Id
+                Long id = mCursor.getLong(0);
+
+                // Copy the song name
+                String songName = mCursor.getString(1);
+
+                // Copy the artist name
+                String artist = mCursor.getString(2);
+
+                // Copy the album name
+                String album = mCursor.getString(3);
+
+                //Copy the song duration
+                int duration = mCursor.getInt(3);
+
+
+                // Create a new song
+                Song song = new Song(id, songName, artist, album, duration);
+
+                // Add everything up
+                mArtistSongItems.add(song);
+            } while (mCursor.moveToNext());
         }
-
-        // I want to list down song in album Rolling Papers (Deluxe Version)
-
-        String[] column = {MediaStore.Audio.Media.DATA,
-                MediaStore.Audio.Media._ID, MediaStore.Audio.Media.TITLE,
-                MediaStore.Audio.Media.DISPLAY_NAME,
-                MediaStore.Audio.Media.ALBUM,
-                MediaStore.Audio.Media.DURATION,
-                MediaStore.Audio.Media.ARTIST,};
-
-        String where = MediaStore.Audio.Media.ARTIST + "=?";
-
-        String whereVal[] = {artistName};
-
-        String orderBy = android.provider.MediaStore.Audio.Media.TITLE;
-
-        cursor = managedQuery(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
-                column, where, whereVal, orderBy);
-
-        if (cursor.moveToFirst()) {
-            //get columns
-            int titleColumn = cursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media.TITLE);
-            int idColumn = cursor.getColumnIndex
-                    (android.provider.MediaStore.Audio.Media._ID);
-            int artistColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.Media.ARTIST);
-            int albumColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.Media.ALBUM);
-            int durationColumn = cursor.getColumnIndex
-                    (MediaStore.Audio.Media.DURATION);
-            //add songs to list
-            do {
-                Log.v("Vipul",
-                        cursor.getString(cursor
-                                .getColumnIndex(MediaStore.Audio.Media.DISPLAY_NAME)));
-                long thisId = cursor.getLong(idColumn);
-                String thisArtist = cursor.getString(artistColumn);
-                String thisTitle = cursor.getString(titleColumn);
-                String thisAlbum = cursor.getString(albumColumn);
-                int thisDuration = cursor.getInt(durationColumn);
-                mArtistSongItems.add(new Song(thisId, thisTitle, thisArtist, thisAlbum, thisDuration));
-
-            } while (cursor.moveToNext());
+        // Close the cursor
+        if (mCursor != null) {
+            mCursor.close();
+            mCursor = null;
         }
+    }
 
+    public static final Cursor makeArtistSongCursor(final Context context, final Long artistId) {
+        // Match the songs up with the artist
+        final StringBuilder selection = new StringBuilder();
+        selection.append(MediaStore.Audio.AudioColumns.IS_MUSIC + "=1");
+        selection.append(" AND " + MediaStore.Audio.AudioColumns.TITLE + " != ''");
+        selection.append(" AND " + MediaStore.Audio.AudioColumns.ARTIST_ID + "=" + artistId);
+        return context.getContentResolver().query(MediaStore.Audio.Media.EXTERNAL_CONTENT_URI,
+                new String[] {
+                        /* 0 */
+                        BaseColumns._ID,
+                        /* 1 */
+                        MediaStore.Audio.AudioColumns.TITLE,
+                        /* 2 */
+                        MediaStore.Audio.AudioColumns.ARTIST,
+                        /* 3 */
+                        MediaStore.Audio.AudioColumns.ALBUM,
+                        /* 4 */
+                        MediaStore.Audio.AudioColumns.DURATION
+                }, selection.toString(), null, MediaStore.Audio.AudioColumns.TITLE);
     }
 
     private void loadAlbums() {
@@ -248,8 +242,6 @@ public class ArtistActivity extends AppCompatActivity {
                 mCursor = null;
             }
         }
-
-
 
     public static final Cursor makeArtistAlbumCursor(final Context context, final Long artistId) {
         return context.getContentResolver().query(

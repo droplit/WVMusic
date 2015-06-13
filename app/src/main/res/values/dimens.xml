@@ -15,6 +15,7 @@
     <dimen name="cardMarginVertical">8dp</dimen>
 
     <dimen name="grid_spacing">4dp</dimen>
+    <dimen name="gridview_text_padding">8dp</dimen>
 
     <dimen name="cover_width">120dp</dimen>
     <dimen name="cover_height">180dp</dimen>

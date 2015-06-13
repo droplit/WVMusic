@@ -66,6 +66,7 @@ dependencies {
     compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
     compile 'com.github.asyl.animation:arcanimator:1.0.0'
+    compile 'com.github.johnkil.android-robototextview:robototextview:2.4.0'
 
     compile 'org:jaudiotagger:2.0.3'
 

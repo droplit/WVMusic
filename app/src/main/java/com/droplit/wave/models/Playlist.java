@@ -12,7 +12,7 @@ public class Playlist {
     /**
      * The unique Id of the playlist
      */
-    public long mPlaylistId;
+    public String mPlaylistId;
 
     /**
      * The playlist name
@@ -25,7 +25,7 @@ public class Playlist {
      * @param playlistId The Id of the playlist
      * @param playlistName The playlist name
      */
-    public Playlist(final long playlistId, final String playlistName) {
+    public Playlist(final String playlistId, final String playlistName) {
         super();
         mPlaylistId = playlistId;
         mPlaylistName = playlistName;
@@ -38,7 +38,7 @@ public class Playlist {
     public int hashCode() {
         final int prime = 31;
         int result = 1;
-        result = prime * result + (int) mPlaylistId;
+        result = prime * result + (mPlaylistId == null ? 0 : mPlaylistId.hashCode());
         result = prime * result + (mPlaylistName == null ? 0 : mPlaylistName.hashCode());
         return result;
     }
@@ -57,11 +57,22 @@ public class Playlist {
         if (getClass() != obj.getClass()) {
             return false;
         }
-        final Playlist other = (Playlist) obj;
-        if (mPlaylistId != other.mPlaylistId) {
+        final Playlist other = (Playlist)obj;
+        if (mPlaylistId == null) {
+            if (other.mPlaylistId != null) {
+                return false;
+            }
+        } else if (!mPlaylistId.equals(other.mPlaylistId)) {
             return false;
         }
-        return TextUtils.equals(mPlaylistName, other.mPlaylistName);
+        if (mPlaylistName == null) {
+            if (other.mPlaylistName != null) {
+                return false;
+            }
+        } else if (!mPlaylistName.equals(other.mPlaylistName)) {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -71,5 +82,9 @@ public class Playlist {
     public String toString() {
         return mPlaylistName;
     }
+    public String getId() {
+        return mPlaylistId;
+    }
+
 
 }

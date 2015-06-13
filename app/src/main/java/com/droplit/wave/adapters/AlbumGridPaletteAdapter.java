@@ -155,7 +155,7 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
                                         bodyTextColor = swatch.getBodyTextColor();
                                     } else {
 
-                                        swatch = p.getDarkMutedSwatch();
+                                        swatch = p.getDarkVibrantSwatch();
 
                                         if(swatch != null) {
                                             rgbColor = swatch.getRgb();
@@ -165,11 +165,59 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
                                             // Gets an appropriate body text color
                                             bodyTextColor = swatch.getBodyTextColor();
                                         } else {
-                                            rgbColor = Color.DKGRAY;
-                                            // Gets an appropriate title text color
-                                            titleTextColor = Color.LTGRAY;
-                                            // Gets an appropriate body text color
-                                            bodyTextColor = Color.GRAY;
+
+                                            swatch = p.getLightVibrantSwatch();
+
+                                            if(swatch != null) {
+                                                rgbColor = swatch.getRgb();
+
+                                                // Gets an appropriate title text color
+                                                titleTextColor = swatch.getTitleTextColor();
+                                                // Gets an appropriate body text color
+                                                bodyTextColor = swatch.getBodyTextColor();
+                                            } else {
+
+                                                swatch = p.getDarkMutedSwatch();
+
+                                                if(swatch != null) {
+                                                    rgbColor = swatch.getRgb();
+
+                                                    // Gets an appropriate title text color
+                                                    titleTextColor = swatch.getTitleTextColor();
+                                                    // Gets an appropriate body text color
+                                                    bodyTextColor = swatch.getBodyTextColor();
+                                                } else {
+
+                                                    swatch = p.getDarkMutedSwatch();
+
+                                                    if(swatch != null) {
+                                                        rgbColor = swatch.getRgb();
+
+                                                        // Gets an appropriate title text color
+                                                        titleTextColor = swatch.getTitleTextColor();
+                                                        // Gets an appropriate body text color
+                                                        bodyTextColor = swatch.getBodyTextColor();
+                                                    } else {
+
+                                                        swatch = p.getLightMutedSwatch();
+
+                                                        if(swatch != null) {
+                                                            rgbColor = swatch.getRgb();
+
+                                                            // Gets an appropriate title text color
+                                                            titleTextColor = swatch.getTitleTextColor();
+                                                            // Gets an appropriate body text color
+                                                            bodyTextColor = swatch.getBodyTextColor();
+                                                        } else {
+                                                            rgbColor = Color.DKGRAY;
+                                                            // Gets an appropriate title text color
+                                                            titleTextColor = Color.LTGRAY;
+                                                            // Gets an appropriate body text color
+                                                            bodyTextColor = Color.GRAY;
+                                                        }
+                                                    }
+                                                }
+                                            }
                                         }
                                     }
 

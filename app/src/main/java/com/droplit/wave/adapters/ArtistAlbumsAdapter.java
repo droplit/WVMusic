@@ -87,8 +87,6 @@ public class ArtistAlbumsAdapter extends RecyclerView.Adapter<RecyclerView.ViewH
         });
         overflowImage.setOnClickListener(new OnOverflowSelectedListener(mContext, albums.get(pos)));
 
-
-
         return new RecyclerView.ViewHolder(cardView) {
 
         };

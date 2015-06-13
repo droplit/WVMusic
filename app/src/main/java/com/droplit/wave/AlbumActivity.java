@@ -118,8 +118,8 @@ public class AlbumActivity extends AppCompatActivity {
         if (thisArtPath != null) {
             Palette p  = Palette.generate(BitmapFactory.decodeFile(thisArtPath));
 
-            // Gets the RGB packed int -> same as palette.getVibrantColor(defaultColor);
             Palette.Swatch swatch = p.getVibrantSwatch();
+
             int rgbColor = 0;
             int titleTextColor = 0;
             int bodyTextColor = 0;
@@ -131,24 +131,73 @@ public class AlbumActivity extends AppCompatActivity {
                 // Gets an appropriate body text color
                 bodyTextColor = swatch.getBodyTextColor();
             } else {
+
                 swatch = p.getDarkVibrantSwatch();
 
                 if(swatch != null) {
                     rgbColor = swatch.getRgb();
+
                     // Gets an appropriate title text color
                     titleTextColor = swatch.getTitleTextColor();
                     // Gets an appropriate body text color
                     bodyTextColor = swatch.getBodyTextColor();
                 } else {
-                    rgbColor = Color.DKGRAY;
-                    // Gets an appropriate title text color
-                    titleTextColor = Color.LTGRAY;
-                    // Gets an appropriate body text color
-                    //bodyTextColor = swatch.getBodyTextColor();
+
+                    swatch = p.getLightVibrantSwatch();
+
+                    if(swatch != null) {
+                        rgbColor = swatch.getRgb();
+
+                        // Gets an appropriate title text color
+                        titleTextColor = swatch.getTitleTextColor();
+                        // Gets an appropriate body text color
+                        bodyTextColor = swatch.getBodyTextColor();
+                    } else {
+
+                        swatch = p.getDarkMutedSwatch();
+
+                        if(swatch != null) {
+                            rgbColor = swatch.getRgb();
+
+                            // Gets an appropriate title text color
+                            titleTextColor = swatch.getTitleTextColor();
+                            // Gets an appropriate body text color
+                            bodyTextColor = swatch.getBodyTextColor();
+                        } else {
+
+                            swatch = p.getDarkMutedSwatch();
+
+                            if(swatch != null) {
+                                rgbColor = swatch.getRgb();
+
+                                // Gets an appropriate title text color
+                                titleTextColor = swatch.getTitleTextColor();
+                                // Gets an appropriate body text color
+                                bodyTextColor = swatch.getBodyTextColor();
+                            } else {
+
+                                swatch = p.getLightMutedSwatch();
+
+                                if(swatch != null) {
+                                    rgbColor = swatch.getRgb();
+
+                                    // Gets an appropriate title text color
+                                    titleTextColor = swatch.getTitleTextColor();
+                                    // Gets an appropriate body text color
+                                    bodyTextColor = swatch.getBodyTextColor();
+                                } else {
+                                    rgbColor = Color.DKGRAY;
+                                    // Gets an appropriate title text color
+                                    titleTextColor = Color.LTGRAY;
+                                    // Gets an appropriate body text color
+                                    bodyTextColor = Color.GRAY;
+                                }
+                            }
+                        }
+                    }
                 }
-
-
             }
+
             float[] hsv = new float[3];
             int color = rgbColor;
             Color.colorToHSV(color, hsv);

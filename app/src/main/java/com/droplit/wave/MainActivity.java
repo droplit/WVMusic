@@ -42,6 +42,7 @@ import com.droplit.wave.ui.fragments.AlbumGridFragment;
 import com.droplit.wave.ui.fragments.ArtistFragment;
 
 
+import com.droplit.wave.ui.fragments.PlaylistFragment;
 import com.droplit.wave.ui.fragments.SongsFragment;
 import com.mikepenz.aboutlibraries.Libs;
 import com.mikepenz.aboutlibraries.LibsBuilder;
@@ -175,6 +176,8 @@ public class MainActivity extends ActionBarActivity {
             adapter.addFragment(new AlbumGridFragment(), "Albums");
         }
         adapter.addFragment(new SongsFragment(), "Songs");
+        adapter.addFragment(new PlaylistFragment(), "Playlists");
+
         viewPager.setAdapter(adapter);
     }
 
