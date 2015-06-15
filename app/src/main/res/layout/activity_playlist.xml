@@ -1,9 +1,7 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:waveformSeekBar="http://schemas.android.com/tools"
-    android:id="@+id/main_content"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:context="com.droplit.wave.PlaylistActivity"
     android:fitsSystemWindows="true"
     android:orientation="vertical">
 
@@ -21,11 +19,19 @@
 
     </android.support.design.widget.AppBarLayout>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="PlaylistData"
+        android:id="@+id/textView"
+        android:layout_below="@+id/appbar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="92dp" />
+
     <!--<android.support.v7.widget.RecyclerView
-        android:id="@+id/settings_list"
+        android:id="@+id/playlist_list"
         android:overScrollMode="never"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />-->
 
-
-</LinearLayout>
+</RelativeLayout>

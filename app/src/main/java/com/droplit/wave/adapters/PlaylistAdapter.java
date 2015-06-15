@@ -1,6 +1,7 @@
 package com.droplit.wave.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 
+import com.droplit.wave.Globals;
+import com.droplit.wave.PlaylistActivity;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Playlist;
 
@@ -57,12 +60,12 @@ public class PlaylistAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
         playlistView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Intent i = new Intent(mContext, PlaylistActivity.class);
+                Intent i = new Intent(mContext, PlaylistActivity.class);
                 i.putExtra("PLAYLIST_NAME", playlists.get(pos).toString());
                 i.putExtra("PLAYLIST_ID", playlists.get(pos).getId());
                 Globals.playlist = playlists.get(pos);
                 i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                mContext.startActivity(i);*/
+                mContext.startActivity(i);
 
             }
         });

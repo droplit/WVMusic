@@ -8,6 +8,8 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -16,6 +18,7 @@ import android.view.ViewGroup;
 
 import android.widget.GridView;
 
+import com.droplit.wave.MarginDecoration;
 import com.droplit.wave.R;
 import com.droplit.wave.adapters.AlbumGridAdapter;
 import com.droplit.wave.adapters.AlbumGridCardAdapter;
@@ -23,13 +26,14 @@ import com.droplit.wave.adapters.AlbumGridPaletteAdapter;
 import com.droplit.wave.models.Album;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class AlbumGridFragment extends Fragment {
 
     public static final String PREFS_NAME = "WVPrefs";
 
 
-    private GridView albumView;
+    private RecyclerView albumView;
 
     private ArrayList<Album> mAlbumItems = new ArrayList<>();
     private AlbumGridPaletteAdapter pAdapter;
@@ -58,26 +62,39 @@ public class AlbumGridFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mAlbumItems = new ArrayList<Album>();
-        albumView = (GridView) view.findViewById(R.id.album_grid_list);
+        albumView = (RecyclerView) view.findViewById(R.id.album_grid_list);
 
         getAlbumList();
 
         views = getActivity().getSharedPreferences(PREFS_NAME, 0);
-        albumViewType = views.getInt("albumView", 0);
-        albumCols = views.getInt("albumCols", GridView.AUTO_FIT);
+        albumViewType = views.getInt("albumView", 1);
+        albumCols = views.getInt("albumCols", 2);
 
-        if(albumViewType == 1) {
+        if(albumViewType == 2) {
             gAdapter = new AlbumGridAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.addItemDecoration(new MarginDecoration(getActivity().getApplicationContext()));
+            albumView.setHasFixedSize(true);
+            albumView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), albumCols));
             albumView.setAdapter(gAdapter);
-        } else if(albumViewType == 2) {
-            pAdapter = new AlbumGridPaletteAdapter(getActivity().getApplicationContext(), mAlbumItems);
-            albumView.setAdapter(pAdapter);
         } else if(albumViewType == 3) {
+            pAdapter = new AlbumGridPaletteAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.addItemDecoration(new MarginDecoration(getActivity().getApplicationContext()));
+            albumView.setHasFixedSize(true);
+            albumView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), albumCols));
+            albumView.setAdapter(pAdapter);
+        } else if(albumViewType == 4) {
             cAdapter = new AlbumGridCardAdapter(getActivity().getApplicationContext(), mAlbumItems);
+            albumView.addItemDecoration(new MarginDecoration(getActivity().getApplicationContext()));
+            albumView.setHasFixedSize(true);
+            albumView.setLayoutManager(new GridLayoutManager(getActivity().getApplicationContext(), albumCols));
             albumView.setAdapter(cAdapter);
         }
+
+
+
+
         if(albumViewType >= 1) {
-            albumView.setNumColumns(albumCols);
+            //albumView.setLayoutManager(albumCols);
         }
 
     }

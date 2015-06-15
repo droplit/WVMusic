@@ -7,11 +7,14 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,7 +36,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 
 import java.util.ArrayList;
 
-public class AlbumGridPaletteAdapter extends BaseAdapter {
+public class AlbumGridPaletteAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Album> albums;
     private LayoutInflater albumInf;
@@ -59,30 +62,14 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
 
         ImageLoader.getInstance().init(config.build());
 
-
     }
 
     @Override
-    public int getCount() {
-        return albums.size();
-    }
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int position) {
+        LinearLayout view = null;
 
-    @Override
-    public Object getItem(int position) {
-        return albums.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        //map to song layout
-        if (view == null) {
-            view = albumInf.inflate(R.layout.list_item_album_grid_palette, parent, false);
-        }
+        view = (LinearLayout) albumInf.inflate
+                (R.layout.list_item_album_grid_palette, parent, false);
         //get title and artist views
         final TextView albumView = (TextView) view.findViewById(R.id.album_title);
         final TextView artistView = (TextView) view.findViewById(R.id.album_artist);
@@ -292,8 +279,31 @@ public class AlbumGridPaletteAdapter extends BaseAdapter {
             }
         });
 
-        return view;
+        return new RecyclerView.ViewHolder(view) {
+
+        };
     }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return albums.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
 
     private String numSongs() {
         if (currAlbum.getNumSongs() == 1) {

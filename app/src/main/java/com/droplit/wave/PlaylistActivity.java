@@ -1,6 +1,7 @@
-package com.droplit.wave.ui.activities;
+package com.droplit.wave;
 
 import android.annotation.TargetApi;
+import android.content.Intent;
 import android.os.Build;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -11,16 +12,25 @@ import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 
-import com.afollestad.materialdialogs.MaterialDialog;
-import com.droplit.wave.R;
 import com.readystatesoftware.systembartint.SystemBarTintManager;
 
-public class SettingsActivity extends AppCompatActivity {
+public class PlaylistActivity extends AppCompatActivity {
+
+    public static final String EXTRA_NAME = "PLAYLIST_NAME";
+    public static final String EXTRA_ID = "PLAYLIST_ID";
+
+    private String playlistName;
+    private Long playlistId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
+        setContentView(R.layout.activity_playlist);
+
+        Intent intent = getIntent();
+        playlistName = intent.getStringExtra(EXTRA_NAME);
+        playlistId = intent.getLongExtra(EXTRA_ID, 0);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -42,6 +52,7 @@ public class SettingsActivity extends AppCompatActivity {
         //getWindow().setStatusBarColor(R.color.primary_dark);
         final ActionBar ab = getSupportActionBar();
         ab.setDisplayHomeAsUpEnabled(true);
+        toolbar.setTitle(playlistName);
 
     }
 
@@ -58,10 +69,11 @@ public class SettingsActivity extends AppCompatActivity {
         win.setAttributes(winParams);
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_settings, menu);
+        getMenuInflater().inflate(R.menu.menu_playlist, menu);
         return true;
     }
 

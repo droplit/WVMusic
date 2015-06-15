@@ -1,22 +1,15 @@
 package com.droplit.wave;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.amulyakhare.textdrawable.TextDrawable;
-import com.bumptech.glide.Glide;
 import com.squareup.picasso.Picasso;
 
 public class ImagePreview extends AppCompatActivity {
@@ -39,7 +32,7 @@ public class ImagePreview extends AppCompatActivity {
         Intent intent = getIntent();
         thisArtPath = intent.getStringExtra(EXTRA_NAME);
 
-        final ImageView imageView = (ImageView) findViewById(R.id.preview_art);
+        final TouchImageView imageView = (TouchImageView) findViewById(R.id.preview_art);
         Picasso.with(getApplicationContext())
                 .load(Uri.parse("file://" + thisArtPath))
                 .into(imageView);

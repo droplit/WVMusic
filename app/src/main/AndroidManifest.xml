@@ -71,12 +71,24 @@
                 android:value="com.droplit.wave.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.activities.SettingsActivity"
+            android:name=".SettingsActivity"
             android:label="@string/title_activity_settings"
             android:parentActivityName=".MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.droplit.wave.MainActivity" />
+        </activity>
+        <activity
+            android:name=".PlaylistActivity"
+            android:label="@string/title_activity_playlist"
+            android:parentActivityName=".MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.droplit.wave.MainActivity" />
+        </activity>
+        <activity
+            android:name=".ui.activities.IntroActivity"
+            android:label="@string/title_activity_intro" >
         </activity>
     </application>
 

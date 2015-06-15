@@ -1,5 +1,6 @@
 package com.droplit.wave.adapters;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.balysv.materialripple.MaterialRippleLayout;
 import com.droplit.wave.R;
 import com.droplit.wave.models.Song;
 
@@ -44,6 +46,7 @@ public class SongAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>{
         //map to song layout
         final FrameLayout songLay = (FrameLayout) songInf.inflate
                 (R.layout.item_song, parent, false);
+
         //get title and artist views
         TextView songView = (TextView) songLay.findViewById(R.id.song_title);
         TextView artistView = (TextView) songLay.findViewById(R.id.song_artist);

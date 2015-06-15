@@ -32,8 +32,6 @@
         android:title="Columns">
         <menu>
             <group android:checkableBehavior="single">
-                <item android:id="@+id/col_default"
-                    android:title="@string/def" />
                 <item android:id="@+id/col_1"
                     android:title="1" />
                 <item android:id="@+id/col_2"

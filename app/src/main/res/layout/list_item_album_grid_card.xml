@@ -8,10 +8,7 @@
         android:id="@+id/card_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="@dimen/cardMarginVertical"
-        android:layout_marginLeft="@dimen/cardMarginLeft"
-        android:layout_marginRight="@dimen/cardMarginRight"
-        android:layout_marginTop="@dimen/cardMarginVertical"
+
         app:cardCornerRadius="2dp"
         app:cardElevation="2dp"
         app:cardPreventCornerOverlap="false"

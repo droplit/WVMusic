@@ -6,7 +6,7 @@
     android:layout_height="fill_parent"
     android:background="@color/black">
 
-    <ImageView android:id="@+id/preview_art" android:layout_width="fill_parent"
+    <com.droplit.wave.TouchImageView android:id="@+id/preview_art" android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:background="@color/black"/>
 

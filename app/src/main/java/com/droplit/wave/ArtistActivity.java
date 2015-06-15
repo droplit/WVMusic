@@ -169,7 +169,7 @@ public class ArtistActivity extends AppCompatActivity {
                 String album = mCursor.getString(3);
 
                 //Copy the song duration
-                int duration = mCursor.getInt(3);
+                int duration = mCursor.getInt(4);
 
 
                 // Create a new song
@@ -204,7 +204,7 @@ public class ArtistActivity extends AppCompatActivity {
                         MediaStore.Audio.AudioColumns.ALBUM,
                         /* 4 */
                         MediaStore.Audio.AudioColumns.DURATION
-                }, selection.toString(), null, MediaStore.Audio.AudioColumns.TITLE);
+                }, selection.toString(), null, MediaStore.Audio.AudioColumns.ALBUM);
     }
 
     private void loadAlbums() {
@@ -226,7 +226,6 @@ public class ArtistActivity extends AppCompatActivity {
 
                     // Copy the release year
                     String art = mCursor.getString(4);
-
 
 
                     // Create a new album

@@ -82,6 +82,7 @@ public class AlbumActivity extends AppCompatActivity {
 
         final Context context = getApplicationContext();
 
+
         mAlbumSongItems = new ArrayList<Song>();
         songsView = (RecyclerView) findViewById(R.id.album_song_list);
 
@@ -245,10 +246,12 @@ public class AlbumActivity extends AppCompatActivity {
         art.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i = new Intent(context, ImagePreview.class);
-                i.putExtra("ART_PREVIEW", thisArtPath);
-                i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                context.startActivity(i);
+                if(thisArtPath != null) {
+                    Intent i = new Intent(context, ImagePreview.class);
+                    i.putExtra("ART_PREVIEW", thisArtPath);
+                    i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                    context.startActivity(i);
+                }
             }
         });
 

@@ -3,10 +3,12 @@ package com.droplit.wave.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -27,7 +29,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingProgressListe
 
 import java.util.ArrayList;
 
-public class AlbumGridCardAdapter extends BaseAdapter {
+public class AlbumGridCardAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private ArrayList<Album> albums;
     private LayoutInflater albumInf;
@@ -53,30 +55,14 @@ public class AlbumGridCardAdapter extends BaseAdapter {
 
         ImageLoader.getInstance().init(config.build());
 
-
     }
 
     @Override
-    public int getCount() {
-        return albums.size();
-    }
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, final int position) {
+        FrameLayout view = null;
 
-    @Override
-    public Object getItem(int position) {
-        return albums.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return 0;
-    }
-
-    @Override
-    public View getView(final int position, View view, ViewGroup parent) {
-        //map to song layout
-        if (view == null) {
-            view = albumInf.inflate(R.layout.list_item_album_grid_card, parent, false);
-        }
+        view = (FrameLayout) albumInf.inflate
+                (R.layout.list_item_album_grid_card, parent, false);
         //get title and artist views
         final TextView albumView = (TextView) view.findViewById(R.id.album_title);
         final TextView artistView = (TextView) view.findViewById(R.id.album_artist);
@@ -157,8 +143,31 @@ public class AlbumGridCardAdapter extends BaseAdapter {
             }
         });
 
-        return view;
+        return new RecyclerView.ViewHolder(view) {
+
+        };
     }
+
+    @Override
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+    }
+
+    @Override
+    public int getItemViewType(int position) {
+        return position;
+    }
+
+    @Override
+    public int getItemCount() {
+        return albums.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
 
     private String numSongs() {
         if (currAlbum.getNumSongs() == 1) {
